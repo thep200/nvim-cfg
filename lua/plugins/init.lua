@@ -29,18 +29,16 @@ vim.opt.rtp:prepend(lazypath)
 --    lazy.nvim sẽ tự require() tất cả file trong "plugins" folder.
 -- ------------------------------------------------------------
 require("lazy").setup({
-    { import = "plugins.neo-tree" },
-    { import = "plugins.lualine" },
-    { import = "plugins.gitsigns" },
-    { import = "plugins.telescope" },
-    { import = "plugins.treesitter" },
-    { import = "plugins.cmp" },
-    { import = "plugins.lsp" },
-    { import = "plugins.copilot" },
-    -- ---- NvChad-inspired QoL plugins ----
-    { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
-    -- { import = "plugins.which-key" },         -- popup cheatsheet phím tắt
-    -- { import = "plugins.indent-blankline" },  -- indent line dọc mờ
+    { import = "plugins.neo-tree" },     -- file explorer
+    { import = "plugins.lualine" },      -- statusline
+    { import = "plugins.gitsigns" },     -- git diff in sign column
+    { import = "plugins.telescope" },    -- fuzzy finder
+    { import = "plugins.treesitter" },   -- syntax highlight & more
+    { import = "plugins.cmp" },          -- completion engine (LSP + snippets + path + buffer)
+    { import = "plugins.lsp" },          -- LSP client + gopls config (inlay hints, staticcheck, analyses,...)
+    { import = "plugins.copilot" },      -- AI code assistant (GitHub Copilot)
+    { import = "plugins.autopairs" }     -- auto-close (), [], {}, "", ''
+    -- { import = "plugins.which-key" }, -- popup cheatsheet phím tắt
 }, {
     -- ------------------------------------------------------------
     -- Cấu hình chung cho lazy.nvim

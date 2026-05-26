@@ -96,3 +96,32 @@ opt.shortmess:append("c")       -- bỏ thông báo "match N of M"
 --  (logic checktime đặt ở autocmds.lua)
 -- ============================================================
 opt.autoread = true
+opt.showtabline = 2
+
+-- ============================================================
+--  Timeout cho chuỗi phím tắt
+--  Mặc định 1000ms khiến mỗi prefix-key bị "đợi" 1s
+--  -> hạ xuống 300ms cho cảm giác snappy
+-- ============================================================
+opt.timeoutlen  = 300       -- chờ tối đa 300ms cho next-key của 1 chuỗi
+opt.ttimeoutlen = 10        -- timeout cho key code (vd: <Esc>) - ngắn nhất
+
+
+-- ============================================================
+--  FIX: Neovim 0.12 + nvim-treesitter (master branch)
+--  match[id] giờ là list of nodes, không phải single node nữa.
+--  Wrap get_node_text() để unwrap list -> node đầu tiên.
+--  Tham khảo: https://github.com/nvim-treesitter/nvim-treesitter/issues/8636
+-- ============================================================
+do
+    local orig_get_node_text = vim.treesitter.get_node_text
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.treesitter.get_node_text = function(node, source, opts)
+        -- TSNode thật là userdata; nếu là table tức là list từ match[id]
+        if type(node) == "table" then
+            node = node[1]
+            if node == nil then return "" end
+        end
+        return orig_get_node_text(node, source, opts)
+    end
+end

@@ -1,55 +1,73 @@
 -- ============================================================
 --  core/autocmds.lua
---  Port từ phần auto-save & auto-reload trong editor.vim
+--  Auto-save & auto-reload buffer.
 -- ============================================================
 
 local api = vim.api
 
 -- ============================================================
---  Auto-save
---
---  Trigger ở 3 thời điểm "tự nhiên" (không hammer disk):
---    1. InsertLeave - khi rời insert mode (vừa gõ xong)
---    2. FocusLost   - khi vim mất focus (chuyển app khác)
---    3. BufLeave    - khi chuyển sang buffer khác
---
---  Để tắt: thêm `vim.g.disable_autosave = true` vào init.lua
---  hoặc xoá augroup này.
+--  Helper: chỉ save khi buffer thực sự là file edit được
 -- ============================================================
 local function safe_update()
     local bufname = api.nvim_buf_get_name(0)
     local buf     = vim.bo
-    -- Bỏ qua nếu: buffer chưa có tên, không sửa được, readonly, hoặc buftype khác rỗng
-    -- (vd: terminal, help, quickfix... đều có buftype != "")
+
+    -- Bỏ qua các trường hợp KHÔNG nên save:
+    --   - buffer chưa có tên (chưa :w bao giờ)
+    --   - buffer không sửa được (vd: help, man)
+    --   - buffer readonly
+    --   - buffer đặc biệt: terminal, quickfix, neo-tree, telescope...
     if bufname == "" or not buf.modifiable or buf.readonly or buf.buftype ~= "" then
         return
     end
-    -- pcall để bất kỳ lỗi nào (vd: permission) cũng không phá flow
+
+    -- Bỏ qua nếu file không ghi được (vd: permission)
+    if vim.fn.filewritable(bufname) == 0 then
+        return
+    end
+
+    -- update = chỉ write nếu buffer đã modify (tiết kiệm I/O so với :w)
     pcall(vim.cmd, "silent! update")
 end
 
+-- ============================================================
+--  Auto-save
+--
+--  Trigger ở 4 thời điểm "tự nhiên":
+--    1. InsertLeave - khi rời insert mode (vừa gõ xong text)
+--    2. TextChanged - khi sửa text trong NORMAL mode (dd, p, x, ...)
+--    3. FocusLost   - khi Neovim mất focus (chuyển sang app khác)
+--    4. BufLeave    - khi chuyển sang buffer khác
+--
+--  ⚠️ QUAN TRỌNG: nested = true cho phép autocmd này trigger các
+--  autocmd khác (đặc biệt là BufWritePre của LSP để chạy auto-import
+--  + gofumpt). Không có nested = true, :update trong callback sẽ
+--  KHÔNG fire BufWritePre (default behavior chống infinite loop).
+--  Xem :h autocmd-nested
+-- ============================================================
 local autosave = api.nvim_create_augroup("AutoSave", { clear = true })
-api.nvim_create_autocmd({ "InsertLeave", "FocusLost", "BufLeave" }, {
+
+api.nvim_create_autocmd({ "InsertLeave", "TextChanged", "FocusLost", "BufLeave" }, {
     group    = autosave,
     pattern  = "*",
+    nested   = true,
     callback = safe_update,
-    desc     = "Auto-save buffer khi rời insert / mất focus / chuyển buffer",
+    desc     = "Auto-save buffer khi rời insert / sửa trong normal / mất focus / chuyển buffer",
 })
 
 -- ============================================================
 --  Auto-reload
 --
---  Khi vim focus trở lại / quay lại buffer, kiểm tra xem file
---  có bị thay đổi từ bên ngoài (vd: git pull, formatter).
---  (Yêu cầu vim.opt.autoread = true - đã set ở options.lua)
+--  Khi Neovim focus trở lại / quay lại buffer, kiểm tra xem file
+--  có bị thay đổi từ bên ngoài (vd: git pull, formatter chạy ngoài).
+--  Yêu cầu vim.opt.autoread = true (đã set ở options.lua)
 -- ============================================================
 local autoreload = api.nvim_create_augroup("AutoReload", { clear = true })
+
 api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "CursorHoldI" }, {
     group    = autoreload,
     pattern  = "*",
     callback = function()
-        -- Không checktime khi đang trong cmdline / replace / shell / terminal mode
-        -- (giống điều kiện mode() !~# '(c|r.?|!|t)' bản Vim cũ)
         local mode = api.nvim_get_mode().mode
         if mode:match("[crRt!]") then return end
         if vim.fn.getcmdwintype() ~= "" then return end

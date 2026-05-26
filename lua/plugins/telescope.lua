@@ -1,18 +1,10 @@
 -- ============================================================
 --  plugins/telescope.lua
---  Thay thế: junegunn/fzf + junegunn/fzf.vim
+--  Fuzzy finder cho Neovim (thay junegunn/fzf + fzf.vim).
 --
---  Lý do dùng telescope:
---    - Native Neovim, pure Lua (fzf cần binary external).
---    - Preview code có syntax highlight chuẩn (qua treesitter).
---    - Tích hợp sẵn các picker: lsp_references, diagnostics,
---      git_status, git_commits, ...
---
---  Keymap giữ NGUYÊN bằng cách map sang lệnh telescope tương ứng:
---    :Files    -> :Telescope find_files     (<C-p>, <D-S-p>)
---    :Buffers  -> :Telescope buffers        (<leader>b)
---    :Rg       -> :Telescope live_grep      (<leader>f)
---    :BLines   -> :Telescope current_buffer_fuzzy_find (<leader>l)
+--  Namespace keymap: <leader>f* là PREFIX cho mọi picker "Find ...".
+--  Grep project được tách sang <leader>/ để tránh conflict prefix
+--  (xem comment chi tiết ở block keys bên dưới).
 --
 --  Yêu cầu CLI: ripgrep (cho live_grep) + fd (cho find_files nhanh hơn).
 -- ============================================================
@@ -22,7 +14,11 @@ return {
     -- branch "master" chứa fix cho lỗi ft_to_lang trên Neovim 0.11+.
     -- Branch "0.1.x" đã không còn được maintain (xem issue #3487).
     branch = "master",
-    cmd  = "Telescope",
+
+    -- Pre-warm telescope sau khi UI vẽ xong (~50ms sau startup).
+    -- Khi user bấm phím tắt, telescope đã sẵn trong memory -> mở tức thì.
+    event = "VeryLazy",
+
     dependencies = {
         "nvim-lua/plenary.nvim",
 
@@ -34,35 +30,65 @@ return {
             build = "make",
         },
     },
+
     keys = {
-        -- ---- Port keymaps.vim ----
+        -- ------------------------------------------------------------
+        -- Phím tắt nhanh (không prefix với <leader>f để tránh conflict)
+        -- ------------------------------------------------------------
         -- <C-p> tìm file toàn project (giống Cmd+Shift+P VSCode)
-        { "<C-p>",     ":Telescope find_files<CR>", desc = "Find files", silent = true },
+        { "<C-p>",     ":Telescope find_files<CR>", desc = "Find files (quick)",       silent = true },
 
-        -- Bonus keymaps (port từ keymaps.vim cũ)
-        { "<leader>b", ":Telescope buffers<CR>",                  desc = "List buffers", silent = true },
-        { "<leader>f", ":Telescope live_grep<CR>",                desc = "Grep project", silent = true },
-        { "<leader>l", ":Telescope current_buffer_fuzzy_find<CR>",desc = "Search current buffer lines", silent = true },
+        -- <leader>/ grep project (snappy, không bị timeoutlen chờ prefix)
+        { "<leader>/", ":Telescope live_grep<CR>",  desc = "Grep project",             silent = true },
 
-        -- ---- Bonus pickers cực hữu ích cho Go dev ----
-        { "<leader>fd", ":Telescope diagnostics<CR>",  desc = "LSP diagnostics (tất cả buffer)", silent = true },
-        { "<leader>fr", ":Telescope lsp_references<CR>", desc = "LSP references", silent = true },
-        { "<leader>fs", ":Telescope lsp_document_symbols<CR>", desc = "Symbols trong file", silent = true },
-        { "<leader>fw", ":Telescope lsp_workspace_symbols<CR>", desc = "Symbols toàn project", silent = true },
-        { "<leader>gs", ":Telescope git_status<CR>",   desc = "Git status (file changed)", silent = true },
+        -- <leader>l tìm trong buffer hiện tại (port :BLines của fzf)
+        { "<leader>l", ":Telescope current_buffer_fuzzy_find<CR>",
+                                                    desc = "Search current buffer",    silent = true },
+
+        -- ------------------------------------------------------------
+        -- Namespace <leader>f* = "Find ..."
+        -- which-key sẽ group thành menu "Find / Telescope" (đã có sẵn ở
+        -- spec which-key của bạn).
+        --
+        -- Đặt grep ở <leader>fg (Find by Grep) cho ai quen prefix f.
+        -- ------------------------------------------------------------
+        { "<leader>ff", ":Telescope find_files<CR>",              desc = "Find files",              silent = true },
+        { "<leader>fb", ":Telescope buffers<CR>",                 desc = "Find buffers",            silent = true },
+        { "<leader>fg", ":Telescope live_grep<CR>",               desc = "Find by Grep",            silent = true },
+        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>",
+                                                                  desc = "Find lines in buffer",    silent = true },
+        { "<leader>fh", ":Telescope help_tags<CR>",               desc = "Find help",               silent = true },
+        { "<leader>fk", ":Telescope keymaps<CR>",                 desc = "Find keymaps",            silent = true },
+        { "<leader>fo", ":Telescope oldfiles<CR>",                desc = "Find recent files",       silent = true },
+
+        -- ------------------------------------------------------------
+        -- LSP pickers (vẫn nằm trong namespace Find)
+        -- ------------------------------------------------------------
+        { "<leader>fd", ":Telescope diagnostics<CR>",             desc = "Find diagnostics",        silent = true },
+        { "<leader>fr", ":Telescope lsp_references<CR>",          desc = "Find references",         silent = true },
+        { "<leader>fs", ":Telescope lsp_document_symbols<CR>",    desc = "Find symbols (file)",     silent = true },
+        { "<leader>fw", ":Telescope lsp_workspace_symbols<CR>",   desc = "Find symbols (workspace)",silent = true },
+
+        -- ------------------------------------------------------------
+        -- Git pickers
+        -- ------------------------------------------------------------
+        { "<leader>gs", ":Telescope git_status<CR>",              desc = "Git status",              silent = true },
+        { "<leader>gc", ":Telescope git_commits<CR>",             desc = "Git commits",             silent = true },
+        { "<leader>gb", ":Telescope git_branches<CR>",            desc = "Git branches",            silent = true },
     },
+
     config = function()
         local telescope = require("telescope")
         local actions   = require("telescope.actions")
 
         telescope.setup({
             defaults = {
-                -- Layout giống fzf cũ: popup nổi giữa
+                -- ---- Layout giống fzf cũ: popup nổi giữa, có preview ----
                 layout_strategy = "horizontal",
                 layout_config   = {
                     horizontal = {
-                        width   = 0.85,
-                        height  = 0.75,
+                        width         = 0.85,
+                        height        = 0.75,
                         preview_width = 0.55,
                     },
                 },
@@ -73,34 +99,55 @@ return {
                 prompt_prefix   = "  ",
                 selection_caret = " ",
 
-                -- ---- Ignore patterns (port từ FZF_DEFAULT_COMMAND cũ) ----
-                file_ignore_patterns = {
-                    "%.git/",
-                    "node_modules/",
-                    "vendor/",
-                    "%.pyc$",
-                    "__pycache__/",
-                    "__debug_bin",
-                },
-
                 -- ---- Mappings trong popup ----
-                -- Giữ phím tắt fzf quen thuộc: ctrl-t = tab, ctrl-x = split, ctrl-v = vsplit
+                -- Giữ phím tắt fzf quen thuộc:
+                --   <C-t> = open in tab
+                --   <C-x> = open in horizontal split
+                --   <C-v> = open in vertical split
+                --   <Esc> = đóng luôn (không vào normal mode trong picker)
                 mappings = {
                     i = {
                         ["<C-t>"] = actions.select_tab,
                         ["<C-x>"] = actions.select_horizontal,
                         ["<C-v>"] = actions.select_vertical,
-                        ["<Esc>"] = actions.close,    -- Esc đóng luôn (không vào normal mode)
+                        ["<Esc>"] = actions.close,
                     },
                 },
             },
+
             pickers = {
+                -- ------------------------------------------------------------
+                -- find_files: dùng rg với glob để skip vendor/, node_modules/
+                -- ngay từ NGUỒN (nhanh hơn rất nhiều so với file_ignore_patterns
+                -- vốn chỉ filter sau khi rg đã quét xong).
+                -- ------------------------------------------------------------
                 find_files = {
-                    hidden = true,    -- hiển thị dotfiles (port --hidden cũ)
-                    follow = true,    -- follow symlink
+                    hidden = true,
+                    follow = true,
+                    find_command = {
+                        "rg", "--files", "--hidden", "--follow",
+                        "--glob", "!**/.git/*",
+                        "--glob", "!**/vendor/*",
+                        "--glob", "!**/node_modules/*",
+                        "--glob", "!**/__pycache__/*",
+                        "--glob", "!**/__debug_bin*",
+                    },
                 },
+
+                -- ------------------------------------------------------------
+                -- live_grep: cùng nguyên tắc - đẩy ignore xuống rg
+                -- ------------------------------------------------------------
                 live_grep = {
-                    additional_args = function() return { "--hidden" } end,
+                    additional_args = function()
+                        return {
+                            "--hidden",
+                            "--glob", "!**/.git/*",
+                            "--glob", "!**/vendor/*",
+                            "--glob", "!**/node_modules/*",
+                            "--glob", "!**/__pycache__/*",
+                            "--glob", "!**/__debug_bin*",
+                        }
+                    end,
                 },
             },
         })

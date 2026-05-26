@@ -13,10 +13,6 @@
 --                     plugin được setup xong)
 -- ============================================================
 
-local opt = vim.opt
-
-opt.showtabline = 0
-
 require("core.options")
 require("core.keymaps")
 require("core.autocmds")

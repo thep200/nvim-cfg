@@ -78,7 +78,7 @@ return {
                 globalstatus         = true,
                 icons_enabled        = true,
                 always_divide_middle = true,
-                always_show_tabline  = false,
+                always_show_tabline  = true,
                 refresh              = refresh,
                 theme                = custom_theme,
                 component_separators = { left = '', right = ''},
@@ -86,10 +86,7 @@ return {
             },
             sections = {
                 lualine_a = {'mode'},
-                lualine_b = {
-                    'branch',
-                    'diff',
-                },
+                lualine_b = {'branch', 'diff',},
                 lualine_c = {'filename'},
                 lualine_x = {'filetype'},
                 lualine_y = {
@@ -118,7 +115,34 @@ return {
                 lualine_y = {},
                 lualine_z = {}
             },
-            tabline = {},
+            tabline = {
+                lualine_a = {
+                    {
+                        'buffers',
+                        show_filename_only = true,
+                        hide_filename_extension = false,
+                        mode = 0, -- Hiện tên file
+                        -- Tự động đổi màu nền của cục tên file đang active theo mode hiện tại
+                        buffers_color = {
+                            active = { fg = colors.dark, bg = colors.normal, bold = true },
+                            inactive = { fg = colors.fg_med, bg = colors.dark },
+                        },
+                    }
+                },
+                lualine_b = {},
+                lualine_c = {},
+                lualine_x = {},
+                lualine_y = {},
+                lualine_z = {
+                    {
+                        'tabs',
+                        tabs_color = {
+                            active = { fg = colors.dark, bg = colors.normal, bold = true },
+                            inactive = { fg = colors.fg_med, bg = colors.dark },
+                        }
+                    }
+                }
+            },
             winbar = {},
             inactive_winbar = {},
             extensions = {"neo-tree"}
