@@ -8,6 +8,8 @@ local opts = { noremap = true, silent = true }
 -- ------------------------------------------------------------
 -- Buffer navigation
 -- ------------------------------------------------------------
+-- Buffer navigation
+-- ------------------------------------------------------------
 -- Shift+Tab để chuyển buffer tiếp theo (giống vim cũ)
 map("n", "<S-Tab>", ":bnext<CR>", opts)
 

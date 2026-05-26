@@ -236,11 +236,22 @@ hi("DiagnosticError", { fg = c.red })
 hi("DiagnosticWarn",  { fg = c.orange })
 hi("DiagnosticInfo",  { fg = c.blue })
 hi("DiagnosticHint",  { fg = c.comment })
+
 -- Tắt underline mặc định của diagnostic (giảm noise)
 hi("DiagnosticUnderlineError", { undercurl = true, sp = c.red })
 hi("DiagnosticUnderlineWarn",  { undercurl = true, sp = c.orange })
 hi("DiagnosticUnderlineInfo",  { undercurl = true, sp = c.blue })
 hi("DiagnosticUnderlineHint",  { undercurl = true, sp = c.comment })
+
+-- ------------------------------------------------------------
+-- Virtual text (chữ inline cuối dòng) - tất cả CÙNG MÀU XÁM
+-- để giảm noise. Phân biệt severity qua label "ERROR/WARN/INFO".
+-- ------------------------------------------------------------
+local virt_color = "#6e7681"   -- xám trung tính
+hi("DiagnosticVirtualTextError", { fg = virt_color, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextWarn",  { fg = virt_color, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextInfo",  { fg = virt_color, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextHint",  { fg = virt_color, italic = true, bg = "NONE" })
 
 -- ------------------------------------------------------------
 -- 7. Gitsigns (thay GitGutter) - màu cho dấu +/~/- ở sign column

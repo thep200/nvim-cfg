@@ -36,14 +36,18 @@ return {
         -- Phím tắt nhanh (không prefix với <leader>f để tránh conflict)
         -- ------------------------------------------------------------
         -- <C-p> tìm file toàn project (giống Cmd+Shift+P VSCode)
-        { "<C-p>",     ":Telescope find_files<CR>", desc = "Find files (quick)",       silent = true },
+        { "<C-p>",     ":Telescope find_files<CR>", desc = "Find files (quick)", silent = true },
 
         -- <leader>/ grep project (snappy, không bị timeoutlen chờ prefix)
-        { "<leader>/", ":Telescope live_grep<CR>",  desc = "Grep project",             silent = true },
+        { "<leader>/", ":Telescope live_grep<CR>",  desc = "Grep project",       silent = true },
 
         -- <leader>l tìm trong buffer hiện tại (port :BLines của fzf)
-        { "<leader>l", ":Telescope current_buffer_fuzzy_find<CR>",
-                                                    desc = "Search current buffer",    silent = true },
+        {
+            "<leader>l",
+            ":Telescope current_buffer_fuzzy_find<CR>",
+            desc = "Search current buffer",
+            silent = true
+        },
 
         -- ------------------------------------------------------------
         -- Namespace <leader>f* = "Find ..."
@@ -52,29 +56,33 @@ return {
         --
         -- Đặt grep ở <leader>fg (Find by Grep) cho ai quen prefix f.
         -- ------------------------------------------------------------
-        { "<leader>ff", ":Telescope find_files<CR>",              desc = "Find files",              silent = true },
-        { "<leader>fb", ":Telescope buffers<CR>",                 desc = "Find buffers",            silent = true },
-        { "<leader>fg", ":Telescope live_grep<CR>",               desc = "Find by Grep",            silent = true },
-        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>",
-                                                                  desc = "Find lines in buffer",    silent = true },
-        { "<leader>fh", ":Telescope help_tags<CR>",               desc = "Find help",               silent = true },
-        { "<leader>fk", ":Telescope keymaps<CR>",                 desc = "Find keymaps",            silent = true },
-        { "<leader>fo", ":Telescope oldfiles<CR>",                desc = "Find recent files",       silent = true },
+        { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files",   silent = true },
+        { "<leader>fb", ":Telescope buffers<CR>",    desc = "Find buffers", silent = true },
+        { "<leader>fg", ":Telescope live_grep<CR>",  desc = "Find by Grep", silent = true },
+        {
+            "<leader>fl",
+            ":Telescope current_buffer_fuzzy_find<CR>",
+            desc = "Find lines in buffer",
+            silent = true
+        },
+        { "<leader>fh", ":Telescope help_tags<CR>",             desc = "Find help",                silent = true },
+        { "<leader>fk", ":Telescope keymaps<CR>",               desc = "Find keymaps",             silent = true },
+        { "<leader>fo", ":Telescope oldfiles<CR>",              desc = "Find recent files",        silent = true },
 
         -- ------------------------------------------------------------
         -- LSP pickers (vẫn nằm trong namespace Find)
         -- ------------------------------------------------------------
-        { "<leader>fd", ":Telescope diagnostics<CR>",             desc = "Find diagnostics",        silent = true },
-        { "<leader>fr", ":Telescope lsp_references<CR>",          desc = "Find references",         silent = true },
-        { "<leader>fs", ":Telescope lsp_document_symbols<CR>",    desc = "Find symbols (file)",     silent = true },
-        { "<leader>fw", ":Telescope lsp_workspace_symbols<CR>",   desc = "Find symbols (workspace)",silent = true },
+        { "<leader>fd", ":Telescope diagnostics<CR>",           desc = "Find diagnostics",         silent = true },
+        { "<leader>fr", ":Telescope lsp_references<CR>",        desc = "Find references",          silent = true },
+        { "<leader>fs", ":Telescope lsp_document_symbols<CR>",  desc = "Find symbols (file)",      silent = true },
+        { "<leader>fw", ":Telescope lsp_workspace_symbols<CR>", desc = "Find symbols (workspace)", silent = true },
 
         -- ------------------------------------------------------------
         -- Git pickers
         -- ------------------------------------------------------------
-        { "<leader>gs", ":Telescope git_status<CR>",              desc = "Git status",              silent = true },
-        { "<leader>gc", ":Telescope git_commits<CR>",             desc = "Git commits",             silent = true },
-        { "<leader>gb", ":Telescope git_branches<CR>",            desc = "Git branches",            silent = true },
+        { "<leader>gs", ":Telescope git_status<CR>",            desc = "Git status",               silent = true },
+        { "<leader>gc", ":Telescope git_commits<CR>",           desc = "Git commits",              silent = true },
+        { "<leader>gb", ":Telescope git_branches<CR>",          desc = "Git branches",             silent = true },
     },
 
     config = function()
@@ -105,7 +113,7 @@ return {
                 --   <C-x> = open in horizontal split
                 --   <C-v> = open in vertical split
                 --   <Esc> = đóng luôn (không vào normal mode trong picker)
-                mappings = {
+                mappings        = {
                     i = {
                         ["<C-t>"] = actions.select_tab,
                         ["<C-x>"] = actions.select_horizontal,
@@ -125,8 +133,12 @@ return {
                     hidden = true,
                     follow = true,
                     find_command = {
-                        "rg", "--files", "--hidden", "--follow",
-                        "--glob", "!**/.git/*",
+                        "rg",
+                        "--files",
+                        "--hidden",
+                        "--follow",
+                        "--glob",
+                        "!**/.git/*",
                         "--glob", "!**/vendor/*",
                         "--glob", "!**/node_modules/*",
                         "--glob", "!**/__pycache__/*",
@@ -141,13 +153,30 @@ return {
                     additional_args = function()
                         return {
                             "--hidden",
-                            "--glob", "!**/.git/*",
-                            "--glob", "!**/vendor/*",
+                            "--glob",
+                            "!**/.git/*",
+                            "--glob",
+                            "!**/vendor/*",
                             "--glob", "!**/node_modules/*",
                             "--glob", "!**/__pycache__/*",
                             "--glob", "!**/__debug_bin*",
                         }
                     end,
+                },
+
+                lsp_references = {
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
+                    include_declaration = true,   -- include cả nơi khai báo
+                    include_current_line = false, -- không include dòng cursor đang đứng
+                    show_line = false,            -- ẩn nội dung dòng, chỉ hiện đường dẫn
+                },
+                lsp_definitions = {
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
+                    show_line = false,
+                },
+                lsp_implementations = {
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
+                    show_line = false,
                 },
             },
         })
