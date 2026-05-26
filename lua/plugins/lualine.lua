@@ -77,8 +77,8 @@ return {
             options = {
                 globalstatus         = true,
                 icons_enabled        = true,
-                always_show_tabline  = true,
                 always_divide_middle = true,
+                always_show_tabline  = false,
                 refresh              = refresh,
                 theme                = custom_theme,
                 component_separators = { left = '', right = ''},
