@@ -2,23 +2,26 @@
 --  plugins/lualine.lua
 --  Thay thế: vim-airline + vim-airline-themes (+ tpope/vim-fugitive)
 --
---  Port từ airline.vim: custom theme với màu riêng cho từng mode
---  giữ NGUYÊN bảng màu cũ:
+--  Port từ airline.vim: custom theme với màu riêng cho từng mode:
 --    Normal  : #4ade80 (xanh lá)
 --    Insert  : #ff7b72 (đỏ)
 --    Visual  : #818cf8 (tím indigo)
 --    Replace : #3b82f6 (xanh dương)
 --
---  Lualine tự đọc git branch từ vim.b.gitsigns_head (gitsigns set),
---  nên KHÔNG cần plugin fugitive nữa.
+--  Layout:
+--     │ NORMAL │  main +3 ~1 -2 │ path/to/file.go      45% 87:23  go │ E:2 W:1 │
+--      ── a ──  ────── b ──────  ─────── c ────────  ────── x ──────── ─ z ──
+--
+--  ⚠️ YÊU CẦU NERD FONT cài trên terminal (vd: JetBrainsMono Nerd Font,
+--    Fira Code Nerd Font, ...). Cài tại: https://www.nerdfonts.com
+--    Không có Nerd Font, các glyph "" "" "" sẽ thành ô vuông ▢.
 -- ============================================================
 
 return {
     "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",     -- load sau khi UI vẽ xong -> startup nhanh hơn
+    event = "VeryLazy",
     dependencies = {
-        -- gitsigns sẽ set vim.b.gitsigns_head -> lualine đọc branch từ đây
-        "lewis6991/gitsigns.nvim",
+        "lewis6991/gitsigns.nvim",  -- để lualine đọc branch + diff
     },
     config = function()
         -- ------------------------------------------------------------
@@ -29,18 +32,27 @@ return {
             fg_med    = "#c9d1d9",
             branch_bg = "#94a3b8",
 
-            normal    = "#4ade80",  -- Normal mode
-            insert    = "#ff7b72",  -- Insert mode
-            visual    = "#818cf8",  -- Visual mode
-            replace   = "#3b82f6",  -- Replace mode
-            command   = "#d2a8ff",  -- Command mode (bonus - airline cũ chưa có)
+            normal    = "#4ade80",
+            insert    = "#ff7b72",
+            visual    = "#818cf8",
+            replace   = "#3b82f6",
+            command   = "#d2a8ff",
+
+            -- Diagnostic colors (cho section z) - lấy từ zed_github_dark
+            diag_err  = "#b91c1c",
+            diag_warn = "#ffa657",
+            diag_info = "#79c0ff",
+            diag_hint = "#9198a1",
         }
 
+        -- Mỗi mode share 1 cấu trúc palette. a / z dùng màu mode (đầu/cuối),
+        -- b dùng màu xám nhạt (branch_bg), c trong suốt.
         local function mode_palette(mode_color)
             return {
-                a = { bg = mode_color,    fg = colors.dark,      gui = "bold" },
+                a = { bg = mode_color,       fg = colors.dark,    gui = "bold" },
                 b = { bg = colors.branch_bg, fg = colors.dark },
-                c = { bg = "NONE",        fg = colors.fg_med },
+                c = { bg = "NONE",           fg = colors.fg_med },
+                -- x, y, z lualine tự mirror từ c, b, a nếu không khai báo
             }
         end
 
@@ -51,26 +63,18 @@ return {
             replace  = mode_palette(colors.replace),
             command  = mode_palette(colors.command),
             inactive = {
-                a = { bg = "NONE",        fg = colors.fg_med },
-                b = { bg = "NONE",        fg = colors.fg_med },
-                c = { bg = "NONE",        fg = colors.fg_med },
+                a = { bg = "NONE", fg = colors.fg_med },
+                b = { bg = "NONE", fg = colors.fg_med },
+                c = { bg = "NONE", fg = colors.fg_med },
             },
         }
 
         -- ------------------------------------------------------------
-        -- Custom z component: "p% l/L:c" - port từ airline_section_z cũ.
+        -- Custom component cho lualine_x: vị trí "p% l:c"
         --
-        -- LƯU Ý ESCAPE %:
-        --   Lualine KHÔNG tự escape ký tự "%" trong chuỗi return từ custom
-        --   function. Mà "%" lại là token format của Vim statusline (vd %f,
-        --   %l). Nếu trả về "56% 1/100:1" thẳng thì Vim sẽ tưởng "% " là
-        --   format spec lỗi → có thể gây "E539: Illegal character < >" hoặc
-        --   các lỗi parse statusline khác.
-        --
-        --   Cách đúng: trả về "56%% 1/100:1" - hai dấu % để Vim render thành
-        --   một ký tự % literal. Trong string.format ta cần "%%%%" (4 dấu)
-        --   vì string.format ăn 2 dấu để tạo 1 dấu, rồi statusline parser
-        --   ăn 2 dấu nữa để render 1 dấu thực sự.
+        -- LƯU Ý ESCAPE %: lualine không tự escape '%' (token statusline),
+        -- phải return "%%" để render thành 1 dấu '%' literal.
+        -- Trong string.format -> "%%%%" (4 dấu).
         -- ------------------------------------------------------------
         local function position()
             local line  = vim.fn.line(".")
@@ -78,46 +82,109 @@ return {
             local col   = vim.fn.col(".")
             if total == 0 then return "" end
             local pct = math.floor(line / total * 100)
-            return string.format("%d%%%% %d/%d:%d", pct, line, total, col)
+            return string.format("%d%%%% %d:%d", pct, line, col)
         end
 
         require("lualine").setup({
             options = {
-                theme               = zed_theme,
-                icons_enabled       = false,        -- không dùng nerd font
-                component_separators= "",           -- không có separator giữa component
-                section_separators  = "",           -- không có separator giữa section
-                globalstatus        = true,         -- 1 statusline global cho toàn nvim
-                disabled_filetypes  = {},           -- không disable cho ai - statusline luôn hiện
+                theme         = zed_theme,
+                icons_enabled = true,    -- BẬT icons để có icon nhánh git
+
+                -- ---- Powerline separators (mũi nhọn) ----
+                -- '' (U+E0B0) và '' (U+E0B2) cần Nerd Font.
+                -- Nếu font không hỗ trợ, có thể thay '▶' '◀' (Unicode block arrows).
+                section_separators   = { left = "", right = "" },
+                component_separators = { left = "", right = "" },
+
+                globalstatus       = true,
+                disabled_filetypes = {},
             },
+
             sections = {
-                -- ---- Trái ----
-                lualine_a = { "mode" },             -- mode (NORMAL/INSERT/...)
-                lualine_b = { "branch" },           -- git branch (đọc từ gitsigns)
-                lualine_c = {
+                -- ============================================================
+                -- TRÁI
+                -- ============================================================
+
+                -- ---- a: Mode (NORMAL / INSERT / ...) ----
+                lualine_a = { "mode" },
+
+                -- ---- b: Branch + git diff ----
+                lualine_b = {
                     {
-                        "filename",
-                        path        = 1,            -- 0=name, 1=relative, 2=absolute
-                        symbols     = {
-                            modified  = " [+]",
-                            readonly  = " [RO]",
-                            unnamed   = "[No Name]",
+                        "branch",
+                        icon = "",      -- Powerline branch glyph (U+E0A0)
+                                          -- Đổi sang "git:" nếu không có Nerd Font
+                    },
+                    {
+                        "diff",
+                        -- Đọc git diff từ gitsigns (đã set vim.b.gitsigns_status_dict).
+                        -- 3 ký tự ASCII đơn giản - không cần Nerd Font.
+                        symbols = {
+                            added    = "+",
+                            modified = "~",
+                            removed  = "-",
+                        },
+                        -- Tô màu theo theme (xanh/cam/đỏ)
+                        diff_color = {
+                            added    = { fg = colors.normal },
+                            modified = { fg = colors.insert },
+                            removed  = { fg = colors.replace },
                         },
                     },
                 },
 
-                -- ---- Phải ----
-                lualine_x = {
-                    -- LSP diagnostics inline (bonus, vim-lsp cũ không có)
+                -- ---- c: Tên file ----
+                lualine_c = {
                     {
-                        "diagnostics",
-                        sources = { "nvim_diagnostic" },
-                        symbols = { error = "E ", warn = "W ", info = "I ", hint = "H " },
+                        "filename",
+                        path = 1,        -- 0=name, 1=relative, 2=absolute
+                        symbols = {
+                            modified = " [+]",
+                            readonly = " [RO]",
+                            unnamed  = "[No Name]",
+                        },
                     },
+                },
+
+                -- ============================================================
+                -- PHẢI
+                -- ============================================================
+
+                -- ---- x: Vị trí cursor + filetype ----
+                lualine_x = {
+                    position,                          -- p% l:c
                     "filetype",
                 },
-                lualine_y = {},                     -- để trống (giống airline_section_y = '')
-                lualine_z = { position },           -- "p% l/L:c"
+
+                -- ---- y: bỏ trống (để layout gọn) ----
+                lualine_y = {},
+
+                -- ---- z: Diagnostic (LSP error/warn) - NGOÀI CÙNG PHẢI ----
+                lualine_z = {
+                    {
+                        "diagnostics",
+                        sources         = { "nvim_diagnostic" },
+                        sections        = { "error", "warn", "info", "hint" },
+                        symbols         = {
+                            error = "E:",
+                            warn  = "W:",
+                            info  = "I:",
+                            hint  = "H:",
+                        },
+                        -- Override màu để text dễ đọc trên bg = mode color.
+                        -- Override = fg luôn theo severity, không bị nuốt
+                        -- bởi màu mode của section z.
+                        diagnostics_color = {
+                            error = { fg = colors.diag_err  },
+                            warn  = { fg = colors.diag_warn },
+                            info  = { fg = colors.diag_info },
+                            hint  = { fg = colors.diag_hint },
+                        },
+                        colored          = true,
+                        update_in_insert = false,
+                        always_visible   = false,    -- ẩn khi không có diagnostic
+                    },
+                },
             },
         })
     end,

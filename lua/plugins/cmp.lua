@@ -29,6 +29,18 @@ return {
         local cmp     = require("cmp")
         local luasnip = require("luasnip")
 
+        -- ------------------------------------------------------------
+        -- Helper: kiểm tra Copilot có ghost-text suggestion đang hiển thị
+        -- Dùng pcall để an toàn nếu copilot.vim chưa load (vd: filetype
+        -- bị disable trong copilot_filetypes).
+        -- ------------------------------------------------------------
+        local function has_copilot_suggestion()
+            local ok, suggestion = pcall(vim.fn["copilot#GetDisplayedSuggestion"])
+            return ok and suggestion ~= nil
+                   and suggestion.text ~= nil
+                   and suggestion.text ~= ""
+        end
+
         cmp.setup({
             -- ------------------------------------------------------------
             -- Bắt buộc cấu hình snippet expansion (kể cả không xài snippet)
@@ -50,12 +62,24 @@ return {
             }),
 
             -- ------------------------------------------------------------
-            -- Keymaps trong popup - GIỮ NGUYÊN từ asyncomplete.vim cũ
+            -- Keymaps trong popup - GIỮ NGUYÊN logic từ asyncomplete.vim cũ
+            -- + tích hợp Copilot accept bằng Tab (priority cao nhất).
             -- ------------------------------------------------------------
             mapping = cmp.mapping.preset.insert({
-                -- Tab: nếu popup mở -> chọn next, nếu trong snippet -> jump,
-                -- nếu không -> hành xử Tab bình thường
+                -- ---- Tab: thứ tự ưu tiên ----
+                --   1. Có Copilot ghost-text suggestion -> Accept Copilot
+                --      (suggestion thường dài & hữu ích hơn 1 token LSP)
+                --   2. Cmp popup đang mở -> select next item
+                --   3. Đang trong snippet placeholder -> jump
+                --   4. Còn lại -> Tab thường (indent)
                 ["<Tab>"] = cmp.mapping(function(fallback)
+                    if has_copilot_suggestion() then
+                        -- copilot#Accept("") trả về suggestion text để feed
+                        -- (không kèm fallback như "\<CR>" của map cũ)
+                        local accept = vim.fn["copilot#Accept"]("")
+                        vim.api.nvim_feedkeys(accept, "n", true)
+                        return
+                    end
                     if cmp.visible() then
                         cmp.select_next_item()
                     elseif luasnip.expand_or_jumpable() then
@@ -65,7 +89,7 @@ return {
                     end
                 end, { "i", "s" }),
 
-                -- S-Tab: ngược lại
+                -- S-Tab: ngược lại - chỉ cho cmp/snippet, không liên quan Copilot
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()

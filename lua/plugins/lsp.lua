@@ -151,8 +151,12 @@ return {
 
                 -- ---- Bật inlay hints (Neovim 0.10+) ----
                 -- Tương đương g:lsp_settings.gopls.hints.* cũ
+                --
+                -- Lưu ý: Neovim 0.12+ deprecated client.supports_method(...) (dot),
+                -- thay bằng client:supports_method(...) (method call - colon).
+                -- Feature cũ sẽ bị xoá ở Nvim 0.13.
                 if client
-                   and client.supports_method("textDocument/inlayHint")
+                   and client:supports_method("textDocument/inlayHint")
                    and vim.lsp.inlay_hint
                 then
                     vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
