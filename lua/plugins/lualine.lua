@@ -34,20 +34,8 @@ return {
             visual    = "#818cf8",  -- Visual mode
             replace   = "#3b82f6",  -- Replace mode
             command   = "#d2a8ff",  -- Command mode (bonus - airline cũ chưa có)
-
-            warn_bg   = "#ffa657",
-            warn_fg   = "#0d1117",
-            err_bg    = "#b91c1c",
-            err_fg    = "#f0f6fc",
         }
 
-        -- ------------------------------------------------------------
-        -- Theme tự define - struct lualine
-        -- Mỗi mode có { a, b, c } - tương đương airline section a/b/c
-        --   a = mode (gốc trái) - màu nổi bật
-        --   b = branch / file info
-        --   c = filename + content
-        -- ------------------------------------------------------------
         local function mode_palette(mode_color)
             return {
                 a = { bg = mode_color,    fg = colors.dark,      gui = "bold" },
@@ -70,35 +58,48 @@ return {
         }
 
         -- ------------------------------------------------------------
-        -- Setup lualine
+        -- Custom z component: "p% l/L:c" - port từ airline_section_z cũ.
+        --
+        -- LƯU Ý ESCAPE %:
+        --   Lualine KHÔNG tự escape ký tự "%" trong chuỗi return từ custom
+        --   function. Mà "%" lại là token format của Vim statusline (vd %f,
+        --   %l). Nếu trả về "56% 1/100:1" thẳng thì Vim sẽ tưởng "% " là
+        --   format spec lỗi → có thể gây "E539: Illegal character < >" hoặc
+        --   các lỗi parse statusline khác.
+        --
+        --   Cách đúng: trả về "56%% 1/100:1" - hai dấu % để Vim render thành
+        --   một ký tự % literal. Trong string.format ta cần "%%%%" (4 dấu)
+        --   vì string.format ăn 2 dấu để tạo 1 dấu, rồi statusline parser
+        --   ăn 2 dấu nữa để render 1 dấu thực sự.
         -- ------------------------------------------------------------
+        local function position()
+            local line  = vim.fn.line(".")
+            local total = vim.fn.line("$")
+            local col   = vim.fn.col(".")
+            if total == 0 then return "" end
+            local pct = math.floor(line / total * 100)
+            return string.format("%d%%%% %d/%d:%d", pct, line, total, col)
+        end
+
         require("lualine").setup({
             options = {
                 theme               = zed_theme,
                 icons_enabled       = false,        -- không dùng nerd font
-                component_separators= { left = "", right = "" },
-                section_separators  = { left = "", right = "" },
-                globalstatus        = true,         -- 1 statusline duy nhất cho toàn nvim
-                                                    -- (giống airline laststatus=2 cũ)
-                disabled_filetypes  = {
-                    statusline = { "neo-tree" },
-                },
+                component_separators= "",           -- không có separator giữa component
+                section_separators  = "",           -- không có separator giữa section
+                globalstatus        = true,         -- 1 statusline global cho toàn nvim
+                disabled_filetypes  = {},           -- không disable cho ai - statusline luôn hiện
             },
             sections = {
                 -- ---- Trái ----
                 lualine_a = { "mode" },             -- mode (NORMAL/INSERT/...)
-                lualine_b = {
-                    {
-                        "branch",                    -- thay vim-fugitive: lualine tự đọc git branch
-                        icon = "",                  -- không dùng icon nerd font
-                    },
-                },
+                lualine_b = { "branch" },           -- git branch (đọc từ gitsigns)
                 lualine_c = {
                     {
                         "filename",
-                        path        = 1,             -- 0=name, 1=relative, 2=absolute
+                        path        = 1,            -- 0=name, 1=relative, 2=absolute
                         symbols     = {
-                            modified  = " ●",        -- file đã sửa
+                            modified  = " [+]",
                             readonly  = " [RO]",
                             unnamed   = "[No Name]",
                         },
@@ -111,21 +112,12 @@ return {
                     {
                         "diagnostics",
                         sources = { "nvim_diagnostic" },
-                        symbols = { error = "✗ ", warn = "! ", info = "i ", hint = "? " },
+                        symbols = { error = "E ", warn = "W ", info = "I ", hint = "H " },
                     },
                     "filetype",
                 },
-                lualine_y = {},  -- để trống (giống airline_section_y = '')
-                lualine_z = {
-                    -- "p% l/L:c" - port từ airline_section_z cũ
-                    function()
-                        local line  = vim.fn.line(".")
-                        local total = vim.fn.line("$")
-                        local col   = vim.fn.col(".")
-                        local pct   = math.floor(line / total * 100)
-                        return string.format("%d%% %d/%d:%d", pct, line, total, col)
-                    end,
-                },
+                lualine_y = {},                     -- để trống (giống airline_section_y = '')
+                lualine_z = { position },           -- "p% l/L:c"
             },
         })
     end,

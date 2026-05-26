@@ -343,3 +343,6 @@ Plugin được **thêm mới** (cần thiết cho stack mới):
 - `nvim-treesitter` — để theme `zed_github_dark` map đúng capture group, highlight Go chuẩn.
 - `LuaSnip` + `cmp_luasnip` — snippet engine bắt buộc cho `nvim-cmp`.
 - `plenary.nvim`, `nui.nvim` — thư viện util chung của hệ sinh thái.
+
+
+

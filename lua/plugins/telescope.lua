@@ -19,7 +19,9 @@
 
 return {
     "nvim-telescope/telescope.nvim",
-    branch = "0.1.x",
+    -- branch "master" chứa fix cho lỗi ft_to_lang trên Neovim 0.11+.
+    -- Branch "0.1.x" đã không còn được maintain (xem issue #3487).
+    branch = "master",
     cmd  = "Telescope",
     dependencies = {
         "nvim-lua/plenary.nvim",

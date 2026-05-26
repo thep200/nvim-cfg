@@ -55,22 +55,25 @@ return {
                     folder_empty  = "",
                     default       = "",
                 },
-                modified = { symbol = "●", highlight = "NeoTreeModified" },
+                modified = { symbol = "*", highlight = "NeoTreeModified" },
                 name = {
                     use_git_status_colors = true,
                 },
-                -- Ký hiệu git status (giống nerdtree-git-plugin cũ)
+                -- Ký hiệu git status - dùng ASCII đơn giản (không Nerd Font,
+                -- không Unicode dingbats) để render được trên mọi terminal/font.
+                -- Style giống vim-gitgutter cũ: +/~/_
                 git_status = {
                     symbols = {
-                        added     = "✚",
-                        modified  = "✸",
-                        deleted   = "✗",
-                        renamed   = "➜",
-                        untracked = "✭",
-                        ignored   = "☒",
-                        unstaged  = "✘",
-                        staged    = "✔︎",
-                        conflict  = "═",
+                        added     = "+",  -- file mới được add
+                        modified  = "~",  -- file đã sửa
+                        deleted   = "_",  -- file đã xoá
+                        renamed   = ">",  -- file đổi tên
+                        untracked = "?",  -- file chưa track
+                        ignored   = "",   -- không hiển thị icon cho file .gitignored
+                                          -- (cho list neo-tree gọn, nhất là vendor/, node_modules/)
+                        unstaged  = "",   -- gộp với modified
+                        staged    = "",   -- gộp với added
+                        conflict  = "!",  -- file conflict (merge)
                     },
                 },
             },

@@ -15,6 +15,10 @@
 
 return {
     "nvim-treesitter/nvim-treesitter",
+    -- branch "master" giữ API cũ ổn định với `nvim-treesitter.configs.setup({...})`.
+    -- Branch "main" (mặc định) đã rewrite hoàn toàn, không còn module `configs`,
+    -- gây lỗi `module 'nvim-treesitter.configs' not found`.
+    branch = "master",
     build = ":TSUpdate",                    -- compile parser sau khi cài
     event = { "BufReadPre", "BufNewFile" }, -- lazy-load khi mở file
     config = function()

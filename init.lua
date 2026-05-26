@@ -16,5 +16,11 @@
 require("core.options")
 require("core.keymaps")
 require("core.autocmds")
+-- ft_to_lang bị xóa trong Neovim 0.10+, telescope vẫn gọi nó -> shim
+if vim.treesitter.language and not vim.treesitter.language.ft_to_lang then
+    vim.treesitter.language.ft_to_lang = vim.treesitter.language.get_lang
+        or function() return nil end
+end
+
 require("plugins")           -- lazy.nvim bootstrap + load plugin specs
 require("core.colorscheme")  -- LOAD CUỐI để override highlight plugin

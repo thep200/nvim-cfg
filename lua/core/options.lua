@@ -35,7 +35,10 @@ opt.number         = true
 opt.relativenumber = true
 
 -- Status line
-opt.laststatus = 2
+-- laststatus = 3: dùng MỘT statusline global cho toàn Neovim
+-- (khớp với globalstatus = true của lualine). Lualine cũng tự set, nhưng
+-- set ở đây để rõ ý đồ và phòng khi lualine load chậm.
+opt.laststatus = 3
 opt.showmode   = false          -- ẩn "-- INSERT --" vì lualine đã hiển thị mode
 
 -- Sign column - luôn hiện cột bên trái (cho gitsigns & LSP diagnostics)
