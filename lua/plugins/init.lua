@@ -37,6 +37,10 @@ require("lazy").setup({
     { import = "plugins.cmp" },
     { import = "plugins.lsp" },
     { import = "plugins.copilot" },
+    -- ---- NvChad-inspired QoL plugins ----
+    { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
+    -- { import = "plugins.which-key" },         -- popup cheatsheet phím tắt
+    -- { import = "plugins.indent-blankline" },  -- indent line dọc mờ
 }, {
     -- ------------------------------------------------------------
     -- Cấu hình chung cho lazy.nvim
