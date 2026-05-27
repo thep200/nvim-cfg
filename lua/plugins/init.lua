@@ -37,7 +37,8 @@ require("lazy").setup({
     { import = "plugins.cmp" },          -- completion engine (LSP + snippets + path + buffer)
     { import = "plugins.lsp" },          -- LSP client + gopls config (inlay hints, staticcheck, analyses,...)
     { import = "plugins.copilot" },      -- AI code assistant (GitHub Copilot)
-    { import = "plugins.autopairs" }     -- auto-close (), [], {}, "", ''
+    { import = "plugins.autopairs" },    -- auto-close (), [], {}, "", ''
+    { import = "plugins.dap" },          -- debug adapter (Go via delve)
     -- { import = "plugins.which-key" }, -- popup cheatsheet phím tắt
 }, {
     -- ------------------------------------------------------------

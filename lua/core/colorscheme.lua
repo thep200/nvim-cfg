@@ -313,3 +313,36 @@ hi("CmpItemKindInterface",  { fg = c.blue })
 hi("CmpItemKindStruct",     { fg = c.blue })
 hi("CmpItemKindSnippet",    { fg = c.green })
 hi("CmpItemMenu",           { fg = c.comment, italic = true })
+
+-- ------------------------------------------------------------
+-- 11. nvim-dap - sign column + virtual text + UI panel
+-- ------------------------------------------------------------
+-- Sign column (breakpoint, current frame, rejected breakpoint)
+hi("DapBreakpoint",          { fg = c.red,     bg = "NONE" })
+hi("DapBreakpointCondition", { fg = c.orange,  bg = "NONE" })
+hi("DapLogPoint",            { fg = c.blue,    bg = "NONE" })
+hi("DapStopped",             { fg = c.green,   bg = "NONE" })
+hi("DapStoppedLine",         { bg = "#1f2937" })           -- highlight cả dòng đang dừng
+hi("DapBreakpointRejected",  { fg = c.comment, bg = "NONE" })
+
+-- Virtual text inline khi paused (giá trị biến cuối dòng)
+hi("NvimDapVirtualText",        { fg = "#6e7681", italic = true, bg = "NONE" })
+hi("NvimDapVirtualTextChanged", { fg = c.orange,  italic = true, bg = "NONE" })
+
+-- DAP UI panel (scopes, watches, breakpoints, stacks, repl)
+hi("DapUIScope",                  { fg = c.blue,    bold = true })
+hi("DapUIType",                   { fg = c.purple })
+hi("DapUIValue",                  { fg = c.fg })
+hi("DapUIModifiedValue",          { fg = c.orange,  bold = true })
+hi("DapUIDecoration",             { fg = c.comment })
+hi("DapUIThread",                 { fg = c.green })
+hi("DapUIStoppedThread",          { fg = c.orange })
+hi("DapUISource",                 { fg = c.light_blue })
+hi("DapUILineNumber",             { fg = c.comment })
+hi("DapUIFloatBorder",            { fg = c.comment })
+hi("DapUIWatchesEmpty",           { fg = c.comment })
+hi("DapUIWatchesValue",           { fg = c.fg })
+hi("DapUIWatchesError",           { fg = c.red })
+hi("DapUIBreakpointsPath",        { fg = c.blue })
+hi("DapUIBreakpointsInfo",        { fg = c.green })
+hi("DapUIBreakpointsCurrentLine", { fg = c.orange,  bold = true })

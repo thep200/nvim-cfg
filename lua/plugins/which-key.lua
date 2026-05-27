@@ -48,6 +48,7 @@ return {
             { "<leader>c", group = "Code (LSP)" },
             { "<leader>r", group = "Rename / Refactor" },
             { "<leader>g", group = "Git" },
+            { "<leader>d", group = "Debug (DAP)" },
             { "[",         group = "Prev ..." },
             { "]",         group = "Next ..." },
             { "g",         group = "Goto ..." },
