@@ -42,12 +42,7 @@ return {
         { "<leader>/", ":Telescope live_grep<CR>",  desc = "Grep project",       silent = true },
 
         -- <leader>l tìm trong buffer hiện tại (port :BLines của fzf)
-        {
-            "<leader>l",
-            ":Telescope current_buffer_fuzzy_find<CR>",
-            desc = "Search current buffer",
-            silent = true
-        },
+        { "<leader>l", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Search current buffer", silent = true},
 
         -- ------------------------------------------------------------
         -- Namespace <leader>f* = "Find ..."
@@ -59,12 +54,7 @@ return {
         { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files",   silent = true },
         { "<leader>fb", ":Telescope buffers<CR>",    desc = "Find buffers", silent = true },
         { "<leader>fg", ":Telescope live_grep<CR>",  desc = "Find by Grep", silent = true },
-        {
-            "<leader>fl",
-            ":Telescope current_buffer_fuzzy_find<CR>",
-            desc = "Find lines in buffer",
-            silent = true
-        },
+        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Find lines in buffer", silent = true},
         { "<leader>fh", ":Telescope help_tags<CR>",             desc = "Find help",                silent = true },
         { "<leader>fk", ":Telescope keymaps<CR>",               desc = "Find keymaps",             silent = true },
         { "<leader>fo", ":Telescope oldfiles<CR>",              desc = "Find recent files",        silent = true },
@@ -101,9 +91,7 @@ return {
                     },
                 },
                 border          = true,
-                borderchars     = {
-                    "─", "│", "─", "│", "╭", "╮", "╯", "╰",
-                },
+                borderchars     = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
                 prompt_prefix   = "  ",
                 selection_caret = " ",
 
@@ -165,18 +153,18 @@ return {
                 },
 
                 lsp_references = {
-                    file_ignore_patterns = { "vendor/", "node_modules/" },
+                    show_line = false,            -- ẩn nội dung dòng, chỉ hiện đường dẫn
                     include_declaration = true,   -- include cả nơi khai báo
                     include_current_line = false, -- không include dòng cursor đang đứng
-                    show_line = false,            -- ẩn nội dung dòng, chỉ hiện đường dẫn
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
                 },
                 lsp_definitions = {
-                    file_ignore_patterns = { "vendor/", "node_modules/" },
                     show_line = false,
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
                 },
                 lsp_implementations = {
-                    file_ignore_patterns = { "vendor/", "node_modules/" },
                     show_line = false,
+                    file_ignore_patterns = { "vendor/", "node_modules/" },
                 },
             },
         })

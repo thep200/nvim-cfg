@@ -105,9 +105,12 @@ return {
                     {
                         'diff',
                         symbols = {
-                            added    = ' ',
-                            modified = ' ',
-                            removed  = ' ',
+                            added    = '+',
+                            modified = '~',
+                            removed  = '-',
+                            -- added    = ' ',
+                            -- modified = ' ',
+                            -- removed  = ' ',
                         },
                     },
                 },
@@ -127,7 +130,7 @@ return {
                     {
                         "%l/%L",
                         separator = '',
-                        padding = { left = 1, right = 0 }
+                        padding = { left = 1, right = 1 }
                     },
                     {
                         'location',
@@ -147,10 +150,9 @@ return {
                 lualine_a = {
                     {
                         'buffers',
+                        mode = 2, -- 0: Shows buffer name, 1: Shows buffer index, 2: Shows buffer name + buffer index
                         show_filename_only = true,
-                        hide_filename_extension = false,
-                        mode = 0, -- Hiện tên file
-                        -- Tự động đổi màu nền của cục tên file đang active theo mode hiện tại
+                        hide_filename_extension = true,
                         buffers_color = {
                             active = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true },
                             inactive = { fg = colors.fg_med, bg = colors.bg_tag_inactive },
