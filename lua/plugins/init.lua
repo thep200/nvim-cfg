@@ -35,9 +35,9 @@ require("lazy").setup({
     -- ------------------------------------------------------------
     -- Cấu hình chung cho lazy.nvim
     -- ------------------------------------------------------------
-    install          = { colorscheme = { "default" } },
+    install          = { colorscheme = { "habamax", "default" } }, -- built-in fallback khi install
     ui               = { border = "rounded" },
-    change_detection = { notify = false},
+    change_detection = { notify = false },
     performance = {
         rtp = {
             disabled_plugins = {

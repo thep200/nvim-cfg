@@ -5,7 +5,7 @@
 return {
     "nvim-telescope/telescope.nvim",
     branch = "master",
-    event = "VeryLazy",
+    cmd    = "Telescope",
 
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -24,7 +24,7 @@ return {
         { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files",   silent = true },
         { "<leader>fb", ":Telescope buffers<CR>",    desc = "Find buffers", silent = true },
         { "<leader>fg", ":Telescope live_grep<CR>",  desc = "Find by Grep", silent = true },
-        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Find lines in buffer", silent = true},
+        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Find lines in buffer", silent = true },
         { "<leader>fh", ":Telescope help_tags<CR>",             desc = "Find help",                silent = true },
         { "<leader>fk", ":Telescope keymaps<CR>",               desc = "Find keymaps",             silent = true },
         { "<leader>fo", ":Telescope oldfiles<CR>",              desc = "Find recent files",        silent = true },
@@ -57,7 +57,7 @@ return {
                     },
                 },
                 border          = true,
-                borderchars     = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
+                borderchars     = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
                 prompt_prefix   = "  ",
                 selection_caret = "  ",
                 file_ignore_patterns = {
@@ -112,9 +112,9 @@ return {
                             height = 0.4,
                         },
                         borderchars = {
-                            prompt  = {"─", "│", " ", "│", "╭", "╮", "│", "│"},
-                            results = {"─", "│", "─", "│", "├", "┤", "╯", "╰"},
-                            preview = {"─", "│", "─", "│", "╭", "╮", "╯", "╰"},
+                            prompt  = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+                            results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+                            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
                         },
                     }),
                 },
@@ -125,6 +125,3 @@ return {
         pcall(telescope.load_extension, "ui-select")
     end,
 }
-
-
-

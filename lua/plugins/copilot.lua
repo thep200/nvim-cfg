@@ -39,8 +39,8 @@ return {
         -- 3. Quản lý Filetype (Bật/Tắt theo loại file)
         -- ============================================================
         vim.g.copilot_filetypes = {
-            ["*"]           = true,  -- Mặc định bật cho mọi file
-            gitcommit       = true,  -- Tắt khi viết git commit
+            ["*"]           = true,   -- Mặc định bật cho mọi file
+            gitcommit       = false,  -- Tắt khi viết git commit
             TelescopePrompt = false,
         }
     end,

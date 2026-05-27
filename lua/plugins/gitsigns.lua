@@ -26,7 +26,6 @@ return {
             on_attach = function(bufnr)
                 local gs = package.loaded.gitsigns
 
-                -- Hàm helper bọc keymap cho gọn
                 local function map(mode, lhs, rhs, desc, opts)
                     opts = opts or {}
                     opts.buffer = bufnr
@@ -38,26 +37,26 @@ return {
                 -- ---- ĐIỀU HƯỚNG GIỮA CÁC ĐOẠN CODE THAY ĐỔI (HUNKS) ----
                 map("n", "]c", function()
                     if vim.wo.diff then return "]c" end
-                    vim.schedule(function() gs.next_hunk() end)
+                    vim.schedule(function() gs.nav_hunk("next") end)
                     return "<Ignore>"
                 end, "Next Git Hunk", { expr = true })
 
                 map("n", "[c", function()
                     if vim.wo.diff then return "[c" end
-                    vim.schedule(function() gs.prev_hunk() end)
+                    vim.schedule(function() gs.nav_hunk("prev") end)
                     return "<Ignore>"
                 end, "Prev Git Hunk", { expr = true })
 
                 -- ---- THAO TÁC VỚI ĐOẠN CODE NHỎ (HUNK) ----
-                map("n", "<leader>hp", gs.preview_hunk,    "Preview Hunk (Xem code cũ/mới)")
-                map("n", "<leader>hr", gs.reset_hunk,      "Reset Hunk (Hủy thay đổi đoạn này)")
-                map("n", "<leader>hs", gs.stage_hunk,      "Stage Hunk (Đưa đoạn này vào commit)")
-                map("n", "<leader>hu", gs.undo_stage_hunk, "Undo Stage Hunk")
+                -- Trong gitsigns mới: stage_hunk có toggle behavior, thay cho undo_stage_hunk
+                map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk (Xem code cũ/mới)")
+                map("n", "<leader>hr", gs.reset_hunk,   "Reset Hunk (Hủy thay đổi đoạn này)")
+                map("n", "<leader>hs", gs.stage_hunk,   "Stage / Unstage Hunk (toggle)")
                 map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line")
 
                 -- ---- THAO TÁC VỚI TOÀN BỘ FILE (BUFFER) ----
-                map("n", "<leader>gd", gs.diffthis,        "Git Diff (So sánh toàn file)")
-                map("n", "<leader>gR", gs.reset_buffer,    "Git Reset (Hủy toàn bộ thay đổi file)")
+                map("n", "<leader>gd", gs.diffthis,     "Git Diff (So sánh toàn file)")
+                map("n", "<leader>gR", gs.reset_buffer, "Git Reset (Hủy toàn bộ thay đổi file)")
             end,
         })
     end,

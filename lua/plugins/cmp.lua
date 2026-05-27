@@ -8,6 +8,7 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
+        "github/copilot.vim",        -- đảm bảo Copilot load trước khi cmp check ghost text
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
