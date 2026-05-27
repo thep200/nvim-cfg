@@ -154,7 +154,7 @@ return {
                         show_filename_only = true,
                         hide_filename_extension = true,
                         buffers_color = {
-                            active = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true },
+                            active   = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true },
                             inactive = { fg = colors.fg_med, bg = colors.bg_tag_inactive },
                         },
                     }
@@ -163,15 +163,7 @@ return {
                 lualine_c = {},
                 lualine_x = {},
                 lualine_y = {},
-                lualine_z = {
-                    {
-                        'tabs',
-                        tabs_color = {
-                            active = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true },
-                            inactive = { fg = colors.fg_med, bg = colors.bg_tag_inactive },
-                        }
-                    }
-                }
+                lualine_z = {}
             },
             winbar = {},
             inactive_winbar = {},
