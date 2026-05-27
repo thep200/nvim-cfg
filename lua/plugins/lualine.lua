@@ -125,16 +125,10 @@ return {
                     {
                         'progress',
                         separator = '',
-                        padding = { left = 1, right = 0 }
-                    },
-                    {
-                        "%l/%L",
-                        separator = '',
                         padding = { left = 1, right = 1 }
                     },
                     {
-                        'location',
-                        padding = { left = 0, right = 0 }
+                        "%l/%L:%c",
                     },
                 },
             },
