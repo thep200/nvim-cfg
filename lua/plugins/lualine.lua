@@ -125,8 +125,14 @@ return {
                         padding = { left = 1, right = 0 }
                     },
                     {
+                        "%l/%L",
+                        separator = '',
+                        padding = { left = 1, right = 0 }
+                    },
+                    {
                         'location',
-                    }
+                        padding = { left = 0, right = 0 }
+                    },
                 },
             },
             inactive_sections = {

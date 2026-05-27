@@ -107,6 +107,8 @@ opt.timeoutlen  = 300       -- chờ tối đa 300ms cho next-key của 1 chuỗ
 opt.ttimeoutlen = 10        -- timeout cho key code (vd: <Esc>) - ngắn nhất
 
 
+opt.clipboard = "unnamedplus"  -- copy/paste chung với system clipboard
+
 -- ============================================================
 --  FIX: Neovim 0.12 + nvim-treesitter (master branch)
 --  match[id] giờ là list of nodes, không phải single node nữa.
