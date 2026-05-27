@@ -1,64 +1,47 @@
 -- ============================================================
---  plugins/copilot.lua
---  GitHub Copilot - AI code suggestions inline
---
---  ⚠️ LƯU Ý: copilot.vim YÊU CẦU Node.js (>= 18) để chạy agent.
---  Đây là exception duy nhất trong stack "no Node" của bạn vì
---  Copilot không có lựa chọn pure Lua thay thế.
---
---  Lần đầu sử dụng:
---    1. Chạy `:Copilot setup` -> mở browser để xác thực GitHub.
---    2. Sau khi xong, Copilot sẽ tự gợi ý code dạng "ghost text"
---       (chữ xám mờ) khi đang gõ.
---
---  Phím tắt:
---    <Tab>      Accept Copilot suggestion (PRIORITY - định nghĩa ở cmp.lua)
---    <C-j>      Accept Copilot suggestion (backup - không qua cmp)
---    <C-l>      Accept 1 word
---    <M-]>      Suggestion tiếp theo
---    <M-[>      Suggestion trước đó
---    <C-]>      Bỏ qua suggestion hiện tại
+-- plugins/copilot.lua
+-- Cấu hình GitHub Copilot (Gợi ý code AI bằng Ghost Text)
+-- Yêu cầu hệ thống: Cần cài đặt Node.js (>= 18)
 -- ============================================================
 
 return {
     "github/copilot.vim",
-    event = "InsertEnter",   -- chỉ load khi vào insert mode -> không ảnh hưởng startup
-    cmd   = { "Copilot" },
+    event = "InsertEnter",
+    cmd   = "Copilot",
     config = function()
-        -- ------------------------------------------------------------
-        -- TẮT mapping Tab mặc định của Copilot.
-        --
-        -- Copilot mặc định bind <Tab> ngay từ filetype VimL plugin -> nuốt
-        -- mapping <Tab> ta định nghĩa ở cmp. Phải tắt bằng cờ này TRƯỚC khi
-        -- copilot.vim load:
-        --   g:copilot_no_tab_map = true
-        -- Logic <Tab> để accept Copilot được xử lý ở plugins/cmp.lua
-        -- (priority: Copilot > cmp navigation > snippet > fallback).
-        -- ------------------------------------------------------------
+        -- ============================================================
+        -- 1. Xử lý xung đột phím tắt
+        -- Tắt phím Tab mặc định của Copilot để nhường quyền cho nvim-cmp
+        -- ============================================================
         vim.g.copilot_no_tab_map = true
 
-        -- Backup mapping: Ctrl+J accept Copilot (không qua cmp - chạy
-        -- thẳng bằng expression mapping của copilot.vim). Hữu ích khi
-        -- cmp bị tắt hoặc không load.
-        vim.keymap.set("i", "<C-j>", 'copilot#Accept("\\<CR>")', {
-            silent  = true,
-            expr    = true,           -- expression mapping (Copilot dùng vim function)
-            replace_keycodes = false, -- giữ nguyên \<CR> trong expression
-            desc    = "Copilot: accept suggestion (backup)",
+        -- ============================================================
+        -- 2. Phím tắt điều khiển (Insert Mode)
+        -- Lưu ý: Phím <Tab> chính đã được cấu hình trong plugins/cmp.lua
+        -- ============================================================
+        local map = vim.keymap.set
+
+        -- Phím backup để nhận code (Dùng khi nvim-cmp bị lỗi hoặc tắt)
+        map("i", "<C-j>", 'copilot#Accept("\\<CR>")', {
+            silent           = true,
+            expr             = true,
+            replace_keycodes = false,
+            desc             = "Copilot: Accept Suggestion (Backup)",
         })
 
-        -- Accept 1 word (cho phép review từng phần suggestion)
-        vim.keymap.set("i", "<C-l>", "<Plug>(copilot-accept-word)", {
+        -- Nhận từng từ một (Giúp kiểm soát code AI sinh ra tốt hơn)
+        map("i", "<C-l>", "<Plug>(copilot-accept-word)", {
             silent = true,
-            desc   = "Copilot: accept next word",
+            desc   = "Copilot: Accept Next Word"
         })
 
-        -- ------------------------------------------------------------
-        -- Tắt Copilot cho 1 số filetype không cần (privacy / không hữu ích)
-        -- ------------------------------------------------------------
+        -- ============================================================
+        -- 3. Quản lý Filetype (Bật/Tắt theo loại file)
+        -- ============================================================
         vim.g.copilot_filetypes = {
-            ["*"]        = true,    -- mặc định bật cho mọi filetype
-            gitcommit    = true,   -- commit message - tự viết thì hơn
+            ["*"]           = true,  -- Mặc định bật cho mọi file
+            gitcommit       = true,  -- Tắt khi viết git commit
+            TelescopePrompt = false,
         }
     end,
 }

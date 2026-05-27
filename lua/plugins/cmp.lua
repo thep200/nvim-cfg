@@ -1,133 +1,55 @@
 -- ============================================================
---  plugins/cmp.lua
---  Thay thế: asyncomplete.vim + asyncomplete-lsp.vim
---
---  nvim-cmp = autocomplete engine chuẩn của hệ sinh thái Neovim.
---  Pure Lua, KHÔNG cần Node (như coc.nvim).
---
---  Keymap GIỮ NGUYÊN từ asyncomplete.vim cũ:
---    Tab / S-Tab : duyệt suggestion
---    Enter       : chấp nhận
---    Ctrl-Space  : force refresh
+-- plugins/cmp.lua
+-- Cấu hình Autocomplete Engine (nvim-cmp)
+-- Tích hợp: LSP, Snippets, Buffer, Path & GitHub Copilot
 -- ============================================================
 
 return {
     "hrsh7th/nvim-cmp",
-    event = "InsertEnter",      -- chỉ load khi vào insert mode -> startup cực nhanh
+    event = "InsertEnter",
     dependencies = {
-        -- Sources
-        "hrsh7th/cmp-nvim-lsp", -- gợi ý từ LSP (gopls)
-        "hrsh7th/cmp-buffer",   -- gợi ý từ buffer hiện tại
-        "hrsh7th/cmp-path",     -- gợi ý đường dẫn file
-
-        -- Snippet engine (cmp YÊU CẦU 1 snippet engine - không thể bỏ).
-        -- LuaSnip là engine pure Lua nhẹ nhất.
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
     },
     config = function()
-        local cmp     = require("cmp")
+        local cmp = require("cmp")
         local luasnip = require("luasnip")
 
-        -- ------------------------------------------------------------
-        -- Helper: kiểm tra Copilot có ghost-text suggestion đang hiển thị
-        -- Dùng pcall để an toàn nếu copilot.vim chưa load (vd: filetype
-        -- bị disable trong copilot_filetypes).
-        -- ------------------------------------------------------------
+        -- Hàm kiểm tra xem Copilot có đang hiển thị gợi ý (Ghost Text) hay không
         local function has_copilot_suggestion()
             local ok, suggestion = pcall(vim.fn["copilot#GetDisplayedSuggestion"])
-            return ok and suggestion ~= nil
-                   and suggestion.text ~= nil
-                   and suggestion.text ~= ""
+            return ok and suggestion ~= nil and suggestion.text ~= nil and suggestion.text ~= ""
         end
 
         cmp.setup({
-            -- ------------------------------------------------------------
-            -- Bắt buộc cấu hình snippet expansion (kể cả không xài snippet)
-            -- ------------------------------------------------------------
+            -- ============================================================
+            -- 1. Snippet Engine (Bắt buộc phải có để mở rộng code)
+            -- ============================================================
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)
                 end,
             },
 
-            -- ------------------------------------------------------------
-            -- Sources - thứ tự = ưu tiên gợi ý
-            -- ------------------------------------------------------------
+            -- ============================================================
+            -- 2. Nguồn dữ liệu Autocomplete (Xếp hạng theo độ ưu tiên)
+            -- ============================================================
             sources = cmp.config.sources({
-                { name = "nvim_lsp", priority = 1000 },   -- gopls ở đây
+                { name = "nvim_lsp", priority = 1000 },
                 { name = "luasnip",  priority = 750  },
                 { name = "buffer",   priority = 500, keyword_length = 3 },
                 { name = "path",     priority = 250  },
             }),
 
-            -- ------------------------------------------------------------
-            -- Keymaps trong popup - GIỮ NGUYÊN logic từ asyncomplete.vim cũ
-            -- + tích hợp Copilot accept bằng Tab (priority cao nhất).
-            -- ------------------------------------------------------------
-            mapping = cmp.mapping.preset.insert({
-                -- ---- Tab: thứ tự ưu tiên ----
-                --   1. Có Copilot ghost-text suggestion -> Accept Copilot
-                --      (suggestion thường dài & hữu ích hơn 1 token LSP)
-                --   2. Cmp popup đang mở -> select next item
-                --   3. Đang trong snippet placeholder -> jump
-                --   4. Còn lại -> Tab thường (indent)
-                ["<Tab>"] = cmp.mapping(function(fallback)
-                    if has_copilot_suggestion() then
-                        -- copilot#Accept("") trả về suggestion text để feed
-                        -- (không kèm fallback như "\<CR>" của map cũ)
-                        local accept = vim.fn["copilot#Accept"]("")
-                        vim.api.nvim_feedkeys(accept, "n", true)
-                        return
-                    end
-                    if cmp.visible() then
-                        cmp.select_next_item()
-                    elseif luasnip.expand_or_jumpable() then
-                        luasnip.expand_or_jump()
-                    else
-                        fallback()
-                    end
-                end, { "i", "s" }),
-
-                -- S-Tab: ngược lại - chỉ cho cmp/snippet, không liên quan Copilot
-                ["<S-Tab>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() then
-                        cmp.select_prev_item()
-                    elseif luasnip.jumpable(-1) then
-                        luasnip.jump(-1)
-                    else
-                        fallback()
-                    end
-                end, { "i", "s" }),
-
-                -- Enter: confirm item ĐANG chọn. Nếu popup đóng -> xuống dòng bình thường
-                ["<CR>"] = cmp.mapping(function(fallback)
-                    if cmp.visible() and cmp.get_selected_entry() then
-                        cmp.confirm({ select = false })
-                    else
-                        fallback()
-                    end
-                end),
-
-                -- Ctrl-Space: force refresh popup (giống asyncomplete_force_refresh cũ)
-                ["<C-Space>"] = cmp.mapping.complete(),
-
-                -- Ctrl-e: cancel
-                ["<C-e>"]     = cmp.mapping.abort(),
-
-                -- Ctrl-d/u: scroll docs
-                ["<C-d>"]     = cmp.mapping.scroll_docs(4),
-                ["<C-u>"]     = cmp.mapping.scroll_docs(-4),
-            }),
-
-            -- ------------------------------------------------------------
-            -- Hiển thị popup - cấu hình nhẹ, không icon (theo phong cách
-            -- ASCII của bạn)
-            -- ------------------------------------------------------------
+            -- ============================================================
+            -- 3. Cấu hình giao diện Popup (Giữ phong cách tối giản)
+            -- ============================================================
             formatting = {
                 fields = { "abbr", "kind", "menu" },
                 format = function(entry, vim_item)
-                    -- Hiển thị nguồn gợi ý ở cột menu (LSP/Snippet/Buffer/Path)
                     local menu_map = {
                         nvim_lsp = "[LSP]",
                         luasnip  = "[Snip]",
@@ -144,16 +66,13 @@ return {
                 documentation = cmp.config.window.bordered({ border = "rounded" }),
             },
 
-            -- ------------------------------------------------------------
-            -- Tự bật popup (giống g:asyncomplete_auto_popup = 1)
-            -- ------------------------------------------------------------
+            -- ============================================================
+            -- 4. Điều kiện kích hoạt & Thuật toán sắp xếp (Fuzzy Matching)
+            -- ============================================================
             completion = {
-                autocomplete = { cmp.TriggerEvent.TextChanged },
-                keyword_length = 1,                  -- gõ 1 ký tự là gợi ý
-                                                     -- (giống g:asyncomplete_min_chars cũ)
+                autocomplete   = { cmp.TriggerEvent.TextChanged },
+                keyword_length = 1,
             },
-
-            -- Sort theo fuzzy matching (port g:asyncomplete_matchfuzzy)
             sorting = {
                 priority_weight = 2,
                 comparators = {
@@ -167,6 +86,53 @@ return {
                     cmp.config.compare.order,
                 },
             },
+
+            -- ============================================================
+            -- 5. Cấu hình Phím tắt (Bao gồm logic ưu tiên cho Copilot)
+            -- ============================================================
+            mapping = cmp.mapping.preset.insert({
+                -- Fomat hiển thị popup
+                ["<C-Space>"] = cmp.mapping.complete(),
+                ["<C-e>"]     = cmp.mapping.abort(),
+                ["<C-d>"]     = cmp.mapping.scroll_docs(4),
+                ["<C-u>"]     = cmp.mapping.scroll_docs(-4),
+
+                -- Phím Enter: Chỉ xác nhận nếu người dùng thực sự đang chọn 1 item
+                ["<CR>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() and cmp.get_selected_entry() then
+                        cmp.confirm({ select = false })
+                    else
+                        fallback()
+                    end
+                end),
+
+                -- Phím Tab (Theo thứ tự ưu tiên: Copilot -> Cmp -> Snippet -> Tab lùi lề)
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    if has_copilot_suggestion() then
+                        local accept = vim.fn["copilot#Accept"]("")
+                        vim.api.nvim_feedkeys(accept, "n", true)
+                        return
+                    end
+                    if cmp.visible() then
+                        cmp.select_next_item()
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+
+                -- Phím Shift+Tab (Chỉ áp dụng cho Cmp và Snippet)
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
+                    else
+                        fallback()
+                    end
+                end, { "i", "s" }),
+            }),
         })
     end,
 }

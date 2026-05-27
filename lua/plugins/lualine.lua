@@ -7,7 +7,6 @@ return {
     event = "VeryLazy",
     dependencies = { "lewis6991/gitsigns.nvim" },
     config = function()
-        -- Config for sections themes
         local colors            = {
             none          = "#1d1d1d",
             dark          = "#0d1117",
@@ -24,11 +23,9 @@ return {
             diag_info     = "#79c0ff",
             diag_hint     = "#fefce8",
 
-            bg_by = "#1e293b",
+            bg_by           = "#1e293b",
             bg_tag_inactive = "#1e293b",
-            bg_tag_active = "#334155",
-
-            -- background_by = "#0f172a",
+            bg_tag_active   = "#334155",
         }
 
         local CX                = { fg = colors.fg_med, bg = colors.none }
@@ -39,6 +36,9 @@ return {
         local visual_colors     = { fg = colors.dark, bg = colors.visual, bold = true }
         local replace_colors    = { fg = colors.dark, bg = colors.replace, bold = true }
         local command_colors    = { fg = colors.dark, bg = colors.command, bold = true }
+
+        local tab_active        = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true }
+        local tab_inactive      = { fg = colors.fg_med, bg = colors.bg_tag_inactive }
 
         local custom_theme      = {
             normal   = { a = normal_colors, b = BY, c = CX, x = CX, y = BY, z = normal_colors },
@@ -56,7 +56,7 @@ return {
             hint  = { fg = colors.diag_hint },
         }
 
-        local events            = {
+        local events = {
             'WinEnter',
             'BufEnter',
             'Filetype',
@@ -69,7 +69,7 @@ return {
             'FileChangedShellPost',
         }
 
-        local refresh           = {
+        local refresh = {
             statusline = 1000,
             tabline = 1000,
             winbar = 1000,
@@ -133,34 +133,19 @@ return {
                 },
             },
             inactive_sections = {
-                lualine_a = {},
-                lualine_b = {},
                 lualine_c = { 'filename' },
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {}
             },
             tabline = {
                 lualine_a = {
                     {
                         'buffers',
-                        mode = 2, -- 0: Shows buffer name, 1: Shows buffer index, 2: Shows buffer name + buffer index
-                        show_filename_only = true,
+                        mode = 0,
+                        show_filename_only      = true,
                         hide_filename_extension = true,
-                        buffers_color = {
-                            active   = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true },
-                            inactive = { fg = colors.fg_med, bg = colors.bg_tag_inactive },
-                        },
+                        buffers_color           = {active = tab_active, inactive = tab_inactive},
                     }
                 },
-                lualine_b = {},
-                lualine_c = {},
-                lualine_x = {},
-                lualine_y = {},
-                lualine_z = {}
             },
-            winbar = {},
-            inactive_winbar = {},
             extensions = { "neo-tree" }
         })
     end,

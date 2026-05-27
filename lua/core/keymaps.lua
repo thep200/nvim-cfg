@@ -8,34 +8,30 @@ local opts = { noremap = true, silent = true }
 -- ------------------------------------------------------------
 -- Buffer navigation
 -- ------------------------------------------------------------
--- Buffer navigation
--- ------------------------------------------------------------
--- Shift+Tab để chuyển buffer tiếp theo (giống vim cũ)
+
+-- Shift+Tab để chuyển buffer tiếp theo
 map("n", "<S-Tab>", ":bnext<CR>", opts)
 
 -- ------------------------------------------------------------
 -- Tiện ích thêm
 -- ------------------------------------------------------------
+
 -- Esc để xoá highlight tìm kiếm sau khi search xong
 map("n", "<Esc>", ":nohlsearch<CR>", opts)
 
 -- ------------------------------------------------------------
--- WINDOW SPLIT & NAVIGATION (Cấu hình mới bổ sung)
+-- WINDOW SPLIT & NAVIGATION
 -- ------------------------------------------------------------
 
--- 1. Ctrl + Shift + Mũi tên Lên/Xuống để chia đôi màn hình (Horizontal Split)
+-- 1. Ctrl + Shift + Mũi tên Lên/Xuống để chia màn hình
 map("n", "<C-S-Up>",   ":split<CR>", opts)
 map("n", "<C-S-Down>", ":split<CR>", opts)
-
--- Khuyến nghị bổ sung: Ctrl + Shift + Mũi tên Trái/Phải để chia đôi dọc (Vertical Split)
 map("n", "<C-S-Left>",  ":vsplit<CR>", opts)
 map("n", "<C-S-Right>", ":vsplit<CR>", opts)
-
 
 -- 2. Shift + Mũi tên Lên/Xuống để di chuyển nhanh giữa các màn hình
 map("n", "<S-Up>",   "<C-w>k", opts)
 map("n", "<S-Down>", "<C-w>j", opts)
-
--- Khuyến nghị bổ sung: Shift + Mũi tên Trái/Phải để chuyển màn hình theo chiều dọc
 map("n", "<S-Left>",  "<C-w>h", opts)
 map("n", "<S-Right>", "<C-w>l", opts)
+

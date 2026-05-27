@@ -1,12 +1,6 @@
 -- ============================================================
 --  plugins/init.lua
---  Bootstrap lazy.nvim - plugin manager hiện đại của Neovim.
---
---  Lý do chọn lazy.nvim (thay vim-plug):
---    - Tự clone & quản lý plugin trong ~/.local/share/nvim/lazy/
---    - Lazy-load thông minh theo event/cmd/ft -> mở Neovim < 50ms
---    - UI quản lý plugin trực quan: :Lazy
---    - Lockfile để pin version giữa các máy
+--  Bootstrap lazy.nvim
 -- ============================================================
 
 -- ------------------------------------------------------------
@@ -15,7 +9,9 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
-        "git", "clone", "--filter=blob:none",
+        "git",
+        "clone",
+        "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable",
         lazypath,
@@ -23,11 +19,6 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- ------------------------------------------------------------
--- 2. Khai báo danh sách plugin
---    Mỗi plugin = 1 file riêng trong lua/plugins/ để dễ maintain.
---    lazy.nvim sẽ tự require() tất cả file trong "plugins" folder.
--- ------------------------------------------------------------
 require("lazy").setup({
     { import = "plugins.neo-tree" },     -- file explorer
     { import = "plugins.lualine" },      -- statusline
@@ -39,28 +30,23 @@ require("lazy").setup({
     { import = "plugins.copilot" },      -- AI code assistant (GitHub Copilot)
     { import = "plugins.autopairs" },    -- auto-close (), [], {}, "", ''
     { import = "plugins.dap" },          -- debug adapter (Go via delve)
-    -- { import = "plugins.which-key" }, -- popup cheatsheet phím tắt
 }, {
+
     -- ------------------------------------------------------------
     -- Cấu hình chung cho lazy.nvim
     -- ------------------------------------------------------------
-    install = {
-        -- Tránh lazy load colorscheme khi cài lần đầu (mình tự load
-        -- highlight ở core/colorscheme.lua nên cứ để default)
-        colorscheme = { "default" },
-    },
-    ui = {
-        border = "rounded",
-    },
-    change_detection = {
-        notify = false,  -- không spam thông báo khi sửa config
-    },
+    install          = { colorscheme = { "default" } },
+    ui               = { border = "rounded" },
+    change_detection = { notify = false},
     performance = {
         rtp = {
-            -- Tắt các plugin built-in không dùng -> startup nhanh hơn
             disabled_plugins = {
-                "gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin",
-                "netrwPlugin",  -- thay bằng neo-tree
+                "gzip",
+                "tarPlugin",
+                "tohtml",
+                "tutor",
+                "zipPlugin",
+                "netrwPlugin",
             },
         },
     },

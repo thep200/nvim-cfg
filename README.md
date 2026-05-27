@@ -64,4 +64,3 @@ xcode-select --install   # gcc + make
 | `P` *(Shift+p)*| **Paste Above** | Dán nội dung đã copy lên **phía trên** dòng hiện tại hoặc phía trước con trỏ chuột. |
 
 ---
-

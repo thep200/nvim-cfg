@@ -1,125 +1,90 @@
 -- ============================================================
---  core/options.lua
---  Port từ: general.vim + editor.vim + search.vim
+-- core/options.lua
 -- ============================================================
 
 local opt = vim.opt
 local g   = vim.g
 
 -- ============================================================
---  Leader key - đặt SỚM trước khi plugin load để các keymap
---  dạng <leader>x của plugin map đúng
+-- 1. Phím tắt toàn cục (Leader Key)
 -- ============================================================
-g.mapleader      = " "  -- Space làm leader (chuẩn modern Neovim)
+g.mapleader      = " "  -- Dùng phím Space làm phím Leader (Chuẩn hiện đại)
 g.maplocalleader = " "
 
 -- ============================================================
---  General - hiển thị & soạn thảo cơ bản
+-- 2. Giao diện & Trải nghiệm (UI / UX)
 -- ============================================================
-opt.mouse       = "a"           -- dùng được chuột (click, scroll, select)
-opt.clipboard   = "unnamedplus" -- copy/paste chung với system clipboard
-                                -- (unnamedplus dùng cho macOS/Linux X11/Wayland,
-                                --  tương đương 'unnamed' trên macOS)
-opt.encoding    = "utf-8"
-opt.fileencoding = "utf-8"
+opt.termguicolors  = true       -- Bắt buộc: Kích hoạt True Color (hỗ trợ mã màu Hex)
+opt.background     = "dark"     -- Chế độ nền tối
+opt.number         = true       -- Hiển thị số dòng bên trái
+opt.relativenumber = true       -- Số dòng tương đối (Giúp tính toán nhảy dòng j/k cực nhanh)
+opt.cursorline     = true       -- Highlight dòng con trỏ đang đứng...
+opt.cursorlineopt  = "number"   -- ...nhưng chỉ highlight số dòng để đỡ rối mắt
+opt.scrolloff      = 5          -- Khi cuộn màn hình, luôn giữ lề 5 dòng ở trên/dưới con trỏ
+opt.wrap           = false      -- Không tự động bẻ dòng dài (Giữ nguyên cấu trúc code)
+opt.signcolumn     = "yes"      -- Luôn mở cột rìa trái (Dành chỗ cho điểm dừng Debug và Lỗi LSP)
+opt.fillchars      = { vert = " ", eob = " " } -- Ẩn ký hiệu đường viền và ký hiệu ~ ở cuối file
+
+-- ============================================================
+-- 3. Thanh trạng thái & Không gian làm việc
+-- ============================================================
+opt.laststatus  = 3      -- Dùng một thanh Statusline duy nhất dưới đáy (Global Status)
+opt.showmode    = false  -- Ẩn chữ "-- INSERT --" mặc định (Vì Lualine đã hiện rồi)
+opt.showcmd     = true   -- Hiển thị tổ hợp phím đang gõ dở ở góc phải dưới
+opt.wildmenu    = true   -- Bật menu gợi ý lệnh khi nhấn phím Tab ở Command Mode
+opt.showtabline = 2      -- Luôn luôn hiện thanh Tabline ở trên cùng màn hình
+
+-- ============================================================
+-- 4. Thao tác & Bộ nhớ
+-- ============================================================
+opt.mouse       = "a"           -- Cho phép dùng chuột (click, scroll, select)
+opt.clipboard   = "unnamedplus" -- Đồng bộ bộ nhớ (Copy/Paste) với hệ điều hành máy tính
 opt.backspace   = { "indent", "eol", "start" }
+opt.encoding    = "utf-8"
+opt.fileencoding= "utf-8"
 
--- Quality of life
-opt.wildmenu    = true
-opt.showcmd     = true
-opt.wrap        = false
-opt.scrolloff   = 5             -- giữ 5 dòng trên/dưới khi cuộn
-
--- Line numbers
-opt.number         = true
-opt.relativenumber = true
-
--- Status line
--- laststatus = 3: dùng MỘT statusline global cho toàn Neovim
--- (khớp với globalstatus = true của lualine). Lualine cũng tự set, nhưng
--- set ở đây để rõ ý đồ và phòng khi lualine load chậm.
-opt.laststatus = 3
-opt.showmode   = false          -- ẩn "-- INSERT --" vì lualine đã hiển thị mode
-
--- Sign column - luôn hiện cột bên trái (cho gitsigns & LSP diagnostics)
-opt.signcolumn = "yes"
-
--- Tốc độ phản hồi - quan trọng cho gitsigns + CursorHold (mặc định 4000ms quá lâu)
-opt.updatetime = 250
-
--- Tắt swap / backup / undo files (giữ nguyên hành vi cũ)
+-- Tắt tính năng tự tạo file rác (swap, backup) của Vim cũ
 opt.swapfile    = false
 opt.backup      = false
 opt.writebackup = false
 opt.undofile    = false
 
 -- ============================================================
---  Editor - indent
+-- 5. Định dạng Text & Căn lề (Indent)
 -- ============================================================
-opt.tabstop     = 4
-opt.shiftwidth  = 4
-opt.expandtab   = true
-opt.autoindent  = true
-opt.smartindent = true
+opt.tabstop     = 4      -- Chiều rộng của 1 phím Tab = 4 khoảng trắng
+opt.shiftwidth  = 4      -- Số khoảng trắng thụt vào khi bấm >> hoặc <<
+opt.expandtab   = true   -- Chuyển phím Tab thành khoảng trắng
+opt.autoindent  = true   -- Tự động thụt lề theo dòng phía trên
+opt.smartindent = true   -- Thụt lề thông minh khi mở ngoặc nhọn {}
 
 -- ============================================================
---  Search
+-- 6. Tìm kiếm (Search)
 -- ============================================================
-opt.incsearch  = true
-opt.hlsearch   = true
-opt.ignorecase = true
-opt.smartcase  = true           -- nhưng nếu gõ chữ HOA thì lại phân biệt
+opt.incsearch  = true  -- Vừa gõ từ khóa vừa tự động di chuyển đến kết quả
+opt.hlsearch   = true  -- Highlight màu vàng tất cả kết quả tìm được
+opt.ignorecase = true  -- Không phân biệt hoa/thường khi tìm kiếm...
+opt.smartcase  = true  -- ...Nhưng NẾU có gõ chữ Hoa thì sẽ tự động chuyển sang phân biệt
 
 -- ============================================================
---  Appearance prerequisites
---  (highlight cụ thể nằm ở core/colorscheme.lua)
+-- 7. Autocomplete & Phản hồi hệ thống
 -- ============================================================
-opt.termguicolors = true        -- bật true color (BẮT BUỘC cho hex colors)
-opt.background    = "dark"
+opt.completeopt = { "menuone", "noinsert", "noselect" } -- Tối ưu hành vi popup của nvim-cmp
+opt.shortmess:append("csaIWOoF")                        -- Thu gọn log hệ thống (Fix lỗi đòi nhấn Enter)
 
--- cursorline CHỈ highlight số dòng (giống cấu hình Vim cũ)
-opt.cursorline    = true
-opt.cursorlineopt = "number"
-
--- Ẩn các ký tự fillchars để không thấy vạch dọc/eob
-opt.fillchars = { vert = " ", eob = " " }
+opt.autoread    = true  -- Tự động load lại file nếu file bị sửa từ bên ngoài (ví dụ git pull)
+opt.updatetime  = 250   -- Thời gian chờ cập nhật (Tính bằng ms). Tối quan trọng cho Git để load nhanh thay đổi
+opt.timeoutlen  = 300   -- Thời gian chờ chuỗi phím tắt (Ví dụ gõ Space + f thì chờ chữ f 300ms)
+opt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)
 
 -- ============================================================
---  Completion - hành vi popup autocomplete
---  (nvim-cmp sẽ tận dụng những option này)
--- ============================================================
-opt.completeopt = { "menuone", "noinsert", "noselect" }
-opt.shortmess:append("c")       -- bỏ thông báo "match N of M"
-
--- ============================================================
---  Auto-read - kiểm tra file thay đổi từ bên ngoài
---  (logic checktime đặt ở autocmds.lua)
--- ============================================================
-opt.autoread = true
-opt.showtabline = 2
-
--- ============================================================
---  Timeout cho chuỗi phím tắt
---  Mặc định 1000ms khiến mỗi prefix-key bị "đợi" 1s
---  -> hạ xuống 300ms cho cảm giác snappy
--- ============================================================
-opt.timeoutlen  = 300       -- chờ tối đa 300ms cho next-key của 1 chuỗi
-opt.ttimeoutlen = 10        -- timeout cho key code (vd: <Esc>) - ngắn nhất
-
-
-opt.clipboard = "unnamedplus"  -- copy/paste chung với system clipboard
-
--- ============================================================
---  FIX: Neovim 0.12 + nvim-treesitter (master branch)
---  match[id] giờ là list of nodes, không phải single node nữa.
---  Wrap get_node_text() để unwrap list -> node đầu tiên.
---  Tham khảo: https://github.com/nvim-treesitter/nvim-treesitter/issues/8636
+-- 8. Bản vá lỗi (Patch) cho Neovim 0.12+
+-- Fix lỗi đụng độ giữa phiên bản mới của Tree-sitter và API cũ
 -- ============================================================
 do
     local orig_get_node_text = vim.treesitter.get_node_text
     ---@diagnostic disable-next-line: duplicate-set-field
     vim.treesitter.get_node_text = function(node, source, opts)
-        -- TSNode thật là userdata; nếu là table tức là list từ match[id]
         if type(node) == "table" then
             node = node[1]
             if node == nil then return "" end
