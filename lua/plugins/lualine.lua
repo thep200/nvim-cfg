@@ -77,29 +77,8 @@ return {
             events = events,
         }
 
-        -- (Các biến colors, themes, events của bạn ở trên giữ nguyên)
-
-        -- ============================================================
-        -- HACK: Ghi đè hàm tạo tên của Lualine Buffers Component
-        -- Ép Tab đang Active hiện Relative Path, Tab Inactive hiện Filename
-        -- ============================================================
-        local buffer_class = require("lualine.components.buffers.buffer")
-        local orig_name_fn = buffer_class.name
-
-        buffer_class.name = function(self)
-            -- Kiểm tra: Nếu tab này chính là file bạn đang làm việc (Active)
-            if self.bufnr == vim.api.nvim_get_current_buf() then
-                local buf_path = vim.api.nvim_buf_get_name(self.bufnr)
-                if buf_path ~= "" then
-                    -- Trả về đường dẫn tương đối (Ví dụ: internal/app/main.go)
-                    return vim.fn.fnamemodify(buf_path, ":~:.")
-                end
-            end
-
-            -- Nếu là tab Inactive, giữ nguyên logic gốc của Lualine
-            return orig_name_fn(self)
-        end
-        -- ============================================================
+        -- Patch hiển thị tên buffer (active=relative path, inactive=filename)
+        require("core.patch").lualine_buffer_name()
 
         require('lualine').setup({
             options = {

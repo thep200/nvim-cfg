@@ -7,10 +7,10 @@ require("core.options")
 require("core.keymaps")
 require("core.autocmds")
 
--- Compat: ft_to_lang bị bỏ ở Neovim 0.11, redirect sang get_lang
-if vim.treesitter.language and not vim.treesitter.language.ft_to_lang then
-    vim.treesitter.language.ft_to_lang = vim.treesitter.language.get_lang
-end
+-- Patch tương thích trước khi plugin load
+local patch = require("core.patch")
+patch.treesitter_ft_to_lang()
+patch.treesitter_get_node_text()
 
 require("plugins")
 require("core.colorscheme")
