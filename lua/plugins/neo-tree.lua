@@ -8,7 +8,7 @@ return {
     branch = "v3.x",
     cmd = "Neotree",
     keys = {
-        { "<C-b>", ":Neotree toggle<CR>", desc = "Toggle Neo-tree", silent = true },
+        { "<leader>e", ":Neotree reveal toggle<CR>", desc = "Reveal Explorer", silent = true },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",

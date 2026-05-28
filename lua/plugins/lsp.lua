@@ -85,7 +85,6 @@ return {
             { "n", "<leader>ca", vim.lsp.buf.code_action,                   "Code Action" },
             { "n", "[d",         function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev Diagnostic" },
             { "n", "]d",         function() vim.diagnostic.jump({ count =  1, float = true }) end, "Next Diagnostic" },
-            { "n", "<leader>e",  vim.diagnostic.open_float,                 "Show Line Diagnostic" },
         }
 
         vim.api.nvim_create_autocmd("LspAttach", {
