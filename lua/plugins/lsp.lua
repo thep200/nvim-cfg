@@ -68,9 +68,7 @@ return {
             },
         })
 
-        require("mason-lspconfig").setup({
-            ensure_installed = { "gopls" },
-        })
+        require("mason-lspconfig").setup({ensure_installed = { "gopls" }})
 
         -- ============================================================
         -- 3. LspAttach (Keymaps & Inlay Hints)

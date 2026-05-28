@@ -109,7 +109,7 @@ hi("@punctuation.bracket",   { fg = c.fg })
 hi("@punctuation.special",   { fg = c.orange })
 
 -- ============================================================
--- 5. LSP Diagnostics
+-- 5. LSP Diagnostics & Inlay Hint
 -- ============================================================
 local diag_signs = {
     { name = "DiagnosticSignError", text = "✗", fg = c.red },
@@ -138,6 +138,9 @@ hi("DiagnosticVirtualTextError", { fg = c.comment, italic = true, bg = "NONE" })
 hi("DiagnosticVirtualTextWarn",  { fg = c.comment, italic = true, bg = "NONE" })
 hi("DiagnosticVirtualTextInfo",  { fg = c.comment, italic = true, bg = "NONE" })
 hi("DiagnosticVirtualTextHint",  { fg = c.comment, italic = true, bg = "NONE" })
+
+-- Inlay Hint (Gợi ý kiểu/tham số từ LSP, in nghiêng)
+hi("LspInlayHint", { fg = c.comment, italic = true, bg = "NONE" })
 
 -- ============================================================
 -- 6. Tích hợp Plugins (Gitsigns, NeoTree, Telescope, Cmp, Dap)

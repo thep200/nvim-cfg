@@ -20,7 +20,7 @@ return {
         local dapui = require("dapui")
 
         -- ============================================================
-        -- 1. Cấu hình nvim-dap-go
+        -- 1. Cấu hình nvim-dap-go + forward stdout/stderr về DAP REPL
         -- ============================================================
         require("dap-go").setup({
             delve = {
@@ -30,7 +30,48 @@ return {
         })
 
         -- ============================================================
-        -- 2. Cấu hình giao diện DAP UI
+        -- Xử lý Text Wrap (Tự động xuống dòng) cho DAP UI
+        -- Để các đường dẫn hoặc chuỗi dài trong Scopes/REPL không bị tràn
+        -- ============================================================
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = { "dapui_watches", "dapui_hover", "dapui_scopes", "dap-repl" },
+            callback = function()
+                vim.opt_local.wrap = true
+            end,
+        })
+
+        -- ============================================================
+        -- 2. Cấu hình frames DAP UI
+        --  Thêm cấu hình: "outputMode": "remote" vào launch.json để forward stdout/stderr về REPL
+        -- ============================================================
+        local frames = {
+            scopes      = 0.4,
+            stacks      = false,
+            watches     = false,
+            breakpoints = false,
+            console     = false,
+            repl        = 0.6,
+        }
+
+        local function build(ids)
+            local out = {}
+            for _, id in ipairs(ids) do
+                local size = frames[id]
+                if size then
+                    table.insert(out, { id = id, size = size })
+                end
+            end
+            return out
+        end
+
+        local right = build({ "repl", "console", "watches",  "stacks", "breakpoints", "scopes" })
+        local layouts = {}
+        if #right > 0 then
+            table.insert(layouts, { elements = right, size = 40, position = "right" })
+        end
+
+        -- ============================================================
+        -- 3. Cấu hình giao diện DAP UI
         -- ============================================================
         dapui.setup({
             icons = {
@@ -45,10 +86,11 @@ return {
                 border = "rounded",
                 mappings = { close = { "q", "<Esc>" } },
             },
+            layouts = layouts,
         })
 
         -- ============================================================
-        -- 3. Cấu hình Virtual Text hiển thị giá trị biến inline
+        -- 4. Cấu hình Virtual Text hiển thị giá trị biến inline
         -- ============================================================
         require("nvim-dap-virtual-text").setup({
             enabled = true,
@@ -59,7 +101,7 @@ return {
         })
 
         -- ============================================================
-        -- 4. Tự động bật/tắt DAP UI theo phiên debug
+        -- 5. Tự động bật/tắt DAP UI theo phiên debug
         -- ============================================================
         dap.listeners.before.attach.dapui_config = function() dapui.open() end
         dap.listeners.before.launch.dapui_config = function() dapui.open() end
@@ -67,7 +109,7 @@ return {
         dap.listeners.before.event_exited.dapui_config = function() dapui.close() end
 
         -- ============================================================
-        -- 5. Ký hiệu Breakpoint (ASCII)
+        -- 6. Ký hiệu Breakpoint (ASCII)
         -- ============================================================
         vim.fn.sign_define("DapBreakpoint",          { text = "●", texthl = "DapBreakpoint", numhl = "" })
         vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DapBreakpointCondition", numhl = "" })
@@ -76,7 +118,7 @@ return {
         vim.fn.sign_define("DapBreakpointRejected",  { text = "✗", texthl = "DapBreakpointRejected", numhl = "" })
 
         -- ============================================================
-        -- 6. Phím tắt điều khiển
+        -- 7. Phím tắt điều khiển
         -- ============================================================
         local map = vim.keymap.set
         local function k(lhs, rhs, desc)
