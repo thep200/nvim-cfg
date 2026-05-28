@@ -98,7 +98,7 @@ return {
                             fg = colors.none,
                             bg = colors.bg_by,
                         },
-                        padding = { left = 1, right = 0 }
+                        padding = { left = 1, right = 1 }
                     },
                 },
                 lualine_c = {

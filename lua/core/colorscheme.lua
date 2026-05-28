@@ -26,6 +26,7 @@ local c = {
     dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
     visual_bg  = "#264f78",  -- Nền Bôi đen chữ
     line_bg    = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
+    indent     = "#30363d",  -- Màu Đường Indent (ibl)
 }
 
 -- Hàm tiện ích gán màu nhanh
@@ -181,3 +182,7 @@ hi("DapBreakpointCondition", { fg = c.orange, bg = "NONE" })
 hi("DapStopped",             { fg = c.green,  bg = "NONE" })
 hi("DapStoppedLine",         { bg = c.line_bg })
 hi("NvimDapVirtualText",     { fg = c.comment, italic = true, bg = "NONE" })
+
+-- indent-blankline (ibl)
+hi("IblIndent", { fg = c.indent, bg = "NONE", nocombine = true }) -- xám tối, mờ hơn comment
+hi("IblScope",  { fg = c.comment, bg = "NONE", nocombine = true }) -- nổi hơn ở scope hiện tại

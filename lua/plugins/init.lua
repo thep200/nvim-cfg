@@ -20,16 +20,17 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-    { import = "plugins.neo-tree" },     -- file explorer
-    { import = "plugins.lualine" },      -- statusline
-    { import = "plugins.gitsigns" },     -- git diff in sign column
-    { import = "plugins.telescope" },    -- fuzzy finder
-    { import = "plugins.treesitter" },   -- syntax highlight & more
-    { import = "plugins.cmp" },          -- completion engine (LSP + snippets + path + buffer)
-    { import = "plugins.lsp" },          -- LSP client + gopls config (inlay hints, staticcheck, analyses,...)
-    { import = "plugins.copilot" },      -- AI code assistant (GitHub Copilot)
-    { import = "plugins.autopairs" },    -- auto-close (), [], {}, "", ''
-    { import = "plugins.dap" },          -- debug adapter (Go via delve)
+    { import = "plugins.neo-tree" },          -- file explorer
+    { import = "plugins.lualine" },           -- statusline
+    { import = "plugins.gitsigns" },          -- git diff in sign column
+    { import = "plugins.telescope" },         -- fuzzy finder
+    { import = "plugins.treesitter" },        -- syntax highlight & more
+    { import = "plugins.indent-blankline" },  -- indent guides (virtual text)
+    { import = "plugins.cmp" },               -- completion engine (LSP + snippets + path + buffer)
+    { import = "plugins.lsp" },               -- LSP client + gopls config (inlay hints, staticcheck, analyses,...)
+    { import = "plugins.copilot" },           -- AI code assistant (GitHub Copilot)
+    { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
+    { import = "plugins.dap" },               -- debug adapter (Go via delve)
 }, {
 
     -- ------------------------------------------------------------
