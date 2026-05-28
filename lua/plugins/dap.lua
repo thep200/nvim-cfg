@@ -30,17 +30,6 @@ return {
         })
 
         -- ============================================================
-        -- Xử lý Text Wrap (Tự động xuống dòng) cho DAP UI
-        -- Để các đường dẫn hoặc chuỗi dài trong Scopes/REPL không bị tràn
-        -- ============================================================
-        vim.api.nvim_create_autocmd("FileType", {
-            pattern = { "dapui_watches", "dapui_hover", "dapui_scopes", "dap-repl" },
-            callback = function()
-                vim.opt_local.wrap = true
-            end,
-        })
-
-        -- ============================================================
         -- 2. Cấu hình frames DAP UI
         --  Thêm cấu hình: "outputMode": "remote" vào launch.json để forward stdout/stderr về REPL
         -- ============================================================
@@ -74,6 +63,7 @@ return {
         -- 3. Cấu hình giao diện DAP UI
         -- ============================================================
         dapui.setup({
+            expand_lines = false,
             icons = {
                 expanded = "▼",
                 collapsed = "▶",
