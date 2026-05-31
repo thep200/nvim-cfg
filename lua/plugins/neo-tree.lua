@@ -24,8 +24,8 @@ return {
             enable_git_status    = true,
             enable_diagnostics   = true,
             popup_border_style   = "rounded",
-
-            -- enable_opened_markers = true,
+            hide_root_node = true,
+            retain_hidden_root_indent = true,
 
             -- ============================================================
             -- 1. Cấu hình hiển thị (Giao diện ASCII tối giản)
@@ -52,7 +52,7 @@ return {
                 modified = { symbol = "*", highlight = "NeoTreeModified" },
                 name     = {
                     use_git_status_colors = true,
-                    highlight_opened_files = true,
+                    highlight_opened_files = false,
                 },
                 git_status = {
                     symbols = {
