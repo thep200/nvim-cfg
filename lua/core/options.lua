@@ -32,7 +32,7 @@ opt.laststatus  = 3      -- Dùng một thanh Statusline duy nhất dưới đá
 opt.showmode    = false  -- Ẩn chữ "-- INSERT --" mặc định (Vì Lualine đã hiện rồi)
 opt.showcmd     = true   -- Hiển thị tổ hợp phím đang gõ dở ở góc phải dưới
 opt.wildmenu    = true   -- Bật menu gợi ý lệnh khi nhấn phím Tab ở Command Mode
-opt.showtabline = 2      -- Luôn luôn hiện thanh Tabline ở trên cùng màn hình
+opt.showtabline = 0      -- Luôn luôn hiện thanh Tabline ở trên cùng màn hình
 
 -- ============================================================
 -- 4. Thao tác & Bộ nhớ

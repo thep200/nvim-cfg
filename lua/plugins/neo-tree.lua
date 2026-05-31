@@ -1,6 +1,6 @@
 -- ============================================================
 --  plugins/neo-tree.lua
---  Quản lý cây thư mục dự án (File Explorer)
+--  Quản lý cây thư mục dự án (File Explorer) + Outline (Document Symbols)
 -- ============================================================
 
 return {
@@ -9,6 +9,7 @@ return {
     cmd = "Neotree",
     keys = {
         { "<leader>e", ":Neotree reveal toggle<CR>", desc = "Reveal Explorer", silent = true },
+        { "<leader>o", ":Neotree toggle document_symbols position=right<CR>", desc = "Toggle Outline (Symbols)", silent = true },
     },
     dependencies = {
         "nvim-lua/plenary.nvim",
@@ -16,10 +17,15 @@ return {
     },
     config = function()
         require("neo-tree").setup({
+            -- Bật thêm source document_symbols (outline) bên cạnh các source mặc định
+            sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+
             close_if_last_window = true,
             enable_git_status    = true,
             enable_diagnostics   = true,
             popup_border_style   = "rounded",
+
+            -- enable_opened_markers = true,
 
             -- ============================================================
             -- 1. Cấu hình hiển thị (Giao diện ASCII tối giản)
@@ -44,9 +50,10 @@ return {
                     default       = "",
                 },
                 modified = { symbol = "*", highlight = "NeoTreeModified" },
-                name     = { use_git_status_colors = true },
-
-                -- Ký hiệu Git bằng ASCII đảm bảo hiển thị trên mọi Terminal
+                name     = {
+                    use_git_status_colors = true,
+                    highlight_opened_files = true,
+                },
                 git_status = {
                     symbols = {
                         added     = "+", -- File mới
@@ -69,24 +76,28 @@ return {
                 position = "right",
                 width    = 35,
                 mappings = {
-                    ["<space>"] = "none",          -- Giải phóng phím Space
-                    ["?"]       = "show_help",     -- Bảng trợ giúp
-                    ["q"]       = "close_window",  -- Đóng cửa sổ
-                    ["<CR>"]    = "open",          -- Mở file
-                    ["s"]       = "open_split",    -- Chia màn hình ngang
-                    ["v"]       = "open_vsplit",   -- Chia màn hình dọc
-                    ["t"]       = "open_tabnew",   -- Mở tab mới
-                    ["H"]       = "toggle_hidden", -- Bật/tắt file ẩn
-                    ["R"]       = "refresh",       -- Làm mới cây thư mục
+                    ["<space>"] = "none",         -- Giải phóng phím Space
+                    ["?"]       = "show_help",    -- Bảng trợ giúp
+                    ["q"]       = "close_window", -- Đóng cửa sổ
+                    ["<CR>"]    = "open",         -- Mở file
+                    ["s"]       = "open_split",   -- Chia màn hình ngang
+                    ["v"]       = "open_vsplit",  -- Chia màn hình dọc
+                    ["t"]       = "open_tabnew",  -- Mở tab mới
+                    ["H"]       = "toggle_hidden",-- Bật/tắt file ẩn
+                    ["R"]       = "refresh",      -- Làm mới cây thư mục
+                    ["O"]       = function() require("core.projects").open() end,
                 },
             },
 
             -- ============================================================
-            -- 3. Cấu hình Hệ thống File (Bộ lọc)
+            -- 3. Cấu hình Hệ thống File
             -- ============================================================
             filesystem = {
                 use_libuv_file_watcher = true,
-                follow_current_file = { enabled = true },
+                follow_current_file = {
+                    enabled              = true,
+                    leave_dirs_open      = true,
+                },
                 filtered_items = {
                     visible         = true,
                     hide_dotfiles   = false,
@@ -97,7 +108,6 @@ return {
                         ".idea",
                         ".vscode",
                     },
-                    hide_by_pattern = {},
                     never_show_by_pattern = {
                         "*.pyc",
                         ".DS_Store",
@@ -105,6 +115,46 @@ return {
                     },
                     never_show = {
                         ".git",
+                    },
+                },
+            },
+
+            -- ============================================================
+            -- 4. Outline (Document Symbols) — yêu cầu LSP (gopls) đang attach
+            -- ============================================================
+            document_symbols = {
+                follow_cursor = true,
+                client_filters = "first",
+                kinds = {
+                    Function      = { icon = "f", hl = "@function" },
+                    Method        = { icon = "m", hl = "@function.method" },
+                    Struct        = { icon = "S", hl = "@type" },
+                    Interface     = { icon = "I", hl = "@type" },
+                    Class         = { icon = "C", hl = "@type" },
+                    Constructor   = { icon = "+", hl = "@constructor" },
+                    Enum          = { icon = "E", hl = "@type" },
+                    EnumMember    = { icon = "e", hl = "@constant" },
+                    Field         = { icon = ".", hl = "@field" },
+                    Property      = { icon = ".", hl = "@property" },
+                    Constant      = { icon = "c", hl = "@constant" },
+                    Variable      = { icon = "v", hl = "@variable" },
+                    Package       = { icon = "p", hl = "@module" },
+                    Module        = { icon = "M", hl = "@module" },
+                    Namespace     = { icon = "N", hl = "@module" },
+                    TypeParameter = { icon = "T", hl = "@type" },
+                    String        = { icon = "s", hl = "@string" },
+                    Number        = { icon = "#", hl = "@number" },
+                    Boolean       = { icon = "b", hl = "@boolean" },
+                    Array         = { icon = "[", hl = "@punctuation.bracket" },
+                    Object        = { icon = "{", hl = "@punctuation.bracket" },
+                },
+
+                window = {
+                    mappings = {
+                        ["/"]    = "filter",
+                        ["q"]    = "close_window",
+                        ["<CR>"] = "jump_to_symbol",
+                        ["o"]    = "jump_to_symbol",
                     },
                 },
             },

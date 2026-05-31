@@ -19,6 +19,9 @@ map("n", "<S-Tab>", ":bnext<CR>", opts)
 -- Esc để xoá highlight tìm kiếm sau khi search xong
 map("n", "<Esc>", ":nohlsearch<CR>", opts)
 
+-- Recent projects
+map("n", "<leader>fp", function() require("core.projects").open() end, { noremap = true, silent = true, desc = "Find recent projects" })
+
 -- ------------------------------------------------------------
 -- WINDOW SPLIT & NAVIGATION
 -- ------------------------------------------------------------
@@ -34,4 +37,3 @@ map("n", "<S-Up>",   "<C-w>k", opts)
 map("n", "<S-Down>", "<C-w>j", opts)
 map("n", "<S-Left>",  "<C-w>h", opts)
 map("n", "<S-Right>", "<C-w>l", opts)
-

@@ -83,6 +83,7 @@ return {
             { "n", "K",          vim.lsp.buf.hover,                         "Hover Documentation" },
             { "n", "<leader>rn", vim.lsp.buf.rename,                        "Rename Symbol" },
             { "n", "<leader>ca", vim.lsp.buf.code_action,                   "Code Action" },
+            { "n", "<leader>gl",  function() vim.diagnostic.open_float({ border = "rounded" }) end, "Line Diagnostics" },
             { "n", "[d",         function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev Diagnostic" },
             { "n", "]d",         function() vim.diagnostic.jump({ count =  1, float = true }) end, "Next Diagnostic" },
         }

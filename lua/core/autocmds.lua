@@ -5,29 +5,26 @@
 
 local api = vim.api
 
--- Bỏ qua: file không tên, không thể chỉnh sửa, chỉ đọc, buffer hệ thống, không có quyền ghi
-local function safe_update()
-    local bufname = api.nvim_buf_get_name(0)
-    local buf     = vim.bo
-    if bufname == "" or not buf.modifiable or buf.readonly or buf.buftype ~= "" then
-        return
-    end
-    if vim.fn.filewritable(bufname) == 0 then
-        return
-    end
-    pcall(vim.cmd, "silent! update")
-end
-
--- Auto-save: chỉ khi rời Insert/cửa sổ/tiêu điểm (tránh I/O dày khi đang gõ)
-api.nvim_create_autocmd({ "InsertLeave", "FocusLost", "BufLeave" }, {
+-- Auto-save
+api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
     group    = api.nvim_create_augroup("AutoSave", { clear = true }),
     pattern  = "*",
     nested   = true,
-    callback = safe_update,
-    desc     = "Auto-save khi ngừng gõ, chuyển cửa sổ hoặc mất tiêu điểm",
+    callback = function ()
+        local bufname = api.nvim_buf_get_name(0)
+        local buf     = vim.bo
+        if bufname == "" or not buf.modifiable or buf.readonly or buf.buftype ~= "" then
+            return
+        end
+        if vim.fn.filewritable(bufname) == 0 then
+            return
+        end
+        pcall(vim.cmd, "silent! update")
+    end,
+    desc     = "Auto save when leaving a buffer or losing focus",
 })
 
--- Auto-reload: chỉ check khi vào lại cửa sổ/buffer (đủ cho git pull, format ngoài...)
+-- Auto-reload
 api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
     group    = api.nvim_create_augroup("AutoReload", { clear = true }),
     pattern  = "*",
@@ -38,5 +35,5 @@ api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
         end
         pcall(vim.cmd, "checktime")
     end,
-    desc = "Tự động tải lại nội dung nếu file bị thay đổi từ bên ngoài (git pull, etc.)",
+    desc = "Auto reload when entering a buffer or gaining focus",
 })

@@ -56,6 +56,8 @@ return {
             hint  = { fg = colors.diag_hint },
         }
 
+        -- Đã bỏ 'CursorMovedI' để lualine không tính lại toàn bộ statusline
+        -- trên mỗi lần con trỏ di chuyển trong insert mode (gần như mỗi ký tự gõ).
         local events = {
             'WinEnter',
             'BufEnter',
@@ -63,7 +65,6 @@ return {
             'VimResized',
             'ModeChanged',
             'CursorMoved',
-            'CursorMovedI',
             'BufWritePost',
             'SessionLoadPost',
             'FileChangedShellPost',
@@ -85,7 +86,7 @@ return {
                 globalstatus         = true,
                 icons_enabled        = true,
                 always_divide_middle = true,
-                always_show_tabline  = true,
+                always_show_tabline  = false,
                 refresh              = refresh,
                 theme                = custom_theme,
                 component_separators = { left = '', right = '' },
@@ -102,14 +103,18 @@ return {
                 },
                 lualine_c = {
                     {
+                        'filename',
+                        path = 1,
+                        shorting_target = 40,
+                        separator = '',
+                        padding = { left = 1, right = 0 }
+                    },
+                    {
                         'diff',
                         symbols = {
                             added    = '+',
                             modified = '~',
                             removed  = '-',
-                            -- added    = ' ',
-                            -- modified = ' ',
-                            -- removed  = ' ',
                         },
                     },
                 },
@@ -134,19 +139,6 @@ return {
             inactive_sections = {
                 lualine_c = {
                     'filename',
-                },
-            },
-
-
-            tabline = {
-                lualine_a = {
-                    {
-                        'buffers',
-                        mode = 0,
-                        show_filename_only      = true,
-                        hide_filename_extension = false,
-                        buffers_color           = {active = tab_active, inactive = tab_inactive},
-                    }
                 },
             },
             extensions = { "neo-tree" }

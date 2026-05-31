@@ -86,10 +86,15 @@ hi("Operator",          { fg = c.light_blue })
 hi("@operator",         { fg = c.light_blue })
 
 -- Functions & Methods
-hi("Function",          { fg = c.purple })
-hi("@function",         { fg = c.purple })
-hi("@function.call",    { fg = c.purple })
-hi("@method",           { fg = c.purple })
+hi("Function",              { fg = c.purple })
+hi("@function",             { fg = c.purple })
+hi("@function.call",        { fg = c.purple })
+hi("@function.method",      { fg = c.purple }) -- định nghĩa method
+hi("@function.method.call", { fg = c.purple }) -- gọi qua package/đối tượng: fmt.Println(), obj.Do()
+hi("@function.builtin",     { fg = c.purple }) -- len(), make(), append()... (xoá dòng này nếu muốn builtin khác màu)
+hi("@constructor",          { fg = c.purple })
+hi("@method",               { fg = c.purple })
+hi("@method.call",          { fg = c.purple })
 
 -- Types & Variables
 hi("Type",              { fg = c.blue })
@@ -101,6 +106,8 @@ hi("@property",         { fg = c.light_blue })
 hi("@field",            { fg = c.light_blue })
 hi("Constant",          { fg = c.blue })
 hi("@constant",         { fg = c.blue })
+hi("@constant.builtin", { fg = c.blue })
+hi("@variable.builtin", { fg = c.blue })
 
 -- Delimiters
 hi("Delimiter",              { fg = c.fg })
@@ -141,6 +148,16 @@ hi("DiagnosticVirtualTextHint",  { fg = c.comment, italic = true, bg = "NONE" })
 
 -- Inlay Hint (Gợi ý kiểu/tham số từ LSP, in nghiêng)
 hi("LspInlayHint", { fg = c.comment, italic = true, bg = "NONE" })
+
+-- LSP Semantic Tokens (gopls)
+hi("@lsp.type.function",                   { fg = c.purple })
+hi("@lsp.type.method",                     { fg = c.purple })
+hi("@lsp.typemod.function.defaultLibrary", { fg = c.purple })
+hi("@lsp.typemod.method.defaultLibrary",   { fg = c.purple })
+hi("@lsp.typemod.function.definition",     { fg = c.purple })
+hi("@lsp.typemod.method.definition",       { fg = c.purple })
+hi("@lsp.typemod.function.declaration",    { fg = c.purple })
+hi("@lsp.typemod.method.declaration",      { fg = c.purple })
 
 -- ============================================================
 -- 6. Tích hợp Plugins (Gitsigns, NeoTree, Telescope, Cmp, Dap)
@@ -187,5 +204,5 @@ hi("DapStoppedLine",         { bg = c.line_bg })
 hi("NvimDapVirtualText",     { fg = c.comment, italic = true, bg = "NONE" })
 
 -- indent-blankline (ibl)
-hi("IblIndent", { fg = c.indent, bg = "NONE", nocombine = true }) -- xám tối, mờ hơn comment
-hi("IblScope",  { fg = c.comment, bg = "NONE", nocombine = true }) -- nổi hơn ở scope hiện tại
+hi("IblIndent", { fg = c.indent, bg = "NONE", nocombine = true })
+hi("IblScope",  { fg = c.comment, bg = "NONE", nocombine = true })
