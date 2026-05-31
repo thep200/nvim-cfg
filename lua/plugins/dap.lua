@@ -1,37 +1,41 @@
 -- ============================================================
 -- plugins/dap.lua
--- Cấu hình Debug Adapter Protocol cho Go (Sử dụng delve qua mise)
+-- Debug Adapter Protocol (generic). Cấu hình adapter riêng từng
+-- ngôn ngữ nằm ở lua/languages/<lang>/dap.lua, nạp qua registry.
 -- ============================================================
+
+local languages = require("languages")
+
+-- Dependencies chung + dependencies riêng của từng ngôn ngữ đã bật
+local dependencies = {
+    {
+        "rcarriga/nvim-dap-ui",
+        dependencies = { "nvim-neotest/nvim-nio" },
+    },
+    "theHamsta/nvim-dap-virtual-text",
+}
+vim.list_extend(dependencies, languages.dap_dependencies())
 
 return {
     "mfussenegger/nvim-dap",
-    ft = { "go" },
-    dependencies = {
-        {
-            "rcarriga/nvim-dap-ui",
-            dependencies = { "nvim-neotest/nvim-nio" },
-        },
-        "theHamsta/nvim-dap-virtual-text",
-        "leoluz/nvim-dap-go",
-    },
+    ft           = languages.dap_ft(),
+    dependencies = dependencies,
 
     config = function()
-        local dap = require("dap")
-        local dapui = require("dapui")
+        local dap       = require("dap")
+        local dapui     = require("dapui")
+        local dap_langs = languages.dap()
 
         -- ============================================================
-        -- 1. Cấu hình nvim-dap-go + forward stdout/stderr về DAP REPL
+        -- 1. Khởi tạo adapter cho từng ngôn ngữ đã bật
+        --    (vd: Go -> require("dap-go").setup(...))
         -- ============================================================
-        require("dap-go").setup({
-            delve = {
-                timeout = 20,
-                detached = true,
-            },
-        })
+        for _, cfg in ipairs(dap_langs) do
+            if cfg.setup then cfg.setup() end
+        end
 
         -- ============================================================
         -- 2. Cấu hình frames DAP UI
-        --  Thêm cấu hình: "outputMode": "remote" vào launch.json để forward stdout/stderr về REPL
         -- ============================================================
         local frames = {
             scopes      = 0.4,
@@ -53,7 +57,7 @@ return {
             return out
         end
 
-        local right = build({ "repl", "console", "watches",  "stacks", "breakpoints", "scopes" })
+        local right = build({ "repl", "console", "watches", "stacks", "breakpoints", "scopes" })
         local layouts = {}
         if #right > 0 then
             table.insert(layouts, { elements = right, size = 40, position = "right" })
@@ -108,7 +112,7 @@ return {
         vim.fn.sign_define("DapBreakpointRejected",  { text = "✗", texthl = "DapBreakpointRejected", numhl = "" })
 
         -- ============================================================
-        -- 7. Phím tắt điều khiển
+        -- 7. Phím tắt điều khiển (generic)
         -- ============================================================
         local map = vim.keymap.set
         local function k(lhs, rhs, desc)
@@ -137,8 +141,12 @@ return {
         k("<leader>de", function() dapui.eval(nil, { enter = true }) end, "Eval Expression")
         map("v", "<leader>de", function() dapui.eval(nil, { enter = true }) end, { silent = true, desc = "Eval Selection" })
 
-        -- Lệnh dành riêng cho Go
-        k("<leader>dt", function() require("dap-go").debug_test() end, "Debug Nearest Test")
-        k("<leader>dT", function() require("dap-go").debug_last_test() end, "Debug Last Test")
+        -- ============================================================
+        -- 8. Phím tắt riêng theo ngôn ngữ
+        --    (vd: Go -> <leader>dt / <leader>dT debug test)
+        -- ============================================================
+        for _, cfg in ipairs(dap_langs) do
+            if cfg.keys then cfg.keys(k) end
+        end
     end,
 }

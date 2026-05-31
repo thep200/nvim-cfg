@@ -1,5 +1,7 @@
 -- ============================================================
 -- plugins/lsp.lua
+-- LSP client (generic). Cấu hình riêng từng ngôn ngữ nằm ở
+-- lua/languages/<lang>/*.lua và được nạp qua registry `languages`.
 -- ============================================================
 
 return {
@@ -18,6 +20,7 @@ return {
 
     config = function()
         local capabilities = require("cmp_nvim_lsp").default_capabilities()
+        local lsp_langs    = require("languages").lsp()
 
         -- ============================================================
         -- 1. Diagnostic UI
@@ -36,39 +39,20 @@ return {
         })
 
         -- ============================================================
-        -- 2. Gopls Settings — phải set BEFORE mason-lspconfig.setup
-        --    (mason-lspconfig v2 tự gọi vim.lsp.enable cho server đã install)
+        -- 2. Đăng ký server cho từng ngôn ngữ đã bật
+        --    (set BEFORE mason-lspconfig.setup — mason-lspconfig v2 tự
+        --     gọi vim.lsp.enable cho server đã install)
         -- ============================================================
-        vim.lsp.config("gopls", {
-            capabilities = capabilities,
-            settings = {
-                gopls = {
-                    staticcheck        = true,
-                    gofumpt            = true,
-                    usePlaceholders    = true,
-                    completeUnimported = true,
-                    matcher            = "Fuzzy",
-                    symbolMatcher      = "Fuzzy",
-                    analyses = {
-                        unusedparams = true,
-                        shadow       = true,
-                        nilness      = true,
-                        unusedwrite  = true,
-                        useany       = true,
-                    },
-                    hints = {
-                        parameterNames         = true,
-                        assignVariableTypes    = false,
-                        compositeLiteralFields = false,
-                        constantValues         = false,
-                        functionTypeParameters = false,
-                        rangeVariableTypes     = false,
-                    },
-                },
-            },
-        })
+        for _, cfg in ipairs(lsp_langs) do
+            vim.lsp.config(cfg.name, {
+                capabilities = capabilities,
+                settings     = cfg.settings,
+            })
+        end
 
-        require("mason-lspconfig").setup({ensure_installed = { "gopls" }})
+        require("mason-lspconfig").setup({
+            ensure_installed = require("languages").mason_lsp_servers(),
+        })
 
         -- ============================================================
         -- 3. LspAttach (Keymaps & Inlay Hints)
@@ -83,7 +67,7 @@ return {
             { "n", "K",          vim.lsp.buf.hover,                         "Hover Documentation" },
             { "n", "<leader>rn", vim.lsp.buf.rename,                        "Rename Symbol" },
             { "n", "<leader>ca", vim.lsp.buf.code_action,                   "Code Action" },
-            { "n", "<leader>gl",  function() vim.diagnostic.open_float({ border = "rounded" }) end, "Line Diagnostics" },
+            { "n", "<leader>gl", function() vim.diagnostic.open_float({ border = "rounded" }) end, "Line Diagnostics" },
             { "n", "[d",         function() vim.diagnostic.jump({ count = -1, float = true }) end, "Prev Diagnostic" },
             { "n", "]d",         function() vim.diagnostic.jump({ count =  1, float = true }) end, "Next Diagnostic" },
         }
@@ -121,25 +105,34 @@ return {
 
         -- ============================================================
         -- 4. Auto-Format & Organize Imports on Save
-        --    Sync để format chạy đúng thứ tự; timeout 1s để không treo lâu
+        --    Sinh autocmd theo `format_on_save` của từng ngôn ngữ.
+        --    Sync để format chạy đúng thứ tự; timeout 1s để không treo lâu.
         -- ============================================================
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group    = vim.api.nvim_create_augroup("GoLspFormat", { clear = true }),
-            pattern  = "*.go",
-            callback = function()
-                local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/codeAction" })
-                for _, client in ipairs(clients) do
-                    local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
-                    params.context = { only = { "source.organizeImports" }, diagnostics = {} }
-                    local result = client:request_sync("textDocument/codeAction", params, 1000, 0)
-                    for _, action in ipairs((result or {}).result or {}) do
-                        if action.edit then
-                            vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+        local fmt_grp = vim.api.nvim_create_augroup("LspFormatOnSave", { clear = true })
+        for _, cfg in ipairs(lsp_langs) do
+            local fos = cfg.format_on_save
+            if fos then
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                    group    = fmt_grp,
+                    pattern  = fos.pattern,
+                    callback = function()
+                        if fos.organize_imports then
+                            local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/codeAction" })
+                            for _, client in ipairs(clients) do
+                                local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
+                                params.context = { only = { "source.organizeImports" }, diagnostics = {} }
+                                local result = client:request_sync("textDocument/codeAction", params, 1000, 0)
+                                for _, action in ipairs((result or {}).result or {}) do
+                                    if action.edit then
+                                        vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
+                                    end
+                                end
+                            end
                         end
-                    end
-                end
-                vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
-            end,
-        })
+                        vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
+                    end,
+                })
+            end
+        end
     end,
 }
