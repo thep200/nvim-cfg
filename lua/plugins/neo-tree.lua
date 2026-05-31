@@ -1,6 +1,5 @@
 -- ============================================================
 --  plugins/neo-tree.lua
---  Quản lý cây thư mục dự án (File Explorer) + Outline (Document Symbols)
 -- ============================================================
 
 return {
@@ -17,9 +16,7 @@ return {
     },
     config = function()
         require("neo-tree").setup({
-            -- Bật thêm source document_symbols (outline) bên cạnh các source mặc định
             sources = { "filesystem", "buffers", "git_status", "document_symbols" },
-
             close_if_last_window = true,
             enable_git_status    = true,
             enable_diagnostics   = true,

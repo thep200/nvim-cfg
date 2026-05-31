@@ -98,17 +98,14 @@ function M.open()
 
     vim.ui.select(projects, {
         prompt      = "Recent projects",
-        kind        = "recent_projects", -- để cấu hình theme riêng theo kind nếu muốn
+        kind        = "recent_projects",
         format_item = function(dir)
-            -- Chỉ hiện tên folder, không hiện đường dẫn
             return vim.fn.fnamemodify(dir, ":~")
-            -- return vim.fn.fnamemodify((dir:gsub("/$", "")), ":t")
         end,
     }, function(choice)
         if not choice then return end
 
-        -- Tìm file gần đây nhất của project TRƯỚC khi đóng buffer (vẫn đọc từ oldfiles nên không sao,
-        -- nhưng làm trước cho rõ ràng)
+        -- Tìm file gần đây nhất của project TRƯỚC khi đóng buffer
         local recent_file = most_recent_file_in(choice)
 
         -- Đóng hết buffer hiện tại trước khi sang project mới

@@ -377,7 +377,31 @@ xcode-select --install   # gcc + make
 
 ---
 
-## 5. Tham khảo nhanh - Workflow Substitute toàn dự án
+## 5. Sử dụng terminal
+
+| Bước | Phím tắt / Lệnh | Mục đích |
+| :--- | :--- | :--- |
+| **CÁCH 1: SINGLE COMMAND** | | |
+| Bước 1 | Nhấn `Esc` | Đưa editor về chế độ **Normal Mode** trước khi gõ lệnh. |
+| Bước 2 | `:! [câu_lệnh]` <br>*(Ví dụ: `:!go run main.go` hoặc `:!git status`)* | Chạy nhanh một lệnh hệ thống duy nhất, xem kết quả hiển thị tạm thời trên màn hình. |
+| Bước 3 | Nhấn `Enter` | Thoát màn hình kết quả lệnh và quay trở lại giao diện code nguyên vẹn ngay lập tức. |
+| | | |
+| **CÁCH 2: EMBEDDED TERMINAL** | | |
+| Bước 1 | `:terminal` <br>*(Gõ tắt: `:term`)* | Khởi tạo một cửa sổ Terminal độc lập toàn màn hình ngay bên trong Neovim. |
+| Mẹo nâng cao | `:vsplit \| terminal` <br> `:split \| terminal` | Chia đôi màn hình theo chiều dọc (phải) hoặc chiều ngang (dưới) rồi mở Terminal để vừa code vừa chạy server song song. |
+| Bước 2 | Nhấn phím `i` | Chuyển sang **Terminal Mode** để bắt đầu tương tác, gõ lệnh, tận dụng phím `Tab` gợi ý của Oh My Zsh. |
+| Bước 3 | Nhấn `Ctrl + \` rồi nhấn tiếp `Ctrl + N` | Thoát chế độ gõ lệnh của Terminal để quay về **Normal Mode**, giúp di chuyển con trỏ chuột ra ngoài ô code hoặc gõ `:bd!` để đóng Terminal. |
+| | | |
+| **CÁCH 3: SUSPEND TO BACKGROUND** | | |
+| Bước 1 | Nhấn `Ctrl + Z` | Thực hiện ở Normal Mode để đẩy toàn bộ Neovim vào trạng thái chạy ngầm (Suspended) và trả bạn về lại Ghostty Terminal thường. |
+| Bước 2 | Thao tác lệnh tự do trên Ghostty | Thực hiện chuỗi các tác vụ nặng bên ngoài hệ thống (như build Docker, check log hệ thống lớn...). |
+| Bước 3 | Gõ lệnh `fg` và nhấn `Enter` | Đưa Neovim từ nền chạy ngầm quay trở lại tiền cảnh (Foreground), giữ nguyên trạng thái và đúng dòng code bạn đang gõ dở trước đó. |
+
+---
+
+
+
+## 6. Tham khảo nhanh - Workflow Substitute toàn dự án
 
 | Bước | Phím tắt / Lệnh | Mục đích |
 | --- | --- | --- |

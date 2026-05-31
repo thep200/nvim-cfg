@@ -1,28 +1,15 @@
 -- ============================================================
 --  languages/init.lua
---  Registry quản lý hỗ trợ ngôn ngữ (LSP + DAP)
---  => Thêm / bật / tắt ngôn ngữ tại bảng `M.languages` bên dưới.
 -- ============================================================
 
 local M = {}
 
--- ------------------------------------------------------------
--- Khai báo ngôn ngữ.
---   - lsp: module trả về { name, mason, settings, format_on_save }
---   - dap: module trả về { ft, dependencies, setup, keys }
---
--- Bật/tắt:
---   * TẮT 1 tính năng  -> comment dòng lsp HOẶC dap tương ứng.
---   * TẮT cả ngôn ngữ  -> comment cả block ngôn ngữ đó.
---   * THÊM ngôn ngữ    -> tạo lua/languages/<lang>/... rồi khai báo ở đây.
--- ------------------------------------------------------------
 M.languages = {
     go = {
         lsp = "languages.go.gopls",
         dap = "languages.go.dap",
     },
 
-    -- Ví dụ thêm Python sau này:
     -- python = {
     --     lsp = "languages.python.pyright",
     --     dap = "languages.python.dap",

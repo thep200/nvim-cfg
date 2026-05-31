@@ -37,9 +37,6 @@ return {
         local replace_colors    = { fg = colors.dark, bg = colors.replace, bold = true }
         local command_colors    = { fg = colors.dark, bg = colors.command, bold = true }
 
-        local tab_active        = { fg = colors.fg_med, bg = colors.bg_tag_active, bold = true }
-        local tab_inactive      = { fg = colors.fg_med, bg = colors.bg_tag_inactive }
-
         local custom_theme      = {
             normal   = { a = normal_colors, b = BY, c = CX, x = CX, y = BY, z = normal_colors },
             insert   = { a = insert_colors, b = BY, c = CX, x = CX, y = BY, z = insert_colors },
@@ -56,8 +53,6 @@ return {
             hint  = { fg = colors.diag_hint },
         }
 
-        -- Đã bỏ 'CursorMovedI' để lualine không tính lại toàn bộ statusline
-        -- trên mỗi lần con trỏ di chuyển trong insert mode (gần như mỗi ký tự gõ).
         local events = {
             'WinEnter',
             'BufEnter',
@@ -77,9 +72,6 @@ return {
             refresh_time = 16,
             events = events,
         }
-
-        -- Patch hiển thị tên buffer (active=relative path, inactive=filename)
-        require("core.patch").lualine_buffer_name()
 
         require('lualine').setup({
             options = {

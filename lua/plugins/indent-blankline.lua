@@ -9,16 +9,13 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     opts  = {
         indent = {
-            char         = "┆",
-            tab_char     = "┆",
-            -- char         = "┊",
-            -- tab_char     = "┊",
+            char         = "┊",
+            tab_char     = "┊",
             highlight    = "IblIndent",
         },
         scope = {
             enabled    = true,
-            char       = "┆",
-            -- char       = "┊",
+            char       = "┊",
             show_start = false,
             show_end   = false,
             highlight  = "IblScope",

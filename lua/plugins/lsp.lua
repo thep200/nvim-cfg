@@ -40,8 +40,6 @@ return {
 
         -- ============================================================
         -- 2. Đăng ký server cho từng ngôn ngữ đã bật
-        --    (set BEFORE mason-lspconfig.setup — mason-lspconfig v2 tự
-        --     gọi vim.lsp.enable cho server đã install)
         -- ============================================================
         for _, cfg in ipairs(lsp_langs) do
             vim.lsp.config(cfg.name, {
@@ -104,9 +102,7 @@ return {
         })
 
         -- ============================================================
-        -- 4. Auto-Format & Organize Imports on Save
-        --    Sinh autocmd theo `format_on_save` của từng ngôn ngữ.
-        --    Sync để format chạy đúng thứ tự; timeout 1s để không treo lâu.
+        -- 4. Auto-Format & Organize Imports on Saves
         -- ============================================================
         local fmt_grp = vim.api.nvim_create_augroup("LspFormatOnSave", { clear = true })
         for _, cfg in ipairs(lsp_langs) do
