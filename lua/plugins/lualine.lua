@@ -125,6 +125,12 @@ return {
                     {
                         'diagnostics',
                         diagnostics_color = diagnostics_color,
+                        symbols = {
+                            error = ' ',
+                            warn  = ' ',
+                            info  = '󱧢 ',
+                            hint  = '󰌶 ',
+                        },
                     }
                 },
                 lualine_z = {

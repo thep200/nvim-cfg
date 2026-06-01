@@ -25,3 +25,14 @@ map("n", "<S-Up>",   "<C-w>k", opts)
 map("n", "<S-Down>", "<C-w>j", opts)
 map("n", "<S-Left>",  "<C-w>h", opts)
 map("n", "<S-Right>", "<C-w>l", opts)
+
+
+-- ============================================================
+-- Cấu hình điều chỉnh kích thước màn hình
+-- ============================================================
+
+-- Dùng Ctrl + Mũi tên để thay đổi kích thước nhanh (Mỗi lần bấm nới ra 2 ô)
+vim.keymap.set("n", "<C-Up>", "<cmd>resize +2<CR>", { desc = "Tăng chiều cao" })
+vim.keymap.set("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Giảm chiều cao" })
+vim.keymap.set("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Giảm chiều rộng" })
+vim.keymap.set("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Tăng chiều rộng" })

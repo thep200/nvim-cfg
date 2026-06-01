@@ -32,9 +32,7 @@ return {
                     indent_size        = 2,
                     padding            = 1,
                     with_markers       = true,
-                    indent_marker      = "┊",
-                    -- indent_marker      = "╎",
-                    -- indent_marker      = "│",
+                    indent_marker      = "┊", -- ╎, │
                     last_indent_marker = "╰",
                     highlight          = "NeoTreeIndentMarker",
                     with_expanders     = true,
@@ -58,10 +56,10 @@ return {
                 },
                 diagnostics = {
                     symbols = {
-                        hint  = "?",
-                        info  = "I",
-                        warn  = "W",
-                        error = "E",
+                        error = ' ',
+                        warn  = ' ',
+                        info  = '󱧢 ',
+                        hint  = '󰌶 ',
                     },
                     highlights = {
                         hint  = "DiagnosticSignHint",

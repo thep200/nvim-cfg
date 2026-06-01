@@ -8,7 +8,7 @@ return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-        "github/copilot.vim",        -- đảm bảo Copilot load trước khi cmp check ghost text
+        "zbirenbaum/copilot.lua",    -- load Copilot trước khi cmp check ghost text
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -16,13 +16,14 @@ return {
         "saadparwaiz1/cmp_luasnip",
     },
     config = function()
-        local cmp = require("cmp")
+        local cmp     = require("cmp")
         local luasnip = require("luasnip")
+        local copilot = require("copilot.suggestion")
 
-        -- Hàm kiểm tra xem Copilot có đang hiển thị gợi ý (Ghost Text) hay không
+        -- Copilot có đang hiển thị ghost text không
         local function has_copilot_suggestion()
-            local ok, suggestion = pcall(vim.fn["copilot#GetDisplayedSuggestion"])
-            return ok and suggestion ~= nil and suggestion.text ~= nil and suggestion.text ~= ""
+            local ok, visible = pcall(copilot.is_visible)
+            return ok and visible
         end
 
         cmp.setup({
@@ -92,13 +93,12 @@ return {
             -- 5. Cấu hình Phím tắt (Bao gồm logic ưu tiên cho Copilot)
             -- ============================================================
             mapping = cmp.mapping.preset.insert({
-                -- Fomat hiển thị popup
                 ["<C-Space>"] = cmp.mapping.complete(),
                 ["<C-e>"]     = cmp.mapping.abort(),
                 ["<C-d>"]     = cmp.mapping.scroll_docs(4),
                 ["<C-u>"]     = cmp.mapping.scroll_docs(-4),
 
-                -- Phím Enter: Chỉ xác nhận nếu người dùng thực sự đang chọn 1 item
+                -- Enter: chỉ xác nhận khi đang chọn 1 item
                 ["<CR>"] = cmp.mapping(function(fallback)
                     if cmp.visible() and cmp.get_selected_entry() then
                         cmp.confirm({ select = false })
@@ -107,14 +107,11 @@ return {
                     end
                 end),
 
-                -- Phím Tab (Theo thứ tự ưu tiên: Copilot -> Cmp -> Snippet -> Tab lùi lề)
+                -- Tab: Copilot -> Cmp -> Snippet -> Tab thường
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if has_copilot_suggestion() then
-                        local accept = vim.fn["copilot#Accept"]("")
-                        vim.api.nvim_feedkeys(accept, "n", true)
-                        return
-                    end
-                    if cmp.visible() then
+                        copilot.accept()
+                    elseif cmp.visible() then
                         cmp.select_next_item()
                     elseif luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
@@ -123,7 +120,7 @@ return {
                     end
                 end, { "i", "s" }),
 
-                -- Phím Shift+Tab (Chỉ áp dụng cho Cmp và Snippet)
+                -- Shift+Tab: Cmp & Snippet
                 ["<S-Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
                         cmp.select_prev_item()

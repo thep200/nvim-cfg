@@ -23,8 +23,8 @@ api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
     desc     = "Auto save when leaving a buffer or losing focus",
 })
 
--- Auto-reload
-api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
+-- Auto-reload (bắt cả khi forgecode sửa file từ terminal nhúng)
+api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermLeave", "TermClose" }, {
     group    = api.nvim_create_augroup("AutoReload", { clear = true }),
     pattern  = "*",
     callback = function()
@@ -34,5 +34,15 @@ api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, {
         end
         pcall(vim.cmd, "checktime")
     end,
-    desc = "Auto reload when entering a buffer or gaining focus",
+    desc = "Auto reload when file changes on disk",
+})
+
+-- Báo khi file bị đổi từ bên ngoài
+api.nvim_create_autocmd("FileChangedShellPost", {
+    group    = api.nvim_create_augroup("AutoReloadNotify", { clear = true }),
+    pattern  = "*",
+    callback = function()
+        vim.notify("File thay đổi trên đĩa, đã reload", vim.log.levels.INFO)
+    end,
+    desc = "Notify on external file change",
 })
