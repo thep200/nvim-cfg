@@ -42,9 +42,18 @@ return {
         -- 2. Đăng ký server cho từng ngôn ngữ đã bật
         -- ============================================================
         for _, cfg in ipairs(lsp_langs) do
+            local markers = cfg.root_markers or { ".git" }
             vim.lsp.config(cfg.name, {
                 capabilities = capabilities,
                 settings     = cfg.settings,
+                root_dir = function(bufnr, on_dir)
+                    local fname = vim.api.nvim_buf_get_name(bufnr)
+                    if fname:match("^%a[%w+.%-]*://") then
+                        return
+                    end
+                    local root = vim.fs.root(bufnr, markers)
+                    on_dir(root or (fname ~= "" and vim.fn.fnamemodify(fname, ":h")) or vim.fn.getcwd())
+                end,
             })
         end
 
@@ -111,21 +120,25 @@ return {
                 vim.api.nvim_create_autocmd("BufWritePre", {
                     group    = fmt_grp,
                     pattern  = fos.pattern,
-                    callback = function()
+                    callback = function(args)
                         if fos.organize_imports then
-                            local clients = vim.lsp.get_clients({ bufnr = 0, method = "textDocument/codeAction" })
+                            local clients = vim.lsp.get_clients({
+                                bufnr  = args.buf,
+                                name   = cfg.name,
+                                method = "textDocument/codeAction",
+                            })
                             for _, client in ipairs(clients) do
                                 local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
                                 params.context = { only = { "source.organizeImports" }, diagnostics = {} }
-                                local result = client:request_sync("textDocument/codeAction", params, 1000, 0)
-                                for _, action in ipairs((result or {}).result or {}) do
+                                local res = client:request_sync("textDocument/codeAction", params, 500, args.buf)
+                                for _, action in ipairs((res or {}).result or {}) do
                                     if action.edit then
                                         vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
                                     end
                                 end
                             end
                         end
-                        vim.lsp.buf.format({ async = false, timeout_ms = 1000 })
+                        vim.lsp.buf.format({ async = false, timeout_ms = 500, name = cfg.name })
                     end,
                 })
             end

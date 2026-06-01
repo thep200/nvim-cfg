@@ -81,8 +81,18 @@ return {
                 always_show_tabline  = false,
                 refresh              = refresh,
                 theme                = custom_theme,
-                component_separators = { left = '', right = '' },
-                section_separators   = { left = '', right = '' },
+
+                -- Arrow
+                -- component_separators = { left = '', right = '' },
+                -- section_separators   = { left = '', right = '' },
+
+                -- Slanted downward
+                -- section_separators = { left = '', right = '' },
+                -- component_separators = { left = '', right = '' },
+
+                -- Slanted upwards
+                section_separators = { left = '', right = '' },
+                component_separators = { left = '', right = '' },
             },
             sections = {
                 lualine_a = { 'mode' },

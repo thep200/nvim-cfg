@@ -9,6 +9,9 @@ return {
     -- Server cần cài qua mason-lspconfig (ensure_installed)
     mason = { "gopls" },
 
+    -- Marker để xác định root của workspace (ưu tiên từ trên xuống)
+    root_markers = { "go.work", "go.mod", ".git" },
+
     -- Settings truyền vào vim.lsp.config("gopls", { settings = ... })
     settings = {
         gopls = {

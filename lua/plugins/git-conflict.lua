@@ -1,32 +1,24 @@
 -- ============================================================
 --  plugins/git-conflict.lua
---  Hiển thị & giải quyết merge conflict ngay trong editor
 -- ============================================================
 
 return {
     "akinsho/git-conflict.nvim",
-    version = "*",                                   -- pin theo tag ổn định (main có thể unstable)
+    version = "*",
     event   = { "BufReadPre", "BufNewFile" },
     config  = function()
         require("git-conflict").setup({
-            default_mappings   = false,  -- tự định nghĩa keymap bên dưới cho dễ nhớ
-            default_commands   = true,   -- giữ các lệnh :GitConflict*
-            disable_diagnostics = false, -- tạm tắt diagnostics khi file đang conflict? -> false: vẫn hiện
+            default_commands   = true,
+            default_mappings   = false,
+            disable_diagnostics = false,
             list_opener        = "copen",
             highlights = {
-                -- Phải là nhóm có background, nếu không sẽ dùng màu mặc định
-                incoming = "DiffAdd",   -- phần "theirs" (nhánh kéo về)
-                current  = "DiffText",  -- phần "ours" (nhánh hiện tại)
+                incoming = "DiffAdd",
+                current  = "DiffText",
             },
         })
 
-        -- ============================================================
-        -- Keymap (chỉ active trong buffer đang có conflict — gắn qua sự kiện
-        -- GitConflictDetected để không chiếm phím ở buffer thường).
-        -- Namespace <leader>c* = "Conflict ..."
-        -- ============================================================
         local grp = vim.api.nvim_create_augroup("GitConflictKeymaps", { clear = true })
-
         vim.api.nvim_create_autocmd("User", {
             group   = grp,
             pattern = "GitConflictDetected",

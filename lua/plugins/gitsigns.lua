@@ -38,6 +38,7 @@ return {
                 row      = 0,
                 col      = 1,
             },
+            current_line_blame_formatter_nc = '',
             current_line_blame_formatter = " 🐾 #<abbrev_sha> by <author>, <author_time:%R>",
 
             -- ============================================================
@@ -73,8 +74,6 @@ return {
                 map("n", "<leader>hr", gs.reset_hunk,   "Reset Hunk (Hủy thay đổi đoạn này)")
                 map("n", "<leader>hs", gs.stage_hunk,   "Stage / Unstage Hunk (toggle)")
                 map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line (popup chi tiết)")
-
-                -- ---- INLINE BLAME (GIT HINT) ----
                 map("n", "<leader>hB", gs.toggle_current_line_blame, "Toggle Inline Blame (git hint)")
 
                 -- ---- THAO TÁC VỚI TOÀN BỘ FILE (BUFFER) ----
@@ -84,14 +83,11 @@ return {
         })
 
         -- ============================================================
-        -- 4. Inline blame chữ nghiêng (italic)
-        --    Lấy màu từ nhóm Comment + thêm italic. Re-apply mỗi lần đổi
-        --    colorscheme vì colorscheme (load sau gitsigns) có thể ghi đè.
+        -- 4. Inline blame custom
         -- ============================================================
         local function set_blame_italic()
-            local comment = vim.api.nvim_get_hl(0, { name = "Comment", link = false })
             vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", {
-                fg     = comment.fg,
+                fg     = "#525252",
                 italic = true,
             })
         end
@@ -101,6 +97,5 @@ return {
             group    = vim.api.nvim_create_augroup("GitSignsBlameItalic", { clear = true }),
             callback = set_blame_italic,
         })
-
     end,
 }
