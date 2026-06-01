@@ -9,11 +9,14 @@ return {
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
         {
-            "williamboman/mason.nvim",
-            build = ":MasonUpdate",
-            opts  = { ui = { border = "rounded" } },
+            "mason-org/mason.nvim",
+            version = "^2.0.0",
+            opts    = { ui = { border = "rounded" } },
         },
-        "williamboman/mason-lspconfig.nvim",
+        {
+            "mason-org/mason-lspconfig.nvim",
+            version = "^2.0.0",
+        },
         "hrsh7th/cmp-nvim-lsp",
         "nvim-telescope/telescope.nvim",
     },
