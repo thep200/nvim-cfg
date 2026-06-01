@@ -23,6 +23,8 @@ require("lazy").setup({
     { import = "plugins.neo-tree" },          -- file explorer
     { import = "plugins.lualine" },           -- statusline
     { import = "plugins.gitsigns" },          -- git diff in sign column
+    { import = "plugins.git-conflict" },      -- visualise & resolve merge conflicts
+    { import = "plugins.diffview" },          -- single-tabpage diff & file history
     { import = "plugins.telescope" },         -- fuzzy finder
     { import = "plugins.treesitter" },        -- syntax highlight & more
     { import = "plugins.indent-blankline" },  -- indent guides (virtual text)
