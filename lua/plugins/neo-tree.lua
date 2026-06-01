@@ -19,7 +19,7 @@ return {
             sources = { "filesystem", "buffers", "git_status", "document_symbols" },
             close_if_last_window = true,
             enable_git_status    = true,
-            enable_diagnostics   = true,
+            enable_diagnostics   = true, -- E/W/I/? báo lỗi/cảnh báo cạnh tên file
             popup_border_style   = "rounded",
             hide_root_node = true,
             retain_hidden_root_indent = true,
@@ -32,8 +32,10 @@ return {
                     indent_size        = 2,
                     padding            = 1,
                     with_markers       = true,
-                    indent_marker      = "│",
-                    last_indent_marker = "└",
+                    indent_marker      = "┊",
+                    -- indent_marker      = "╎",
+                    -- indent_marker      = "│",
+                    last_indent_marker = "╰",
                     highlight          = "NeoTreeIndentMarker",
                     with_expanders     = true,
                     expander_collapsed = "▶",
@@ -46,19 +48,36 @@ return {
                     folder_empty  = "",
                     default       = "",
                 },
-                modified = { symbol = "*", highlight = "NeoTreeModified" },
-                name     = {
+                modified = {
+                    symbol = "",
+                    highlight = "NeoTreeModified"
+                },
+                name = {
                     use_git_status_colors = true,
                     highlight_opened_files = false,
                 },
+                diagnostics = {
+                    symbols = {
+                        hint  = "?",
+                        info  = "I",
+                        warn  = "W",
+                        error = "E",
+                    },
+                    highlights = {
+                        hint  = "DiagnosticSignHint",
+                        info  = "DiagnosticSignInfo",
+                        warn  = "DiagnosticSignWarn",
+                        error = "DiagnosticSignError",
+                    },
+                },
                 git_status = {
                     symbols = {
-                        added     = "+", -- File mới
-                        modified  = "~", -- Đã sửa
-                        deleted   = "_", -- Đã xóa
-                        renamed   = ">", -- Đổi tên
-                        untracked = "?", -- Chưa track
-                        conflict  = "!", -- Xung đột
+                        added     = "", -- File mới
+                        modified  = "", -- Đã sửa
+                        deleted   = "", -- Đã xóa
+                        renamed   = "", -- Đổi tên
+                        untracked = "", -- File mới
+                        conflict  = "", -- Xung đột
                         ignored   = "",  -- Ẩn icon cho file ignore cho gọn
                         unstaged  = "",
                         staged    = "",

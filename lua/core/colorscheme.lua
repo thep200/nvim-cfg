@@ -16,6 +16,7 @@ local c = {
     comment    = "#9198a1",  -- Xám (Comment, Viền, Gợi ý)
     red        = "#ff7b72",  -- Đỏ (Lỗi, Từ khóa, Từ khóa điều kiện)
     green      = "#7ee787",  -- Xanh lá (Chuỗi, Thêm mới, Điểm dừng)
+    green_dark = "#22c55e",
     orange     = "#ffa657",  -- Cam (Số, Cảnh báo, Thay đổi)
     purple     = "#d2a8ff",  -- Tím (Hàm, Phương thức)
     blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
@@ -75,6 +76,15 @@ hi("Number",    { fg = c.orange })
 hi("@number",   { link = "Number" })
 hi("Boolean",   { fg = c.orange })
 hi("@boolean",  { link = "Boolean" })
+
+-- Ký tự đặc biệt trong chuỗi -> màu cam
+-- (escape "\n" "\t", format verb "%v" "%s" "%d", regex,...)
+hi("SpecialChar",            { fg = c.orange })
+hi("@string.escape",         { fg = c.orange })
+hi("@string.special",        { fg = c.orange })
+hi("@string.special.symbol", { fg = c.orange })
+hi("@string.regexp",         { fg = c.orange })
+hi("@character.special",     { fg = c.orange })
 
 -- Keyword & Operator
 hi("Keyword",           { fg = c.red })
@@ -175,9 +185,11 @@ hi("NeoTreeFileName",      { fg = c.fg })
 hi("NeoTreeRootName",      { fg = c.orange,  bold = true })
 hi("NeoTreeIndentMarker",  { fg = c.comment })
 hi("NeoTreeExpander",      { fg = c.blue })
-hi("NeoTreeGitAdded",      { fg = c.green })
+hi("NeoTreeGitAdded",      { fg = c.green_dark })
+hi("NeoTreeGitUntracked",  { fg = c.green_dark })
 hi("NeoTreeGitModified",   { fg = c.orange })
 hi("NeoTreeGitDeleted",    { fg = c.red })
+hi("NeoTreeGitConflict",   { fg = c.red })
 
 -- Telescope
 hi("TelescopeBorder",       { fg = c.comment, bg = "NONE" })
