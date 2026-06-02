@@ -35,6 +35,7 @@ require("lazy").setup({
     { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
     { import = "plugins.dap" },               -- debug adapter (Go via delve)
     { import = "plugins.neoscroll" },         -- smooth scrolling
+    { import = "plugins.markdown-preview" },  -- preview markdown file
 }, {
 
     -- ------------------------------------------------------------

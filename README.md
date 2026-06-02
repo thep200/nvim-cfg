@@ -167,12 +167,6 @@ xcode-select --install   # gcc + make
 
 > Quản lý cây thư mục bên phải màn hình. Toggle bằng `Ctrl + b`.
 
-**Phím tắt toàn cục:**
-
-| Phím tắt | Thao tác |
-| :--- | :--- |
-| `Ctrl + b` | **Toggle Neo-tree** |
-
 **Phím tắt trong cửa sổ Neo-tree:**
 
 | Phím tắt | Thao tác | Giải thích |
