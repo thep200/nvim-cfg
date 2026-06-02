@@ -182,8 +182,8 @@ icons.kind = {
     EnumMember    = icons.doc.enumMember,
     Constant      = icons.doc.constant,
     Struct        = icons.doc.struct,
-    Event         = "",  -- nf-dev-react (su kien)
-    Operator      = "󰆕",  -- nf-md-plus_minus
+    Event         = "",
+    Operator      = "󰆕",
     TypeParameter = icons.doc.typeParameter,
 }
 

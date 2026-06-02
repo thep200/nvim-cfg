@@ -52,13 +52,6 @@ return {
                     --         env = { CLAUDE_CODE_OAUTH_TOKEN = "cmd:cat ~/.claude/oauth_token" },
                     --     })
                     -- end,
-
-                    -- zed-industries/codex-acp
-                    -- codex = function()
-                    --     return require("codecompanion.adapters").extend("codex", {
-                    --         defaults = { auth_method = "chatgpt" }, -- hoặc "openai-api-key"
-                    --     })
-                    -- end,
                 },
             },
         })

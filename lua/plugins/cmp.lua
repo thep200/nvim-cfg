@@ -1,14 +1,12 @@
 -- ============================================================
 -- plugins/cmp.lua
--- Cấu hình Autocomplete Engine (nvim-cmp)
--- Tích hợp: LSP, Snippets, Buffer, Path & GitHub Copilot
 -- ============================================================
 
 return {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
-        "zbirenbaum/copilot.lua",    -- load Copilot trước khi cmp check ghost text
+        "zbirenbaum/copilot.lua",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -48,42 +46,13 @@ return {
             }),
 
             -- ============================================================
-            -- 3. Cấu hình giao diện Popup (Giữ phong cách tối giản)
+            -- 3. Popup customization
             -- ============================================================
-            -- formatting = {
-            --     -- Thu tu cot: ICON (kind) -> TEN (abbr) -> NGUON (menu)
-            --     fields = { "abbr", "kind", },
-            --     -- fields = { "kind", "abbr", "menu" },
-            --     format = function(entry, vim_item)
-            --         -- Chi hien icon o cot kind, dung truoc ten item
-            --         vim_item.kind = kind_icons[vim_item.kind] or ""
-
-            --         local menu_map = {
-            --             nvim_lsp = "[LSP]",
-            --             luasnip  = "[Snip]",
-            --             buffer   = "[Buf]",
-            --             path     = "[Path]",
-            --         }
-            --         vim_item.menu = menu_map[entry.source.name] or ""
-            --         return vim_item
-            --     end,
-            -- },
             formatting = {
-                -- Thu tu cot: TEN (abbr) -> ICON + TEN KIND (kind) -> NGUON (menu)
                 fields = { "abbr", "kind" },
-                -- fields = { "abbr", "kind", "menu" },
                 format = function(entry, vim_item)
-                    -- Cot kind = icon + ten kind, vd: " Function", " Method"
                     local icon = kind_icons[vim_item.kind] or ""
                     vim_item.kind = string.format("%s %s", icon, vim_item.kind)
-
-                    -- local menu_map = {
-                    --     nvim_lsp = "[LSP]",
-                    --     luasnip  = "[Snip]",
-                    --     buffer   = "[Buf]",
-                    --     path     = "[Path]",
-                    -- }
-                    -- vim_item.menu = menu_map[entry.source.name] or ""
                     return vim_item
                 end,
             },

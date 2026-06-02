@@ -187,9 +187,9 @@ hi("CmpItemAbbrMatch",      { fg = colors.orange, bold = true })
 hi("CmpItemAbbrMatchFuzzy", { fg = colors.orange, bold = true })
 hi("CmpItemMenu",           { fg = colors.comment, italic = true })
 
--- Mau icon theo tung CompletionItemKind (nhom highlight CmpItemKind<Kind>)
+-- CompletionItemKind (nhom highlight CmpItemKind<Kind>)
 local cmp_kind_colors = {
-    Text          = colors.fg,
+    Text          = colors.green,
     Method        = colors.purple,
     Function      = colors.purple,
     Constructor   = colors.purple,
@@ -220,10 +220,10 @@ for kind, fg in pairs(cmp_kind_colors) do
 end
 
 -- nvim-dap
+hi("DapStoppedLine",         { bg = colors.line_bg })
 hi("DapBreakpoint",          { fg = colors.red,    bg = "NONE" })
 hi("DapBreakpointCondition", { fg = colors.orange, bg = "NONE" })
 hi("DapStopped",             { fg = colors.green,  bg = "NONE" })
-hi("DapStoppedLine",         { bg = colors.line_bg })
 hi("NvimDapVirtualText",     { fg = colors.comment, italic = true, bg = "NONE" })
 
 -- indent-blankline (ibl)
