@@ -25,12 +25,12 @@ local icons = {
     },
 
     git_sign = {
-        add          = "+",
-        change       = "~",
-        delete       = "_",
-        topdelete    = "‾",
-        changedelete = "~_",
-        untracked    = "+",
+        add          = " +",
+        change       = " ~",
+        delete       = " _",
+        topdelete    = " ‾",
+        changedelete = " ~_",
+        untracked    = " +",
     },
 
     doc = {
@@ -102,12 +102,12 @@ local ascii = {
     },
 
     dap = {
-        breakpoint           = "",
-        breakpoint_condition = "",
-        log_point            = "◆",
-        stopped              = "▶",
-        breakpoint_rejected  = "✗",
-        current_frame        = "✸",
+        breakpoint           = " ",
+        breakpoint_condition = " ",
+        log_point            = " ◆",
+        stopped              = " ▶",
+        breakpoint_rejected  = " ✗",
+        current_frame        = " ✸",
     }
 }
 
