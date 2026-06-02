@@ -230,3 +230,7 @@ hi("NvimDapVirtualText",     { fg = colors.comment, italic = true, bg = "NONE" }
 hi("IblIndent", { fg = colors.indent, bg = "NONE", nocombine = true })
 hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
 hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
+
+-- Folded & FoldColumn
+hi("Folded", { fg = "NONE", bg = "NONE" })
+hi("FoldColumn", { fg = colors.comment, bg = "NONE" })
