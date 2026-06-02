@@ -2,7 +2,7 @@ local icons = {
     diagnostics = {
         error = ' ',
         warn  = ' ',
-        info  = '󱧢 ',
+        info  = ' ',
         hint  = '󰌶 ',
     },
 
@@ -127,11 +127,12 @@ local colors = {
         blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
         light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
 
-        pmenu_bg   = "#161b22",  -- Nền Popup Autocomplete
-        dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
-        visual_bg  = "#264f78",  -- Nền Bôi đen chữ
-        line_bg    = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
-        indent     = "#30363d",  -- Màu Đường Indent (ibl)
+        pmenu_bg    = "#161b22",  -- Nền Popup Autocomplete
+        dark_bg     = "#1c1c1c",  -- Nền Highlight tìm kiếm
+        visual_bg   = "#264f78",  -- Nền Bôi đen chữ
+        cursor_line = "#27272a",  -- Nền dòng con trỏ đang đứng (CursorLine)
+        line_bg     = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
+        indent      = "#30363d",  -- Màu Đường Indent (ibl)
     },
 
     lualine = {

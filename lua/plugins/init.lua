@@ -34,6 +34,7 @@ require("lazy").setup({
     { import = "plugins.codecompanion" },     -- AI chat + agent (copilot/claude/codex adapter)
     { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
     { import = "plugins.dap" },               -- debug adapter (Go via delve)
+    { import = "plugins.neoscroll" },         -- smooth scrolling
 }, {
 
     -- ------------------------------------------------------------

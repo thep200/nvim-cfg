@@ -20,6 +20,7 @@ end
 -- ============================================================
 -- 2. Giao diện Cốt lõi (Core UI) - Trong suốt Background
 -- ============================================================
+hi("CursorLine",   { bg = colors.cursor_line })
 hi("Normal",       { fg = colors.fg,      bg = "NONE" })
 hi("NonText",      { fg = colors.comment, bg = "NONE" })
 hi("EndOfBuffer",  { fg = colors.comment, bg = "NONE" })
@@ -28,7 +29,6 @@ hi("WinSeparator", { fg = "NONE",    bg = "NONE" })
 hi("SignColumn",   { fg = "NONE",    bg = "NONE" })
 hi("LineNr",       { fg = colors.comment, bg = "NONE" })
 hi("CursorLineNr", { fg = colors.fg,      bg = "NONE", bold = true })
-hi("CursorLine",   { bg = "NONE" })
 
 hi("Search",     { fg = colors.dark_bg, bg = colors.orange })
 hi("IncSearch",  { fg = colors.dark_bg, bg = colors.orange })
@@ -228,4 +228,5 @@ hi("NvimDapVirtualText",     { fg = colors.comment, italic = true, bg = "NONE" }
 
 -- indent-blankline (ibl)
 hi("IblIndent", { fg = colors.indent, bg = "NONE", nocombine = true })
+hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
 hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })

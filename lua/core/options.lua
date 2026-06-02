@@ -19,11 +19,12 @@ opt.background     = "dark"     -- Chế độ nền tối
 opt.number         = true       -- Hiển thị số dòng bên trái
 opt.relativenumber = true       -- Số dòng tương đối (Giúp tính toán nhảy dòng j/k cực nhanh)
 opt.cursorline     = true       -- Highlight dòng con trỏ đang đứng...
-opt.cursorlineopt  = "number"   -- ...nhưng chỉ highlight số dòng để đỡ rối mắt
+opt.cursorlineopt  = "both"     -- ...tô CẢ số dòng VÀ nền cả dòng ("line" = chỉ nền dòng, "number" = chỉ số dòng)
 opt.scrolloff      = 5          -- Khi cuộn màn hình, luôn giữ lề 5 dòng ở trên/dưới con trỏ
 opt.wrap           = false      -- Không tự động bẻ dòng dài (Giữ nguyên cấu trúc code)
 opt.signcolumn     = "yes"      -- Luôn mở cột rìa trái (Dành chỗ cho điểm dừng Debug và Lỗi LSP)
 opt.fillchars      = { vert = " ", eob = " " } -- Ẩn ký hiệu đường viền và ký hiệu ~ ở cuối file
+vim.opt.cursorline = true       -- Highlight dòng con trỏ đang đứng
 
 -- ============================================================
 -- 3. Thanh trạng thái & Không gian làm việc
@@ -75,4 +76,4 @@ opt.shortmess:append("csaIWOoF")                        -- Thu gọn log hệ th
 opt.autoread    = true  -- Tự động load lại file nếu file bị sửa từ bên ngoài (ví dụ git pull)
 opt.updatetime  = 250   -- Thời gian chờ cập nhật (Tính bằng ms). Tối quan trọng cho Git để load nhanh thay đổi
 opt.timeoutlen  = 300   -- Thời gian chờ chuỗi phím tắt (Ví dụ gõ Space + f thì chờ chữ f 300ms)
-opt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)
+opt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)pt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)

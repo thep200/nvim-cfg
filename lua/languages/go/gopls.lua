@@ -15,6 +15,7 @@ return {
     -- Settings truyền vào vim.lsp.config("gopls", { settings = ... })
     settings = {
         gopls = {
+            buildFlags         = { "-tags=integration" },
             staticcheck        = true,
             gofumpt            = true,
             usePlaceholders    = true,
