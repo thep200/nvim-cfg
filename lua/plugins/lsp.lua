@@ -17,13 +17,18 @@ return {
             "mason-org/mason-lspconfig.nvim",
             version = "^2.0.0",
         },
-        "hrsh7th/cmp-nvim-lsp",
         "nvim-telescope/telescope.nvim",
     },
 
     config = function()
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
-        local lsp_langs    = require("languages").lsp()
+        local capabilities = vim.lsp.protocol.make_client_capabilities()
+        capabilities.textDocument.completion.completionItem.snippetSupport = true
+        local ok, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+        if ok then
+            capabilities = vim.tbl_deep_extend("force", capabilities, cmp_lsp.default_capabilities())
+        end
+
+        local lsp_langs = require("languages").lsp()
 
         -- ============================================================
         -- 1. Diagnostic UI
