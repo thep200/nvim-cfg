@@ -108,7 +108,6 @@ local colors = {
         blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
         light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
 
-        -- Màu Background Đặc thù (Popup, Dòng đang chọn)
         pmenu_bg   = "#161b22",  -- Nền Popup Autocomplete
         dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
         visual_bg  = "#264f78",  -- Nền Bôi đen chữ

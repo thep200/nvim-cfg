@@ -11,24 +11,25 @@ vim.g.colors_name = "zed_github_dark"
 -- ============================================================
 -- 1. Định nghĩa Bảng Màu Chính (Biến số)
 -- ============================================================
-local c = {
-    fg         = "#f0f6fc",  -- Mặc định (Biến, Văn bản)
-    comment    = "#9198a1",  -- Xám (Comment, Viền, Gợi ý)
-    red        = "#ff7b72",  -- Đỏ (Lỗi, Từ khóa, Từ khóa điều kiện)
-    green      = "#7ee787",  -- Xanh lá (Chuỗi, Thêm mới, Điểm dừng)
-    green_dark = "#22c55e",
-    orange     = "#ffa657",  -- Cam (Số, Cảnh báo, Thay đổi)
-    purple     = "#d2a8ff",  -- Tím (Hàm, Phương thức)
-    blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
-    light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
+local colors = require("core.material").colors.theme
+-- local colors = {
+--     fg         = "#f0f6fc",  -- Mặc định (Biến, Văn bản)
+--     comment    = "#9198a1",  -- Xám (Comment, Viền, Gợi ý)
+--     red        = "#ff7b72",  -- Đỏ (Lỗi, Từ khóa, Từ khóa điều kiện)
+--     green      = "#7ee787",  -- Xanh lá (Chuỗi, Thêm mới, Điểm dừng)
+--     green_dark = "#22c55e",
+--     orange     = "#ffa657",  -- Cam (Số, Cảnh báo, Thay đổi)
+--     purple     = "#d2a8ff",  -- Tím (Hàm, Phương thức)
+--     blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
+--     light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
 
-    -- Màu Background Đặc thù (Popup, Dòng đang chọn)
-    pmenu_bg   = "#161b22",  -- Nền Popup Autocomplete
-    dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
-    visual_bg  = "#264f78",  -- Nền Bôi đen chữ
-    line_bg    = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
-    indent     = "#30363d",  -- Màu Đường Indent (ibl)
-}
+--     -- Màu Background Đặc thù (Popup, Dòng đang chọn)
+--     pmenu_bg   = "#161b22",  -- Nền Popup Autocomplete
+--     dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
+--     visual_bg  = "#264f78",  -- Nền Bôi đen chữ
+--     line_bg    = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
+--     indent     = "#30363d",  -- Màu Đường Indent (ibl)
+-- }
 
 -- Hàm tiện ích gán màu nhanh
 local function hi(group, spec)
@@ -38,183 +39,183 @@ end
 -- ============================================================
 -- 2. Giao diện Cốt lõi (Core UI) - Trong suốt Background
 -- ============================================================
-hi("Normal",       { fg = c.fg,      bg = "NONE" })
-hi("NonText",      { fg = c.comment, bg = "NONE" })
-hi("EndOfBuffer",  { fg = c.comment, bg = "NONE" })
+hi("Normal",       { fg = colors.fg,      bg = "NONE" })
+hi("NonText",      { fg = colors.comment, bg = "NONE" })
+hi("EndOfBuffer",  { fg = colors.comment, bg = "NONE" })
 hi("VertSplit",    { fg = "NONE",    bg = "NONE" })
 hi("WinSeparator", { fg = "NONE",    bg = "NONE" })
 hi("SignColumn",   { fg = "NONE",    bg = "NONE" })
-hi("LineNr",       { fg = c.comment, bg = "NONE" })
-hi("CursorLineNr", { fg = c.fg,      bg = "NONE", bold = true })
+hi("LineNr",       { fg = colors.comment, bg = "NONE" })
+hi("CursorLineNr", { fg = colors.fg,      bg = "NONE", bold = true })
 hi("CursorLine",   { bg = "NONE" })
 
-hi("Search",     { fg = c.dark_bg, bg = c.orange })
-hi("IncSearch",  { fg = c.dark_bg, bg = c.orange })
-hi("Visual",     { bg = c.visual_bg })
-hi("MatchParen", { fg = c.orange,  bg = "NONE", bold = true })
+hi("Search",     { fg = colors.dark_bg, bg = colors.orange })
+hi("IncSearch",  { fg = colors.dark_bg, bg = colors.orange })
+hi("Visual",     { bg = colors.visual_bg })
+hi("MatchParen", { fg = colors.orange,  bg = "NONE", bold = true })
 
 -- ============================================================
 -- 3. Cửa sổ Nổi (Floating Windows & Popup Menus)
 -- ============================================================
-hi("Pmenu",       { fg = c.fg,      bg = c.pmenu_bg })
-hi("PmenuSel",    { fg = c.dark_bg, bg = c.blue })
-hi("PmenuSbar",   { bg = c.pmenu_bg })
-hi("PmenuThumb",  { bg = c.comment })
-hi("WildMenu",    { fg = c.dark_bg, bg = c.blue })
-hi("NormalFloat", { fg = c.fg,      bg = "NONE" })
-hi("FloatBorder", { fg = c.comment, bg = "NONE" })
+hi("Pmenu",       { fg = colors.fg,      bg = colors.pmenu_bg })
+hi("PmenuSel",    { fg = colors.dark_bg, bg = colors.blue })
+hi("PmenuSbar",   { bg = colors.pmenu_bg })
+hi("PmenuThumb",  { bg = colors.comment })
+hi("WildMenu",    { fg = colors.dark_bg, bg = colors.blue })
+hi("NormalFloat", { fg = colors.fg,      bg = "NONE" })
+hi("FloatBorder", { fg = colors.comment, bg = "NONE" })
 
 -- ============================================================
 -- 4. Cú pháp Cơ bản & TreeSitter
 -- ============================================================
 -- Text & String
-hi("Comment",   { fg = c.comment, italic = true })
+hi("Comment",   { fg = colors.comment, italic = true })
 hi("@comment",  { link = "Comment" })
-hi("String",    { fg = c.green })
+hi("String",    { fg = colors.green })
 hi("@string",   { link = "String" })
-hi("Number",    { fg = c.orange })
+hi("Number",    { fg = colors.orange })
 hi("@number",   { link = "Number" })
-hi("Boolean",   { fg = c.orange })
+hi("Boolean",   { fg = colors.orange })
 hi("@boolean",  { link = "Boolean" })
 
 -- Ký tự đặc biệt trong chuỗi -> màu cam
 -- (escape "\n" "\t", format verb "%v" "%s" "%d", regex,...)
-hi("SpecialChar",            { fg = c.orange })
-hi("@string.escape",         { fg = c.orange })
-hi("@string.special",        { fg = c.orange })
-hi("@string.special.symbol", { fg = c.orange })
-hi("@string.regexp",         { fg = c.orange })
-hi("@character.special",     { fg = c.orange })
+hi("SpecialChar",            { fg = colors.orange })
+hi("@string.escape",         { fg = colors.orange })
+hi("@string.special",        { fg = colors.orange })
+hi("@string.special.symbol", { fg = colors.orange })
+hi("@string.regexp",         { fg = colors.orange })
+hi("@character.special",     { fg = colors.orange })
 
 -- Keyword & Operator
-hi("Keyword",           { fg = c.red })
-hi("@keyword",          { fg = c.red })
-hi("@keyword.function", { fg = c.red })
-hi("@keyword.return",   { fg = c.red })
-hi("@conditional",      { fg = c.red })
-hi("Operator",          { fg = c.light_blue })
-hi("@operator",         { fg = c.light_blue })
+hi("Keyword",           { fg = colors.red })
+hi("@keyword",          { fg = colors.red })
+hi("@keyword.function", { fg = colors.red })
+hi("@keyword.return",   { fg = colors.red })
+hi("@conditional",      { fg = colors.red })
+hi("Operator",          { fg = colors.light_blue })
+hi("@operator",         { fg = colors.light_blue })
 
 -- Functions & Methods
-hi("Function",              { fg = c.purple })
-hi("@function",             { fg = c.purple })
-hi("@function.call",        { fg = c.purple })
-hi("@function.method",      { fg = c.purple })
-hi("@function.method.call", { fg = c.purple })
-hi("@function.builtin",     { fg = c.purple })
-hi("@constructor",          { fg = c.purple })
-hi("@method",               { fg = c.purple })
-hi("@method.call",          { fg = c.purple })
+hi("Function",              { fg = colors.purple })
+hi("@function",             { fg = colors.purple })
+hi("@function.call",        { fg = colors.purple })
+hi("@function.method",      { fg = colors.purple })
+hi("@function.method.call", { fg = colors.purple })
+hi("@function.builtin",     { fg = colors.purple })
+hi("@constructor",          { fg = colors.purple })
+hi("@method",               { fg = colors.purple })
+hi("@method.call",          { fg = colors.purple })
 
 -- Types & Variables
-hi("Type",              { fg = c.blue })
-hi("@type",             { fg = c.blue })
-hi("@type.builtin",     { fg = c.blue })
-hi("Identifier",        { fg = c.fg })
-hi("@variable",         { fg = c.fg })
-hi("@property",         { fg = c.light_blue })
-hi("@field",            { fg = c.light_blue })
-hi("Constant",          { fg = c.blue })
-hi("@constant",         { fg = c.blue })
-hi("@constant.builtin", { fg = c.blue })
-hi("@variable.builtin", { fg = c.blue })
+hi("Type",              { fg = colors.blue })
+hi("@type",             { fg = colors.blue })
+hi("@type.builtin",     { fg = colors.blue })
+hi("Identifier",        { fg = colors.fg })
+hi("@variable",         { fg = colors.fg })
+hi("@property",         { fg = colors.light_blue })
+hi("@field",            { fg = colors.light_blue })
+hi("Constant",          { fg = colors.blue })
+hi("@constant",         { fg = colors.blue })
+hi("@constant.builtin", { fg = colors.blue })
+hi("@variable.builtin", { fg = colors.blue })
 
 -- Delimiters
-hi("Delimiter",              { fg = c.fg })
-hi("@punctuation.delimiter", { fg = c.fg })
-hi("@punctuation.bracket",   { fg = c.fg })
-hi("@punctuation.special",   { fg = c.orange })
+hi("Delimiter",              { fg = colors.fg })
+hi("@punctuation.delimiter", { fg = colors.fg })
+hi("@punctuation.bracket",   { fg = colors.fg })
+hi("@punctuation.special",   { fg = colors.orange })
 
 -- ============================================================
 -- 5. LSP Diagnostics & Inlay Hint
 -- ============================================================
 local diag_signs = {
-    { name = "DiagnosticSignError", text = "✗", fg = c.red },
-    { name = "DiagnosticSignWarn",  text = "!", fg = c.orange },
-    { name = "DiagnosticSignInfo",  text = "i", fg = c.blue },
-    { name = "DiagnosticSignHint",  text = "?", fg = c.comment },
+    { name = "DiagnosticSignError", text = "✗", fg = colors.red },
+    { name = "DiagnosticSignWarn",  text = "!", fg = colors.orange },
+    { name = "DiagnosticSignInfo",  text = "i", fg = colors.blue },
+    { name = "DiagnosticSignHint",  text = "?", fg = colors.comment },
 }
 for _, s in ipairs(diag_signs) do
     vim.fn.sign_define(s.name, { text = s.text, texthl = s.name, numhl = "" })
     hi(s.name, { fg = s.fg, bg = "NONE" })
 end
 
-hi("DiagnosticError", { fg = c.red })
-hi("DiagnosticWarn",  { fg = c.orange })
-hi("DiagnosticInfo",  { fg = c.blue })
-hi("DiagnosticHint",  { fg = c.comment })
+hi("DiagnosticError", { fg = colors.red })
+hi("DiagnosticWarn",  { fg = colors.orange })
+hi("DiagnosticInfo",  { fg = colors.blue })
+hi("DiagnosticHint",  { fg = colors.comment })
 
 -- Underline (Gạch dưới xoắn)
-hi("DiagnosticUnderlineError", { undercurl = true, sp = c.red })
-hi("DiagnosticUnderlineWarn",  { undercurl = true, sp = c.orange })
-hi("DiagnosticUnderlineInfo",  { undercurl = true, sp = c.blue })
-hi("DiagnosticUnderlineHint",  { undercurl = true, sp = c.comment })
+hi("DiagnosticUnderlineError", { undercurl = true, sp = colors.red })
+hi("DiagnosticUnderlineWarn",  { undercurl = true, sp = colors.orange })
+hi("DiagnosticUnderlineInfo",  { undercurl = true, sp = colors.blue })
+hi("DiagnosticUnderlineHint",  { undercurl = true, sp = colors.comment })
 
 -- Virtual Text (Chữ mờ ở cuối dòng)
-hi("DiagnosticVirtualTextError", { fg = c.comment, italic = true, bg = "NONE" })
-hi("DiagnosticVirtualTextWarn",  { fg = c.comment, italic = true, bg = "NONE" })
-hi("DiagnosticVirtualTextInfo",  { fg = c.comment, italic = true, bg = "NONE" })
-hi("DiagnosticVirtualTextHint",  { fg = c.comment, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextError", { fg = colors.comment, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextWarn",  { fg = colors.comment, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextInfo",  { fg = colors.comment, italic = true, bg = "NONE" })
+hi("DiagnosticVirtualTextHint",  { fg = colors.comment, italic = true, bg = "NONE" })
 
 -- Inlay Hint (Gợi ý kiểu/tham số từ LSP, in nghiêng)
-hi("LspInlayHint", { fg = c.comment, italic = true, bg = "NONE" })
+hi("LspInlayHint", { fg = colors.comment, italic = true, bg = "NONE" })
 
 -- LSP Semantic Tokens (gopls)
-hi("@lsp.type.function",                   { fg = c.purple })
-hi("@lsp.type.method",                     { fg = c.purple })
-hi("@lsp.typemod.function.defaultLibrary", { fg = c.purple })
-hi("@lsp.typemod.method.defaultLibrary",   { fg = c.purple })
-hi("@lsp.typemod.function.definition",     { fg = c.purple })
-hi("@lsp.typemod.method.definition",       { fg = c.purple })
-hi("@lsp.typemod.function.declaration",    { fg = c.purple })
-hi("@lsp.typemod.method.declaration",      { fg = c.purple })
+hi("@lsp.type.function",                   { fg = colors.purple })
+hi("@lsp.type.method",                     { fg = colors.purple })
+hi("@lsp.typemod.function.defaultLibrary", { fg = colors.purple })
+hi("@lsp.typemod.method.defaultLibrary",   { fg = colors.purple })
+hi("@lsp.typemod.function.definition",     { fg = colors.purple })
+hi("@lsp.typemod.method.definition",       { fg = colors.purple })
+hi("@lsp.typemod.function.declaration",    { fg = colors.purple })
+hi("@lsp.typemod.method.declaration",      { fg = colors.purple })
 
 -- ============================================================
 -- 6. Tích hợp Plugins (Gitsigns, NeoTree, Telescope, Cmp, Dap)
 -- ============================================================
 
 -- Gitsigns
-hi("GitSignsAdd",          { fg = c.green,  bg = "NONE" })
-hi("GitSignsChange",       { fg = c.orange, bg = "NONE" })
-hi("GitSignsDelete",       { fg = c.red,    bg = "NONE" })
-hi("GitSignsChangedelete", { fg = c.orange, bg = "NONE" })
+hi("GitSignsAdd",          { fg = colors.green,  bg = "NONE" })
+hi("GitSignsChange",       { fg = colors.orange, bg = "NONE" })
+hi("GitSignsDelete",       { fg = colors.red,    bg = "NONE" })
+hi("GitSignsChangedelete", { fg = colors.orange, bg = "NONE" })
 
 -- Neo-tree
-hi("NeoTreeDirectoryName", { fg = c.blue })
-hi("NeoTreeFileName",      { fg = c.fg })
-hi("NeoTreeRootName",      { fg = c.orange,  bold = true })
-hi("NeoTreeIndentMarker",  { fg = c.comment })
-hi("NeoTreeExpander",      { fg = c.blue })
-hi("NeoTreeGitAdded",      { fg = c.green_dark })
-hi("NeoTreeGitUntracked",  { fg = c.green_dark })
-hi("NeoTreeGitModified",   { fg = c.orange })
-hi("NeoTreeGitDeleted",    { fg = c.red })
-hi("NeoTreeGitConflict",   { fg = c.red })
+hi("NeoTreeDirectoryName", { fg = colors.blue })
+hi("NeoTreeFileName",      { fg = colors.fg })
+hi("NeoTreeRootName",      { fg = colors.orange,  bold = true })
+hi("NeoTreeIndentMarker",  { fg = colors.comment })
+hi("NeoTreeExpander",      { fg = colors.blue })
+hi("NeoTreeGitAdded",      { fg = colors.green_dark })
+hi("NeoTreeGitUntracked",  { fg = colors.green_dark })
+hi("NeoTreeGitModified",   { fg = colors.orange })
+hi("NeoTreeGitDeleted",    { fg = colors.red })
+hi("NeoTreeGitConflict",   { fg = colors.red })
 
 -- Telescope
-hi("TelescopeBorder",       { fg = c.comment, bg = "NONE" })
-hi("TelescopePromptBorder", { fg = c.comment, bg = "NONE" })
-hi("TelescopePromptTitle",  { fg = c.orange,  bold = true })
-hi("TelescopeResultsTitle", { fg = c.blue })
-hi("TelescopeSelection",    { fg = c.fg,      bg = c.visual_bg })
-hi("TelescopeMatching",     { fg = c.orange,  bold = true })
+hi("TelescopeBorder",       { fg = colors.comment, bg = "NONE" })
+hi("TelescopePromptBorder", { fg = colors.comment, bg = "NONE" })
+hi("TelescopePromptTitle",  { fg = colors.orange,  bold = true })
+hi("TelescopeResultsTitle", { fg = colors.blue })
+hi("TelescopeSelection",    { fg = colors.fg,      bg = colors.visual_bg })
+hi("TelescopeMatching",     { fg = colors.orange,  bold = true })
 
 -- nvim-cmp
-hi("CmpItemAbbr",           { fg = c.fg })
-hi("CmpItemAbbrMatch",      { fg = c.orange, bold = true })
-hi("CmpItemAbbrMatchFuzzy", { fg = c.orange, bold = true })
-hi("CmpItemKindFunction",   { fg = c.purple })
-hi("CmpItemKindVariable",   { fg = c.fg })
-hi("CmpItemKindKeyword",    { fg = c.red })
-hi("CmpItemKindClass",      { fg = c.blue })
+hi("CmpItemAbbr",           { fg = colors.fg })
+hi("CmpItemAbbrMatch",      { fg = colors.orange, bold = true })
+hi("CmpItemAbbrMatchFuzzy", { fg = colors.orange, bold = true })
+hi("CmpItemKindFunction",   { fg = colors.purple })
+hi("CmpItemKindVariable",   { fg = colors.fg })
+hi("CmpItemKindKeyword",    { fg = colors.red })
+hi("CmpItemKindClass",      { fg = colors.blue })
 
 -- nvim-dap
-hi("DapBreakpoint",          { fg = c.red,    bg = "NONE" })
-hi("DapBreakpointCondition", { fg = c.orange, bg = "NONE" })
-hi("DapStopped",             { fg = c.green,  bg = "NONE" })
-hi("DapStoppedLine",         { bg = c.line_bg })
-hi("NvimDapVirtualText",     { fg = c.comment, italic = true, bg = "NONE" })
+hi("DapBreakpoint",          { fg = colors.red,    bg = "NONE" })
+hi("DapBreakpointCondition", { fg = colors.orange, bg = "NONE" })
+hi("DapStopped",             { fg = colors.green,  bg = "NONE" })
+hi("DapStoppedLine",         { bg = colors.line_bg })
+hi("NvimDapVirtualText",     { fg = colors.comment, italic = true, bg = "NONE" })
 
 -- indent-blankline (ibl)
-hi("IblIndent", { fg = c.indent, bg = "NONE", nocombine = true })
-hi("IblScope",  { fg = c.comment, bg = "NONE", nocombine = true })
+hi("IblIndent", { fg = colors.indent, bg = "NONE", nocombine = true })
+hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
