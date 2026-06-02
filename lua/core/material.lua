@@ -156,10 +156,39 @@ local colors = {
     }
 }
 
+-- ============================================================
+-- CompletionItemKind icons cho nvim-cmp.
+-- ============================================================
+icons.kind = {
+    Text          = "󰉿",
+    Method        = icons.doc.method,
+    Function      = icons.doc.func,
+    Constructor   = icons.doc.constructor,
+    Field         = icons.doc.field,
+    Variable      = icons.doc.variable,
+    Class         = icons.doc.class,
+    Interface     = icons.doc.interface,
+    Module        = icons.doc.module,
+    Property      = icons.doc.property,
+    Unit          = "󰚣",
+    Value         = "󰎠",
+    Enum          = icons.doc.enum,
+    Keyword       = "󰌋",
+    Snippet       = "",
+    Color         = "󰏘",
+    File          = "󰈙",
+    Reference     = "󰈇",
+    Folder        = "󰉋",
+    EnumMember    = icons.doc.enumMember,
+    Constant      = icons.doc.constant,
+    Struct        = icons.doc.struct,
+    Event         = "",  -- nf-dev-react (su kien)
+    Operator      = "󰆕",  -- nf-md-plus_minus
+    TypeParameter = icons.doc.typeParameter,
+}
+
 return {
     icons = icons,
     colors = colors,
     ascii = ascii,
 }
-
-

@@ -1,6 +1,5 @@
 -- ============================================================
 -- core/colorscheme.lua
--- Bảng màu Custom (Zed GitHub Dark) với Background trong suốt
 -- ============================================================
 
 -- Reset Theme
@@ -60,6 +59,7 @@ hi("@number",   { link = "Number" })
 hi("Boolean",   { fg = colors.orange })
 hi("@boolean",  { link = "Boolean" })
 
+-- Ký tự đặc biệt trong chuỗi -> màu cam
 hi("SpecialChar",            { fg = colors.orange })
 hi("@string.escape",         { fg = colors.orange })
 hi("@string.special",        { fg = colors.orange })
@@ -182,12 +182,42 @@ hi("TelescopeMatching",     { fg = colors.orange,  bold = true })
 
 -- nvim-cmp
 hi("CmpItemAbbr",           { fg = colors.fg })
+hi("CmpItemAbbrDeprecated", { fg = colors.comment, strikethrough = true })
 hi("CmpItemAbbrMatch",      { fg = colors.orange, bold = true })
 hi("CmpItemAbbrMatchFuzzy", { fg = colors.orange, bold = true })
-hi("CmpItemKindFunction",   { fg = colors.purple })
-hi("CmpItemKindVariable",   { fg = colors.fg })
-hi("CmpItemKindKeyword",    { fg = colors.red })
-hi("CmpItemKindClass",      { fg = colors.blue })
+hi("CmpItemMenu",           { fg = colors.comment, italic = true })
+
+-- Mau icon theo tung CompletionItemKind (nhom highlight CmpItemKind<Kind>)
+local cmp_kind_colors = {
+    Text          = colors.fg,
+    Method        = colors.purple,
+    Function      = colors.purple,
+    Constructor   = colors.purple,
+    Field         = colors.light_blue,
+    Variable      = colors.fg,
+    Class         = colors.blue,
+    Interface     = colors.blue,
+    Module        = colors.blue,
+    Property      = colors.light_blue,
+    Unit          = colors.blue,
+    Value         = colors.orange,
+    Enum          = colors.blue,
+    Keyword       = colors.red,
+    Snippet       = colors.green,
+    Color         = colors.orange,
+    File          = colors.comment,
+    Reference     = colors.comment,
+    Folder        = colors.blue,
+    EnumMember    = colors.blue,
+    Constant      = colors.blue,
+    Struct        = colors.blue,
+    Event         = colors.orange,
+    Operator      = colors.light_blue,
+    TypeParameter = colors.blue,
+}
+for kind, fg in pairs(cmp_kind_colors) do
+    hi("CmpItemKind" .. kind, { fg = fg })
+end
 
 -- nvim-dap
 hi("DapBreakpoint",          { fg = colors.red,    bg = "NONE" })

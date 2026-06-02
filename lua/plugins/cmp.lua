@@ -19,6 +19,7 @@ return {
         local cmp     = require("cmp")
         local luasnip = require("luasnip")
         local copilot = require("copilot.suggestion")
+        local kind_icons = require("core.material").icons.kind
 
         -- Copilot có đang hiển thị ghost text không
         local function has_copilot_suggestion()
@@ -49,16 +50,40 @@ return {
             -- ============================================================
             -- 3. Cấu hình giao diện Popup (Giữ phong cách tối giản)
             -- ============================================================
+            -- formatting = {
+            --     -- Thu tu cot: ICON (kind) -> TEN (abbr) -> NGUON (menu)
+            --     fields = { "abbr", "kind", },
+            --     -- fields = { "kind", "abbr", "menu" },
+            --     format = function(entry, vim_item)
+            --         -- Chi hien icon o cot kind, dung truoc ten item
+            --         vim_item.kind = kind_icons[vim_item.kind] or ""
+
+            --         local menu_map = {
+            --             nvim_lsp = "[LSP]",
+            --             luasnip  = "[Snip]",
+            --             buffer   = "[Buf]",
+            --             path     = "[Path]",
+            --         }
+            --         vim_item.menu = menu_map[entry.source.name] or ""
+            --         return vim_item
+            --     end,
+            -- },
             formatting = {
-                fields = { "abbr", "kind", "menu" },
+                -- Thu tu cot: TEN (abbr) -> ICON + TEN KIND (kind) -> NGUON (menu)
+                fields = { "abbr", "kind" },
+                -- fields = { "abbr", "kind", "menu" },
                 format = function(entry, vim_item)
-                    local menu_map = {
-                        nvim_lsp = "[LSP]",
-                        luasnip  = "[Snip]",
-                        buffer   = "[Buf]",
-                        path     = "[Path]",
-                    }
-                    vim_item.menu = menu_map[entry.source.name] or ""
+                    -- Cot kind = icon + ten kind, vd: " Function", " Method"
+                    local icon = kind_icons[vim_item.kind] or ""
+                    vim_item.kind = string.format("%s %s", icon, vim_item.kind)
+
+                    -- local menu_map = {
+                    --     nvim_lsp = "[LSP]",
+                    --     luasnip  = "[Snip]",
+                    --     buffer   = "[Buf]",
+                    --     path     = "[Path]",
+                    -- }
+                    -- vim_item.menu = menu_map[entry.source.name] or ""
                     return vim_item
                 end,
             },
