@@ -21,13 +21,13 @@ return {
     -- ------------------------------------------------------------
     keys = {
         -- Namespace <leader>f* = "Find ..."
-        { "<leader>ff", ":Telescope find_files<CR>", desc = "Find files",   silent = true },
-        { "<leader>fb", ":Telescope buffers<CR>",    desc = "Find buffers", silent = true },
-        { "<leader>fg", ":Telescope live_grep<CR>",  desc = "Find by Grep", silent = true },
-        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Find lines in buffer", silent = true },
-        { "<leader>fh", ":Telescope help_tags<CR>",             desc = "Find help",                silent = true },
-        { "<leader>fk", ":Telescope keymaps<CR>",               desc = "Find keymaps",             silent = true },
-        { "<leader>fo", ":Telescope oldfiles<CR>",              desc = "Find recent files",        silent = true },
+        { "<leader>ff", ":Telescope find_files<CR>",                desc = "Find files",               silent = true },
+        { "<leader>fb", ":Telescope buffers<CR>",                   desc = "Find buffers",             silent = true },
+        { "<leader>fg", ":Telescope live_grep<CR>",                 desc = "Find by Grep",             silent = true },
+        { "<leader>fl", ":Telescope current_buffer_fuzzy_find<CR>", desc = "Find lines in buffer",     silent = true },
+        { "<leader>fh", ":Telescope help_tags<CR>",                 desc = "Find help",                silent = true },
+        { "<leader>fk", ":Telescope keymaps<CR>",                   desc = "Find keymaps",             silent = true },
+        { "<leader>fo", ":Telescope oldfiles<CR>",                  desc = "Find recent files",        silent = true },
 
         -- LSP pickers
         { "<leader>fd", ":Telescope diagnostics<CR>",           desc = "Find diagnostics",         silent = true },
@@ -42,9 +42,10 @@ return {
     },
 
     config = function()
-        local telescope = require("telescope")
-        local actions   = require("telescope.actions")
-        local themes    = require("telescope.themes")
+        local telescope   = require("telescope")
+        local actions     = require("telescope.actions")
+        local themes      = require("telescope.themes")
+        local borderchars = require("core.material").ascii.telescope.borderchars
 
         telescope.setup({
             defaults = {
@@ -57,7 +58,7 @@ return {
                     },
                 },
                 border          = true,
-                borderchars     = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+                borderchars     = borderchars.preview,
                 prompt_prefix   = "  ",
                 selection_caret = "  ",
                 file_ignore_patterns = {
@@ -111,11 +112,7 @@ return {
                             width  = 0.25,
                             height = 0.25,
                         },
-                        borderchars = {
-                            prompt  = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
-                            results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
-                            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-                        },
+                        borderchars = borderchars,
                     }),
                 },
             },

@@ -92,6 +92,14 @@ local ascii = {
 
     line_last_corner = "╰",
     line_last_square = "└",
+
+    telescope = {
+        borderchars = {
+            prompt  = { "─", "│", " ", "│", "╭", "╮", "│", "│" },
+            results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
+            preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+        },
+    }
 }
 
 local TERMINAL_BG = "#1d1d1d"
