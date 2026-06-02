@@ -70,7 +70,16 @@ local icons = {
             component = { left = '', right = '' },
             section   = { left = '', right = '' },
         },
-    }
+    },
+
+    tree_folder = {
+        folder_closed = "",
+        folder_open   = "",
+        folder_empty  = "",
+        default       = "",
+    },
+
+    tree_file_modified = "",
 }
 
 local ascii = {

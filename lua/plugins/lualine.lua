@@ -10,27 +10,6 @@ return {
         local material = require("core.material")
         local icons = material.icons
         local colors = material.colors.lualine
-        -- local colors = require("core.material").colors.lualine
-        -- local colors            = {
-        --     none          = "#1d1d1d",
-        --     dark          = "#0d1117",
-        --     fg_med        = "#c9d1d9",
-
-        --     normal        = "#22c55e",
-        --     insert        = "#ff7b72",
-        --     visual        = "#818cf8",
-        --     replace       = "#3b82f6",
-        --     command       = "#d2a8ff",
-
-        --     diag_err      = "#ef4444",
-        --     diag_warn     = "#fef08a",
-        --     diag_info     = "#79c0ff",
-        --     diag_hint     = "#fefce8",
-
-        --     bg_by           = "#1e293b",
-        --     bg_tag_inactive = "#1e293b",
-        --     bg_tag_active   = "#334155",
-        -- }
 
         local CX                = { fg = colors.fg_med, bg = colors.none }
         local BY                = { fg = colors.fg_med, bg = colors.bg_by }

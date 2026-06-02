@@ -15,13 +15,17 @@ return {
         "MunifTanjim/nui.nvim",
     },
     config = function()
+        local material = require("core.material")
+        local icons = material.icons
+        local ascii = material.ascii
+
         require("neo-tree").setup({
             sources = { "filesystem", "buffers", "git_status", "document_symbols" },
+            hide_root_node = true,
             close_if_last_window = true,
             enable_git_status    = true,
             enable_diagnostics   = true,
             popup_border_style   = "rounded",
-            hide_root_node = true,
             retain_hidden_root_indent = true,
 
             -- ============================================================
@@ -32,22 +36,17 @@ return {
                     indent_size        = 2,
                     padding            = 1,
                     with_markers       = true,
-                    indent_marker      = "┊", -- ╎, │
-                    last_indent_marker = "╰",
+                    indent_marker      = ascii.line_dash_extended,
+                    last_indent_marker = ascii.line_last_corner,
                     highlight          = "NeoTreeIndentMarker",
                     with_expanders     = true,
-                    expander_collapsed = "▶",
-                    expander_expanded  = "▼",
+                    expander_collapsed = ascii.collapse,
+                    expander_expanded  = ascii.expand,
                     expander_highlight = "NeoTreeExpander",
                 },
-                icon = {
-                    folder_closed = "",
-                    folder_open   = "",
-                    folder_empty  = "",
-                    default       = "",
-                },
+                icon = icons.tree_folder,
                 modified = {
-                    symbol = "",
+                    symbol = icons.tree_file_modified,
                     highlight = "NeoTreeModified"
                 },
                 name = {
@@ -55,12 +54,7 @@ return {
                     highlight_opened_files = false,
                 },
                 diagnostics = {
-                    symbols = {
-                        error = ' ',
-                        warn  = ' ',
-                        info  = '󱧢 ',
-                        hint  = '󰌶 ',
-                    },
+                    symbols = icons.diagnostics,
                     highlights = {
                         hint  = "DiagnosticSignHint",
                         info  = "DiagnosticSignInfo",
@@ -69,17 +63,7 @@ return {
                     },
                 },
                 git_status = {
-                    symbols = {
-                        added     = "", -- File mới
-                        modified  = "", -- Đã sửa
-                        deleted   = "", -- Đã xóa
-                        renamed   = "", -- Đổi tên
-                        untracked = "", -- File mới
-                        conflict  = "", -- Xung đột
-                        ignored   = "",  -- Ẩn icon cho file ignore cho gọn
-                        unstaged  = "",
-                        staged    = "",
-                    },
+                    symbols = icons.git,
                 },
             },
 
@@ -140,27 +124,27 @@ return {
                 follow_cursor = true,
                 client_filters = "first",
                 kinds = {
-                    Function      = { icon = "󰊕", hl = "@function" },
-                    Method        = { icon = "", hl = "@function.method" },
-                    Struct        = { icon = "", hl = "@type" },
-                    Interface     = { icon = "", hl = "@type" },
-                    Class         = { icon = "", hl = "@type" },
-                    Constructor   = { icon = "", hl = "@constructor" },
-                    Enum          = { icon = "", hl = "@type" },
-                    EnumMember    = { icon = "", hl = "@constant" },
-                    Field         = { icon = "", hl = "@field" },
-                    Property      = { icon = "", hl = "@property" },
-                    Constant      = { icon = "", hl = "@constant" },
-                    Variable      = { icon = "", hl = "@variable" },
-                    Package       = { icon = "", hl = "@module" },
-                    Module        = { icon = "󰏗", hl = "@module" },
-                    Namespace     = { icon = "", hl = "@module" },
-                    TypeParameter = { icon = "", hl = "@type" },
-                    String        = { icon = "", hl = "@string" },
-                    Number        = { icon = "", hl = "@number" },
-                    Boolean       = { icon = "", hl = "@boolean" },
-                    Array         = { icon = "", hl = "@punctuation.bracket" },
-                    Object        = { icon = "", hl = "@punctuation.bracket" },
+                    Function      = { icon = icons.doc.func, hl = "@function" },
+                    Method        = { icon = icons.doc.method, hl = "@function.method" },
+                    Struct        = { icon = icons.doc.struct, hl = "@type" },
+                    Interface     = { icon = icons.doc.interface, hl = "@type" },
+                    Class         = { icon = icons.doc.class, hl = "@type" },
+                    Constructor   = { icon = icons.doc.constructor, hl = "@constructor" },
+                    Enum          = { icon = icons.doc.enum, hl = "@type" },
+                    EnumMember    = { icon = icons.doc.enumMember, hl = "@constant" },
+                    Field         = { icon = icons.doc.field, hl = "@field" },
+                    Property      = { icon = icons.doc.property, hl = "@property" },
+                    Constant      = { icon = icons.doc.constant, hl = "@constant" },
+                    Variable      = { icon = icons.doc.variable, hl = "@variable" },
+                    Package       = { icon = icons.doc.package, hl = "@module" },
+                    Module        = { icon = icons.doc.module, hl = "@module" },
+                    Namespace     = { icon = icons.doc.namespace, hl = "@module" },
+                    TypeParameter = { icon = icons.doc.typeParameter, hl = "@type" },
+                    String        = { icon = icons.doc.string, hl = "@string" },
+                    Number        = { icon = icons.doc.number, hl = "@number" },
+                    Boolean       = { icon = icons.doc.boolean, hl = "@boolean" },
+                    Array         = { icon = icons.doc.array, hl = "@punctuation.bracket" },
+                    Object        = { icon = icons.doc.object, hl = "@punctuation.bracket" },
                 },
 
                 window = {
