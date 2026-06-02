@@ -6,17 +6,21 @@ return {
     "lewis6991/gitsigns.nvim",
     event = { "BufReadPre", "BufNewFile" },
     config = function()
+        local material = require("core.material")
+        local icons = material.icons.git_sign
+        local colors = material.colors
+
         require("gitsigns").setup({
             -- ============================================================
             -- 1. Cấu hình giao diện (ASCII tối giản, không cần Nerd Font)
             -- ============================================================
             signs = {
-                add          = { text = "+" },
-                change       = { text = "~" },
-                delete       = { text = "_" },
-                topdelete    = { text = "‾" },
-                changedelete = { text = "~_" },
-                untracked    = { text = "+" },
+                add          = { text = icons.add },
+                change       = { text = icons.change },
+                delete       = { text = icons.delete },
+                topdelete    = { text = icons.topdelete },
+                changedelete = { text = icons.changedelete },
+                untracked    = { text = icons.untracked },
             },
             max_file_length = 40000,
 
@@ -87,7 +91,7 @@ return {
         -- ============================================================
         local function set_blame_italic()
             vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", {
-                fg     = "#525252",
+                fg     = colors.git_blame,
                 italic = true,
             })
         end

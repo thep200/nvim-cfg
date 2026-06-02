@@ -1,12 +1,5 @@
 -- ============================================================
 --  plugins/diffview.lua
---  Giao diện 1 tabpage để xem diff toàn bộ file thay đổi,
---  duyệt lịch sử file/commit, và giải quyết merge conflict.
--- ============================================================
---  Ghi chú: repo gốc "sindrets/diffview.nvim" ít cập nhật từ 2024.
---  Nếu cần bản vá mới hơn, có thể đổi sang fork đang bảo trì:
---      "dlyongemallo/diffview.nvim"
---  (giữ nguyên config bên dưới, chỉ đổi dòng tên repo).
 -- ============================================================
 
 return {

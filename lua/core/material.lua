@@ -99,12 +99,23 @@ local ascii = {
             results = { "─", "│", "─", "│", "├", "┤", "╯", "╰" },
             preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
         },
+    },
+
+    dap = {
+        breakpoint           = "",
+        breakpoint_condition = "",
+        log_point            = "◆",
+        stopped              = "▶",
+        breakpoint_rejected  = "✗",
+        current_frame        = "✸",
     }
 }
 
 local TERMINAL_BG = "#1d1d1d"
 
 local colors = {
+    git_blame      = "#545d68",
+
     theme = {
         fg         = "#f0f6fc",  -- Mặc định (Biến, Văn bản)
         comment    = "#9198a1",  -- Xám (Comment, Viền, Gợi ý)

@@ -6,7 +6,6 @@
 
 local languages = require("languages")
 
--- Dependencies chung + dependencies riêng của từng ngôn ngữ đã bật
 local dependencies = {
     {
         "rcarriga/nvim-dap-ui",
@@ -25,10 +24,10 @@ return {
         local dap       = require("dap")
         local dapui     = require("dapui")
         local dap_langs = languages.dap()
+        local icons     = require("core.material").ascii
 
         -- ============================================================
         -- 1. Khởi tạo adapter cho từng ngôn ngữ đã bật
-        --    (vd: Go -> require("dap-go").setup(...))
         -- ============================================================
         for _, cfg in ipairs(dap_langs) do
             if cfg.setup then cfg.setup() end
@@ -69,9 +68,9 @@ return {
         dapui.setup({
             expand_lines = false,
             icons = {
-                expanded = "▼",
-                collapsed = "▶",
-                current_frame = "✸",
+                expanded = icons.expand,
+                collapsed = icons.collapse,
+                current_frame = icons.dap.current_frame,
             },
             controls = {
                 enabled = false,
@@ -105,11 +104,11 @@ return {
         -- ============================================================
         -- 6. Ký hiệu Breakpoint (ASCII)
         -- ============================================================
-        vim.fn.sign_define("DapBreakpoint",          { text = "●", texthl = "DapBreakpoint", numhl = "" })
-        vim.fn.sign_define("DapBreakpointCondition", { text = "◆", texthl = "DapBreakpointCondition", numhl = "" })
-        vim.fn.sign_define("DapLogPoint",            { text = "◆", texthl = "DapLogPoint", numhl = "" })
-        vim.fn.sign_define("DapStopped",             { text = "▶", texthl = "DapStopped", linehl = "DapStoppedLine", numhl = "DapStopped" })
-        vim.fn.sign_define("DapBreakpointRejected",  { text = "✗", texthl = "DapBreakpointRejected", numhl = "" })
+        vim.fn.sign_define("DapBreakpoint",          { text = icons.dap.breakpoint,           texthl = "DapBreakpoint", numhl = "" })
+        vim.fn.sign_define("DapBreakpointCondition", { text = icons.dap.breakpoint_condition, texthl = "DapBreakpointCondition", numhl = "" })
+        vim.fn.sign_define("DapLogPoint",            { text = icons.dap.log_point,            texthl = "DapLogPoint", numhl = "" })
+        vim.fn.sign_define("DapStopped",             { text = icons.dap.stopped,              texthl = "DapStopped", linehl = "DapStoppedLine", numhl = "DapStopped" })
+        vim.fn.sign_define("DapBreakpointRejected",  { text = icons.dap.breakpoint_rejected,  texthl = "DapBreakpointRejected", numhl = "" })
 
         -- ============================================================
         -- 7. Phím tắt điều khiển (generic)
@@ -143,7 +142,6 @@ return {
 
         -- ============================================================
         -- 8. Phím tắt riêng theo ngôn ngữ
-        --    (vd: Go -> <leader>dt / <leader>dT debug test)
         -- ============================================================
         for _, cfg in ipairs(dap_langs) do
             if cfg.keys then cfg.keys(k) end

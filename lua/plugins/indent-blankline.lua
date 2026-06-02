@@ -3,19 +3,21 @@
 --  Hiển thị đường indent guide (virtual text, không dùng conceal)
 -- ============================================================
 
+local ascii = require("core.material").ascii
+
 return {
     "lukas-reineke/indent-blankline.nvim",
     main  = "ibl",
     event = { "BufReadPre", "BufNewFile" },
     opts  = {
         indent = {
-            char         = "┊", -- ╎
-            tab_char     = "┊",
+            char         = ascii.line_dash_extended,
+            tab_char     = ascii.line_dash_extended,
             highlight    = "IblIndent",
         },
         scope = {
             enabled    = true,
-            char       = "┊",
+            char       = ascii.line_dash_extended,
             show_start = false,
             show_end   = false,
             highlight  = "IblScope",
