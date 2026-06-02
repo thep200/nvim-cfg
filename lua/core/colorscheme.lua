@@ -12,24 +12,6 @@ vim.g.colors_name = "zed_github_dark"
 -- 1. Định nghĩa Bảng Màu Chính (Biến số)
 -- ============================================================
 local colors = require("core.material").colors.theme
--- local colors = {
---     fg         = "#f0f6fc",  -- Mặc định (Biến, Văn bản)
---     comment    = "#9198a1",  -- Xám (Comment, Viền, Gợi ý)
---     red        = "#ff7b72",  -- Đỏ (Lỗi, Từ khóa, Từ khóa điều kiện)
---     green      = "#7ee787",  -- Xanh lá (Chuỗi, Thêm mới, Điểm dừng)
---     green_dark = "#22c55e",
---     orange     = "#ffa657",  -- Cam (Số, Cảnh báo, Thay đổi)
---     purple     = "#d2a8ff",  -- Tím (Hàm, Phương thức)
---     blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
---     light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
-
---     -- Màu Background Đặc thù (Popup, Dòng đang chọn)
---     pmenu_bg   = "#161b22",  -- Nền Popup Autocomplete
---     dark_bg    = "#1c1c1c",  -- Nền Highlight tìm kiếm
---     visual_bg  = "#264f78",  -- Nền Bôi đen chữ
---     line_bg    = "#1f2937",  -- Nền Dòng Code nổi bật (Debug)
---     indent     = "#30363d",  -- Màu Đường Indent (ibl)
--- }
 
 -- Hàm tiện ích gán màu nhanh
 local function hi(group, spec)
@@ -78,8 +60,6 @@ hi("@number",   { link = "Number" })
 hi("Boolean",   { fg = colors.orange })
 hi("@boolean",  { link = "Boolean" })
 
--- Ký tự đặc biệt trong chuỗi -> màu cam
--- (escape "\n" "\t", format verb "%v" "%s" "%d", regex,...)
 hi("SpecialChar",            { fg = colors.orange })
 hi("@string.escape",         { fg = colors.orange })
 hi("@string.special",        { fg = colors.orange })
