@@ -31,24 +31,12 @@ map("n", "<S-Right>", "<C-w>l", opts)
 -- Copy Diagnostic Message tại dòng hiện tại
 -- ============================================================
 vim.keymap.set('n', '<leader>cd', function()
-    -- Lấy vị trí dòng hiện tại của con trỏ (API của Neovim đếm từ 0)
     local current_line = vim.api.nvim_win_get_cursor(0)[1] - 1
-
-    -- Lấy danh sách các diagnostics ở dòng đó
     local diagnostics = vim.diagnostic.get(0, { lnum = current_line })
 
-    -- Kiểm tra xem có lỗi/cảnh báo nào không
-    if #diagnostics == 0 then
-        return
-    end
+    if #diagnostics == 0 then return end
 
-    -- Lấy nội dung thông báo của lỗi đầu tiên tìm thấy
     local message = diagnostics[1].message
-
-    -- Lưu vào clipboard hệ thống (register '+')
     vim.fn.setreg('+', message)
-
-    -- Hiển thị thông báo xác nhận góc màn hình
-    vim.notify("Copied " .. message, vim.log.levels.INFO)
-
+    vim.notify("Diagnostics copied: " .. message, vim.log.levels.INFO)
 end, { desc = "Copy Diagnostic message" })
