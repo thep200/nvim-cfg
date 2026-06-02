@@ -1,7 +1,5 @@
 -- ============================================================
 -- core/projects.lua
--- Suy ra danh sách project mở gần đây từ vim.v.oldfiles và chuyển vào project đó.
--- Dùng chung cho: phím "O" trong neo-tree và keymap global <leader>fp.
 -- ============================================================
 
 local M = {}

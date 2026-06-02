@@ -19,7 +19,7 @@ return {
             sources = { "filesystem", "buffers", "git_status", "document_symbols" },
             close_if_last_window = true,
             enable_git_status    = true,
-            enable_diagnostics   = true, -- E/W/I/? báo lỗi/cảnh báo cạnh tên file
+            enable_diagnostics   = true,
             popup_border_style   = "rounded",
             hide_root_node = true,
             retain_hidden_root_indent = true,

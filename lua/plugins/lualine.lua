@@ -7,26 +7,30 @@ return {
     event = "VeryLazy",
     dependencies = { "lewis6991/gitsigns.nvim" },
     config = function()
-        local colors            = {
-            none          = "#1d1d1d",
-            dark          = "#0d1117",
-            fg_med        = "#c9d1d9",
+        local material = require("core.material")
+        local icons = material.icons
+        local colors = material.colors.lualine
+        -- local colors = require("core.material").colors.lualine
+        -- local colors            = {
+        --     none          = "#1d1d1d",
+        --     dark          = "#0d1117",
+        --     fg_med        = "#c9d1d9",
 
-            normal        = "#22c55e",
-            insert        = "#ff7b72",
-            visual        = "#818cf8",
-            replace       = "#3b82f6",
-            command       = "#d2a8ff",
+        --     normal        = "#22c55e",
+        --     insert        = "#ff7b72",
+        --     visual        = "#818cf8",
+        --     replace       = "#3b82f6",
+        --     command       = "#d2a8ff",
 
-            diag_err      = "#ef4444",
-            diag_warn     = "#fef08a",
-            diag_info     = "#79c0ff",
-            diag_hint     = "#fefce8",
+        --     diag_err      = "#ef4444",
+        --     diag_warn     = "#fef08a",
+        --     diag_info     = "#79c0ff",
+        --     diag_hint     = "#fefce8",
 
-            bg_by           = "#1e293b",
-            bg_tag_inactive = "#1e293b",
-            bg_tag_active   = "#334155",
-        }
+        --     bg_by           = "#1e293b",
+        --     bg_tag_inactive = "#1e293b",
+        --     bg_tag_active   = "#334155",
+        -- }
 
         local CX                = { fg = colors.fg_med, bg = colors.none }
         local BY                = { fg = colors.fg_med, bg = colors.bg_by }
@@ -44,13 +48,6 @@ return {
             replace  = { a = replace_colors, b = BY, c = CX, x = CX, y = BY, z = replace_colors },
             command  = { a = command_colors, b = BY, c = CX, x = CX, y = BY, z = command_colors },
             inactive = { a = normal_colors, b = BY, c = CX, x = CX, y = BY, z = normal_colors },
-        }
-
-        local diagnostics_color = {
-            error = { fg = colors.diag_err },
-            warn  = { fg = colors.diag_warn },
-            info  = { fg = colors.diag_info },
-            hint  = { fg = colors.diag_hint },
         }
 
         local events = {
@@ -81,18 +78,8 @@ return {
                 always_show_tabline  = false,
                 refresh              = refresh,
                 theme                = custom_theme,
-
-                -- Arrow
-                -- component_separators = { left = '', right = '' },
-                -- section_separators   = { left = '', right = '' },
-
-                -- Slanted downward
-                -- section_separators = { left = '', right = '' },
-                -- component_separators = { left = '', right = '' },
-
-                -- Slanted upwards
-                section_separators = { left = '', right = '' },
-                component_separators = { left = '', right = '' },
+                section_separators   = icons.lualine_sep.slant_up.section,
+                component_separators = icons.lualine_sep.slant_up.component,
             },
             sections = {
                 lualine_a = { 'mode' },
@@ -113,24 +100,20 @@ return {
                     },
                     {
                         'diff',
-                        symbols = {
-                            added    = '+',
-                            modified = '~',
-                            removed  = '-',
-                        },
+                        symbols = icons.git_diff,
                     },
                 },
                 lualine_x = { 'filetype' },
                 lualine_y = {
                     {
                         'diagnostics',
-                        diagnostics_color = diagnostics_color,
-                        symbols = {
-                            error = ' ',
-                            warn  = ' ',
-                            info  = '󱧢 ',
-                            hint  = '󰌶 ',
+                        diagnostics_color = {
+                            error = { fg = colors.diag_err },
+                            warn  = { fg = colors.diag_warn },
+                            info  = { fg = colors.diag_info },
+                            hint  = { fg = colors.diag_hint },
                         },
+                        symbols = icons.diagnostics,
                     }
                 },
                 lualine_z = {
