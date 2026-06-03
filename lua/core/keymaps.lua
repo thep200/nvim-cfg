@@ -26,16 +26,19 @@ map("n", "<S-Down>", "<C-w>j", opts)
 map("n", "<S-Left>",  "<C-w>h", opts)
 map("n", "<S-Right>", "<C-w>l", opts)
 
+-- Delete into void
+-- <leader>dd to delete a line without copying it to the clipboard
+map("n", "<leader>d", '"_d', { desc = "Delete without copying" })
+map("v", "<leader>d", '"_d', { desc = "Delete without copying" })
+map("n", "x", '"_x', { desc = "Delete char without copying" })
 
 -- ============================================================
 -- Copy Diagnostic Message tại dòng hiện tại
 -- ============================================================
-vim.keymap.set('n', '<leader>cd', function()
+map('n', '<leader>cd', function()
     local current_line = vim.api.nvim_win_get_cursor(0)[1] - 1
     local diagnostics = vim.diagnostic.get(0, { lnum = current_line })
-
     if #diagnostics == 0 then return end
-
     local message = diagnostics[1].message
     vim.fn.setreg('+', message)
     vim.notify("Diagnostics copied: " .. message, vim.log.levels.INFO)

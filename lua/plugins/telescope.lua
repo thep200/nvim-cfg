@@ -61,13 +61,6 @@ return {
                 borderchars     = borderchars.preview,
                 prompt_prefix   = "  ",
                 selection_caret = "  ",
-                file_ignore_patterns = {
-                    "%.git/",
-                    "vendor/",
-                    "node_modules/",
-                    "__pycache__/",
-                    "__debug_bin*",
-                },
 
                 mappings = {
                     i = {
@@ -91,13 +84,34 @@ return {
 
             pickers = {
                 find_files = {
-                    hidden = true,
-                    follow = true,
-                    find_command = { "rg", "--files", "--hidden", "--follow" },
+                    find_command = function()
+                        -- Mặc định thêm --no-ignore để TÌM TẤT CẢ, bất chấp .gitignore
+                        local cmd = { "rg", "--files", "--hidden", "--follow", "--no-ignore" }
+
+                        -- Trỏ tới file Blacklist của bạn
+                        local custom_ignore_file = vim.fn.stdpath("config") .. "/rg_ignore.txt"
+
+                        -- Nếu file Blacklist tồn tại, bắt Ripgrep phải đọc nó
+                        if vim.fn.filereadable(custom_ignore_file) == 1 then
+                            table.insert(cmd, "--ignore-file")
+                            table.insert(cmd, custom_ignore_file)
+                        end
+
+                        return cmd
+                    end,
                 },
+
                 live_grep = {
                     additional_args = function()
-                        return { "--hidden" }
+                        local args = { "--hidden", "--no-ignore" }
+                        local custom_ignore_file = vim.fn.stdpath("config") .. "/rg_ignore.txt"
+
+                        if vim.fn.filereadable(custom_ignore_file) == 1 then
+                            table.insert(args, "--ignore-file")
+                            table.insert(args, custom_ignore_file)
+                        end
+
+                        return args
                     end,
                 },
             },

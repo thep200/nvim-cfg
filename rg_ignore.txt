@@ -1,0 +1,11 @@
+node_modules/
+vendor/
+
+dist/
+build/
+__pycache__/
+
+.git/
+
+*.log
+*.sqlite3

@@ -15,7 +15,7 @@ return {
     -- Settings truyền vào vim.lsp.config("gopls", { settings = ... })
     settings = {
         gopls = {
-            buildFlags         = { "-tags=integration" },
+            buildFlags         = { "-tags=integration", "-tags=wireinject", "-tags=debug", "-tags=dev", "-tags=debugwire", "-tags=debugtest" },
             staticcheck        = true,
             gofumpt            = true,
             usePlaceholders    = true,

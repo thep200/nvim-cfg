@@ -100,11 +100,13 @@ return {
                     visible         = true,
                     hide_dotfiles   = false,
                     hide_gitignored = false,
-                    hide_by_name = {
-                        "__pycache__",
-                        "node_modules",
+                    hide_by_name = { -- H to toogle show/hide
                         ".idea",
                         ".vscode",
+                        ".zed",
+                        "claude",
+                        "__pycache__",
+                        "node_modules",
                     },
                     never_show_by_pattern = {
                         "*.pyc",
