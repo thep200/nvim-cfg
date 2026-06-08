@@ -36,12 +36,13 @@ require("lazy").setup({
     { import = "plugins.dap" },               -- debug adapter (Go via delve)
     { import = "plugins.neoscroll" },         -- smooth scrolling
     { import = "plugins.markdown-preview" },  -- preview markdown file
+    { import = "plugins.session-manager" },   -- session management
 }, {
 
     -- ------------------------------------------------------------
     -- Cấu hình chung cho lazy.nvim
     -- ------------------------------------------------------------
-    install          = { colorscheme = { "habamax", "default" } }, -- built-in fallback khi install
+    install          = { colorscheme = { "habamax", "default" } },
     ui               = { border = "rounded" },
     change_detection = { notify = false },
     performance = {

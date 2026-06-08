@@ -83,7 +83,6 @@ return {
                     ["t"]       = "open_tabnew",  -- Mở tab mới
                     ["H"]       = "toggle_hidden",-- Bật/tắt file ẩn
                     ["R"]       = "refresh",      -- Làm mới cây thư mục
-                    ["O"]       = function() require("core.projects").open() end,
                 },
             },
 

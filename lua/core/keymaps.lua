@@ -11,26 +11,27 @@ map("n", "<S-Tab>", ":bnext<CR>", opts)
 -- Esc để xoá highlight tìm kiếm sau khi search xong
 map("n", "<Esc>", ":nohlsearch<CR>", opts)
 
--- Recent projects
-map("n", "<leader>fp", function() require("core.projects").open() end, { noremap = true, silent = true, desc = "Find recent projects" })
+-- Ctrl + Shift + h/j/k/l để splitright/splitbelow/vsplit/splitright
+map("n", "<C-S-k>",   ":split<CR>", opts)
+map("n", "<C-S-j>", ":split<CR>", opts)
+map("n", "<C-S-h>",  ":vsplit<CR>", opts)
+map("n", "<C-S-l>", ":vsplit<CR>", opts)
 
--- Ctrl + Shift + Mũi tên Lên/Xuống để chia màn hình
-map("n", "<C-S-Up>",   ":split<CR>", opts)
-map("n", "<C-S-Down>", ":split<CR>", opts)
-map("n", "<C-S-Left>",  ":vsplit<CR>", opts)
-map("n", "<C-S-Right>", ":vsplit<CR>", opts)
-
--- Shift + Mũi tên Lên/Xuống để di chuyển nhanh giữa các màn hình
-map("n", "<S-Up>",   "<C-w>k", opts)
-map("n", "<S-Down>", "<C-w>j", opts)
-map("n", "<S-Left>",  "<C-w>h", opts)
-map("n", "<S-Right>", "<C-w>l", opts)
+-- Chế độ Normal ("n"): Đè Ctrl + h/j/k/l để nhảy nhanh giữa các màn hình
+map("n", "<C-h>", "<C-w>h")
+map("n", "<C-j>", "<C-w>j")
+map("n", "<C-k>", "<C-w>k")
+map("n", "<C-l>", "<C-w>l")
 
 -- Delete into void
 -- <leader>dd to delete a line without copying it to the clipboard
 map("n", "<leader>d", '"_d', { desc = "Delete without copying" })
 map("v", "<leader>d", '"_d', { desc = "Delete without copying" })
 map("n", "x", '"_x', { desc = "Delete char without copying" })
+
+-- Quick quit
+map("n", "<leader>qq", "<cmd>wqa<CR>", { desc = "Save all and quit" })
+map("n", "<leader>qQ", "<cmd>qa!<CR>", { desc = "Quit without saving" })
 
 -- ============================================================
 -- Copy Diagnostic Message tại dòng hiện tại
