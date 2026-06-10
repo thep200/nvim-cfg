@@ -7,7 +7,8 @@ return {
     branch = "v3.x",
     cmd = "Neotree",
     keys = {
-        { "<leader>e", ":Neotree reveal toggle<CR>", desc = "Reveal Explorer", silent = true },
+        { "<leader>e", ":Neotree float reveal toggle<CR>", desc = "Float Explorer", silent = true },
+        { "<leader>E", ":Neotree reveal toggle<CR>", desc = "Reveal Explorer", silent = true },
         { "<leader>o", ":Neotree toggle document_symbols position=right<CR>", desc = "Toggle Outline (Symbols)", silent = true },
     },
     dependencies = {
