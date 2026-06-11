@@ -74,6 +74,15 @@ return {
             window = {
                 position = "right",
                 width    = 35,
+
+                popup = {
+                    position = "50%",
+                    size = {
+                        height = "80%",
+                        width  = "50%",
+                    },
+                },
+
                 mappings = {
                     ["<space>"] = "none",         -- Giải phóng phím Space
                     ["?"]       = "show_help",    -- Bảng trợ giúp
@@ -85,6 +94,12 @@ return {
                     ["t"]       = "open_tabnew",  -- Mở tab mới
                     ["H"]       = "toggle_hidden",-- Bật/tắt file ẩn
                     ["R"]       = "refresh",      -- Làm mới cây thư mục
+
+                    -- Các phím gập/mở thư mục (Folding)
+                    ["h"]       = "close_node",       -- Gập folder hiện tại lại
+                    ["l"]       = "open",             -- Mở folder hiện tại ra
+                    ["W"]       = "close_all_nodes",  -- Gập toàn bộ cây thư mục (Viết hoa W)
+                    ["E"]       = "expand_all_nodes", -- Mở bung toàn bộ cây thư mục (Viết hoa E)
                 },
             },
 
@@ -101,7 +116,7 @@ return {
                     visible         = true,
                     hide_dotfiles   = false,
                     hide_gitignored = false,
-                    hide_by_name = { -- H to toogle show/hide
+                    hide_by_name = {
                         ".idea",
                         ".vscode",
                         ".zed",
@@ -121,7 +136,7 @@ return {
             },
 
             -- ============================================================
-            -- 4. Outline (Document Symbols) — yêu cầu LSP (gopls) đang attach
+            -- 4. Outline (Document Symbols)
             -- ============================================================
             document_symbols = {
                 follow_cursor = true,
