@@ -78,6 +78,7 @@ return {
                     ["<space>"] = "none",         -- Giải phóng phím Space
                     ["?"]       = "show_help",    -- Bảng trợ giúp
                     ["q"]       = "close_window", -- Đóng cửa sổ
+                    ["<Esc>"]   = "close_window", -- Đóng cửa sổ bằng phím Esc
                     ["<CR>"]    = "open",         -- Mở file
                     ["s"]       = "open_split",   -- Chia màn hình ngang
                     ["v"]       = "open_vsplit",  -- Chia màn hình dọc
