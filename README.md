@@ -24,6 +24,10 @@ brew install neovim git go node ripgrep fd
 xcode-select --install   # gcc + make
 ```
 
+### Tricky
+
+> Convert `Caps Lock` into `Ctrl`
+
 ---
 
 ## 2. Phím tắt - Hệ thống (Built-in Neovim)

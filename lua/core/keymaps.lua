@@ -5,17 +5,25 @@
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- Shift+Tab để chuyển buffer tiếp theo
-map("n", "<S-Tab>", ":bnext<CR>", opts)
-
 -- Esc để xoá highlight tìm kiếm sau khi search xong
 map("n", "<Esc>", ":nohlsearch<CR>", opts)
 
--- Ctrl + Shift + h/j/k/l để splitright/splitbelow/vsplit/splitright
-map("n", "<C-S-k>",   ":split<CR>", opts)
-map("n", "<C-S-j>", ":split<CR>", opts)
-map("n", "<C-S-h>",  ":vsplit<CR>", opts)
-map("n", "<C-S-l>", ":vsplit<CR>", opts)
+-- ============================================================
+-- Cuộn trang và tự động giữ con trỏ ở giữa màn hình
+-- ============================================================
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+
+-- Split window management
+map("n", "<leader>sv", "<cmd>vsplit<CR>", { desc = "Split window vertically" })
+map("n", "<leader>sh", "<cmd>split<CR>", { desc = "Split window horizontally" })
+map("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" })
+map("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" })
+
+map("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase height" })
+map("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease height" })
+map("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease width" })
+map("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase width" })
 
 -- Chế độ Normal ("n"): Đè Ctrl + h/j/k/l để nhảy nhanh giữa các màn hình
 map("n", "<C-h>", "<C-w>h")
@@ -32,6 +40,14 @@ map("n", "x", '"_x', { desc = "Delete char without copying" })
 -- Quick quit
 map("n", "<leader>qq", "<cmd>wqa<CR>", { desc = "Save all and quit" })
 map("n", "<leader>qQ", "<cmd>qa!<CR>", { desc = "Quit without saving" })
+
+--- Remove default keymaps
+pcall(vim.keymap.del, "n", "grr") -- Xóa List References mặc định
+pcall(vim.keymap.del, "n", "gri") -- Xóa Implementation mặc định
+pcall(vim.keymap.del, "n", "grn") -- Xóa Rename mặc định
+pcall(vim.keymap.del, "n", "gra") -- Xóa luôn Code Action mặc định (cho sạch tiền tố)
+pcall(vim.keymap.del, "n", "grt") -- Xóa Type Definition mặc định (nếu có)
+pcall(vim.keymap.del, "n", "grx") -- Run Codelens actions
 
 -- ============================================================
 -- Copy Diagnostic Message tại dòng hiện tại

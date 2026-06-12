@@ -37,12 +37,12 @@ return {
         -- 2. Cấu hình frames DAP UI
         -- ============================================================
         local frames = {
-            scopes      = 0.4,
+            scopes      = 0.7,
             stacks      = false,
             watches     = false,
             breakpoints = false,
             console     = false,
-            repl        = 0.6,
+            repl        = 0.3,
         }
 
         local function build(ids)
@@ -56,7 +56,7 @@ return {
             return out
         end
 
-        local right = build({ "repl", "console", "watches", "stacks", "breakpoints", "scopes" })
+        local right = build({ "scopes", "console", "watches", "stacks", "breakpoints", "repl" })
         local layouts = {}
         if #right > 0 then
             table.insert(layouts, { elements = right, size = 40, position = "right" })

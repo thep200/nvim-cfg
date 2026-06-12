@@ -28,10 +28,10 @@ return {
                 end
 
                 -- Chọn nội dung giữ lại
-                map("<leader>co", "<cmd>GitConflictChooseOurs<CR>",   "Conflict: Choose Ours (nhánh hiện tại)")
-                map("<leader>ct", "<cmd>GitConflictChooseTheirs<CR>", "Conflict: Choose Theirs (nhánh kéo về)")
-                map("<leader>cb", "<cmd>GitConflictChooseBoth<CR>",   "Conflict: Choose Both (giữ cả hai)")
-                map("<leader>c0", "<cmd>GitConflictChooseNone<CR>",   "Conflict: Choose None (bỏ cả hai)")
+                map("<leader>co", "<cmd>GitConflictChooseOurs<CR>",   "Conflict: Choose Ours")
+                map("<leader>ct", "<cmd>GitConflictChooseTheirs<CR>", "Conflict: Choose Theirs")
+                map("<leader>cb", "<cmd>GitConflictChooseBoth<CR>",   "Conflict: Choose Both")
+                map("<leader>c0", "<cmd>GitConflictChooseNone<CR>",   "Conflict: Choose None")
 
                 -- Điều hướng giữa các conflict
                 map("]x", "<cmd>GitConflictNextConflict<CR>", "Conflict: Next")

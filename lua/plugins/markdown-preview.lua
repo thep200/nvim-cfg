@@ -8,8 +8,7 @@ return {
         "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-        require("markview").setup({
-        })
+        require("markview").setup({})
         vim.keymap.set("n", "<leader>mp", "<cmd>Markview toggle<CR>", { desc = "Toggle Markview" })
     end,
 }

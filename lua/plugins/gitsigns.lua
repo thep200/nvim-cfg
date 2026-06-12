@@ -74,15 +74,15 @@ return {
 
                 -- ---- THAO TÁC VỚI ĐOẠN CODE NHỎ (HUNK) ----
                 -- Trong gitsigns mới: stage_hunk có toggle behavior, thay cho undo_stage_hunk
-                map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk (Xem code cũ/mới)")
-                map("n", "<leader>hr", gs.reset_hunk,   "Reset Hunk (Hủy thay đổi đoạn này)")
+                map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
+                map("n", "<leader>hr", gs.reset_hunk,   "Reset Hunk")
                 map("n", "<leader>hs", gs.stage_hunk,   "Stage / Unstage Hunk (toggle)")
-                map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line (popup chi tiết)")
-                map("n", "<leader>hB", gs.toggle_current_line_blame, "Toggle Inline Blame (git hint)")
+                map("n", "<leader>hb", function() gs.blame_line({ full = true }) end, "Blame Line")
+                map("n", "<leader>hB", gs.toggle_current_line_blame, "Toggle Inline Blame")
 
                 -- ---- THAO TÁC VỚI TOÀN BỘ FILE (BUFFER) ----
-                map("n", "<leader>gd", gs.diffthis,     "Git Diff (So sánh toàn file)")
-                map("n", "<leader>gR", gs.reset_buffer, "Git Reset (Hủy toàn bộ thay đổi file)")
+                map("n", "<leader>gd", gs.diffthis,     "Git Diff")
+                map("n", "<leader>gR", gs.reset_buffer, "Git Reset")
             end,
         })
 
