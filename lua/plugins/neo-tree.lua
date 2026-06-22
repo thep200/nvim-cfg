@@ -112,6 +112,12 @@ return {
                     enabled              = true,
                     leave_dirs_open      = true,
                 },
+                cwd_target = {
+                    sidebar = "tab",
+                    none = "index",
+                },
+                bind_to_cwd = true,
+
                 filtered_items = {
                     visible         = true,
                     hide_dotfiles   = false,

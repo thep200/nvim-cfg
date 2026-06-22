@@ -44,6 +44,17 @@ return {
             console     = false,
             repl        = 0.3,
         }
+        -- local frames = {
+        --     scopes      = 0.5,  -- Giảm diện tích của Scopes xuống một chút
+        --     stacks      = false,
+        --     watches     = false,
+        --     breakpoints = false,
+
+        --     -- BẬT CONSOLE LÊN ĐỂ XEM LOG GC VÀ STDOUT/STDERR
+        --     console     = 0.3,
+
+        --     repl        = 0.2,  -- Giữ lại REPL ở diện tích nhỏ hơn
+        -- }
 
         local function build(ids)
             local out = {}

@@ -39,6 +39,9 @@ return {
         { "<leader>gs", ":Telescope git_status<CR>",            desc = "Git status",               silent = true },
         { "<leader>gc", ":Telescope git_commits<CR>",           desc = "Git commits",              silent = true },
         { "<leader>gb", ":Telescope git_branches<CR>",          desc = "Git branches",             silent = true },
+
+        -- Quickfix
+        { "<leader>sq", ":Telescope quickfix<CR>", { desc = "Telescope: quickfix" }, silent = true },
     },
 
     config = function()
@@ -69,6 +72,7 @@ return {
                         ["<C-x>"]             = actions.select_horizontal,
                         ["<C-v>"]             = actions.select_vertical,
                         ["<Esc>"]             = actions.close,
+                        ["<C-q>"]             = actions.send_to_qflist,
                         ["<ScrollWheelUp>"]   = actions.move_selection_previous,
                         ["<ScrollWheelDown>"] = actions.move_selection_next,
                         ["<LeftMouse>"]       = false,
@@ -79,6 +83,7 @@ return {
                         ["<ScrollWheelDown>"] = actions.move_selection_next,
                         ["<LeftMouse>"]       = false,
                         ["<RightMouse>"]      = false,
+                        ["<C-q>"]             = actions.send_to_qflist,
                     },
                 },
             },
