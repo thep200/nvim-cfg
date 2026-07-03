@@ -40,6 +40,9 @@ map("n", "x", '"_x', { desc = "Delete char without copying" })
 -- Quick quit
 map("n", "<leader>qq", "<cmd>wqa<CR>", { desc = "Save all and quit" })
 map("n", "<leader>qQ", "<cmd>qa!<CR>", { desc = "Quit without saving" })
+map("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+
 
 --- Remove default keymaps
 pcall(vim.keymap.del, "n", "grr") -- Xóa List References mặc định

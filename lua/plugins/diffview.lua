@@ -54,7 +54,6 @@ return {
                     { "n", "<leader>go", actions.goto_file_tab, { desc = "Open file in new tab" } },
                 },
 
-                -- Cấu hình phím tắt tại thanh Sidebar danh sách file thay đổi
                 file_panel = {
                     { "n", "q", "<cmd>DiffviewClose<CR>", { desc = "Close Diffview" } },
                     { "n", "<Tab>",   actions.select_next_entry, { desc = "Next file" } },

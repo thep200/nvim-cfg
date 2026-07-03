@@ -6,6 +6,13 @@ return {
     lazy = false,
     opts = {
         suppressed_dirs = { "~/", "~/Downloads", "~/Documents", "/" },
+        session_lens = {
+            previewer = false, 
+            mappings = {
+                delete_session = { "i", "<C-d>" },
+            },
+        },
+
         post_restore_cmds = {
             function()
                 vim.schedule(function()

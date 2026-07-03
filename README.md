@@ -397,9 +397,56 @@ xcode-select --install   # gcc + make
 
 ---
 
+## 6. Vim Grammar
 
+| Operators | Modifiers | Objects |
+| :--- | :--- | :--- |
+| d (Delete) | i (Inner) | w (Word) |
+| c (Change) | a (Around) | p (Paragraph) |
+| y (Yank) |  | t (Tag) |
+| v (Visual) |  | ' |
+|  |  | " |
+|  |  | [ |
+|  |  | { |
+|  |  | ( |
 
-## 6. Tham khảo nhanh - Workflow Substitute toàn dự án
+### Nhóm thao tác với Từ (Words)
+
+- diw: (Delete Inner Word) - Xóa trọn vẹn từ mà con trỏ đang đứng, bất kể con trỏ ở đầu hay giữa từ.
+- caw: (Change Around Word) - Xóa từ hiện tại cộng thêm khoảng trắng phía sau nó, sau đó nhảy sang chế độ Insert.
+- yiw: (Yank Inner Word) - Copy từ hiện tại.
+- viW: (Visual Inner WORD) - Bôi đen một cụm từ dính liền nhau (bao gồm cả các ký tự đặc biệt, chỉ dừng lại khi gặp khoảng trắng).
+
+### Nhóm thao tác với Dấu ngoặc (Parentheses / Braces)
+
+- ci{ hoặc ciB: (Change Inside Braces) - Xóa sạch toàn bộ code bên trong cặp ngoặc nhọn { } và nhảy vào chế độ Insert. Cực kỳ hữu ích khi muốn viết lại toàn bộ logic bên trong một function.
+- da{ hoặc daB: (Delete Around Braces) - Xóa toàn bộ nội dung bên trong VÀ xóa luôn cả 2 cái dấu ngoặc nhọn { } đó.
+- di( hoặc dib: (Delete Inside Parentheses) - Xóa nội dung bên trong dấu ngoặc đơn ( ). Dùng để xóa nhanh các tham số truyền vào hàm.
+- ya[: (Yank Around Brackets) - Copy toàn bộ mảng/slice bao gồm cả cặp dấu ngoặc vuông [ ].
+
+### Nhóm thao tác với Dấu nháy (Quotes)
+
+- ci": (Change Inside Double Quotes) - Xóa nội dung chuỗi bên trong dấu ngoặc kép " " và cho phép gõ chuỗi mới. (Rất hay dùng để sửa giá trị của chuỗi JSON).
+- di': (Delete Inside Single Quotes) - Xóa nội dung bên trong dấu nháy đơn ' '.
+- da: (Delete Around Backticks) - Xóa chuỗi và xóa luôn cặp dấu backtick ``  ` `` bao quanh nó.
+
+### Nhóm thao tác với Khối lệnh / Cấu trúc (Paragraphs & Tags)
+
+- dap: (Delete Around Paragraph) - Xóa toàn bộ đoạn văn/khối code hiện tại cùng với dòng trống ở ngay dưới nó. (Trong code, một paragraph thường là một khối lệnh liền nhau không bị ngắt bởi dòng trống).
+- vip: (Visual Inside Paragraph) - Bôi đen toàn bộ khối code hiện tại để dễ dàng quan sát trước khi thao tác các lệnh khác.
+- cit: (Change Inside Tag) - Xóa nội dung bên trong thẻ XML/HTML (ví dụ: <div>...</div>) và chờ gõ nội dung mới.
+- dat: (Delete Around Tag) - Xóa toàn bộ khối XML/HTML bao gồm cả thẻ mở, nội dung và thẻ đóng.
+
+### Các lệnh thao tác dòng siêu tốc (Phím kép & Viết hoa)
+
+- cc: (Change Line) - Xóa sạch dòng hiện tại, tự động giữ nguyên khoảng thụt lề (indent) và vào chế độ gõ.
+- dd: (Delete Line) - Cắt toàn bộ dòng hiện tại.
+- yy: (Yank Line) - Copy dòng hiện tại.
+- C: (Change to End) - Xóa từ vị trí con trỏ đến cuối dòng và vào chế độ gõ (tương đương c$).
+- D: (Delete to End) - Xóa từ vị trí con trỏ đến cuối dòng (tương đương d$).
+- ~: (Toggle Case) - Đảo ngược chữ hoa thành chữ thường (và ngược lại) cho ký tự ngay dưới con trỏ.
+
+## 7. Tham khảo nhanh - Workflow Substitute toàn dự án
 
 | Bước | Phím tắt / Lệnh | Mục đích |
 | --- | --- | --- |
