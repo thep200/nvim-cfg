@@ -38,7 +38,7 @@ require("lazy").setup({
     -- { import = "plugins.markdown-preview" },  -- preview markdown file
     { import = "plugins.session-manager" },   -- session management
     { import = "plugins.which-key" },         -- Which-key hiển thị popup hướng dẫn phím tắt
-    -- { import = "plugins.grug-far" },          -- GrugFar hiển thị popup hướng dẫn phím tắt
+    -- { import = "plugins.grug-far" },       -- Search and Replace on Project
 }, {
 
     -- ------------------------------------------------------------

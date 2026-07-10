@@ -10,6 +10,10 @@ M.languages = {
         dap = "languages.go.dap",
     },
 
+    proto = {
+        lsp = "languages.proto.buf",
+    },
+
     -- python = {
     --     lsp = "languages.python.pyright",
     --     dap = "languages.python.dap",

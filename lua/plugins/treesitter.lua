@@ -16,6 +16,7 @@ return {
                 "markdown", "markdown_inline",
                 "dockerfile", "make",
                 "sql",
+                "proto",
             },
             sync_install = false,
             auto_install = true,

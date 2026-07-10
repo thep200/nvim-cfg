@@ -37,6 +37,18 @@ api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold", "TermLeave", 
     desc = "Auto reload when file changes on disk",
 })
 
+-- Filetype cho Buf config (buf_ls hỗ trợ lint/completion các file này)
+vim.filetype.add({
+    filename = {
+        ["buf.yaml"]        = "buf-config",
+        ["buf.gen.yaml"]    = "buf-config",
+        ["buf.work.yaml"]   = "buf-config",
+        ["buf.policy.yaml"] = "buf-config",
+        ["buf.lock"]        = "buf-config",
+    },
+})
+vim.treesitter.language.register("yaml", "buf-config")
+
 -- Báo khi file bị đổi từ bên ngoài
 api.nvim_create_autocmd("FileChangedShellPost", {
     group    = api.nvim_create_augroup("AutoReloadNotify", { clear = true }),
