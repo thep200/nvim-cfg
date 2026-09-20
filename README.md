@@ -373,6 +373,21 @@ xcode-select --install   # gcc + make
 | `]` | Next ... |
 | `g` | Goto ... |
 
+### 4.10 Flash (Jump bằng label)
+
+> Gõ vài ký tự của vị trí muốn tới, Flash gắn label lên từng match, bấm label để nhảy. Dùng được cả trong operator (`d`, `y`, `c`) và Visual Mode.
+
+| Phím tắt | Chế độ | Thao tác | Giải thích |
+| :--- | :--- | :--- | :--- |
+| `s` | Normal / Visual / Operator | **Flash Jump** | Gõ ký tự cần tìm, bấm label để nhảy. Ví dụ `ds` + `ret` + label: xoá đến vị trí `return`. Tìm trên mọi window đang hiển thị. |
+| `S` | Normal / Visual / Operator | **Treesitter Select** | Hiện label cho các node Treesitter bao quanh con trỏ, bấm label để chọn cả node. Ví dụ `yS` + label: copy cả hàm. |
+| `r` | Operator | **Remote** | Thực hiện operator tại vị trí khác rồi quay về chỗ cũ. Ví dụ `yr` + `err` + label + `iw`: copy từ ở xa mà không di chuyển con trỏ. |
+| `R` | Visual / Operator | **Treesitter Search** | Tìm ký tự, sau đó chọn node Treesitter chứa match. Ví dụ `yR` + `ctx` + label. |
+| `f` / `F` / `t` / `T` | Normal / Visual / Operator | **Enhanced char** | Như built-in (trong dòng hiện tại), có label khi nhiều match. `;` / `,` lặp lại. |
+| `Ctrl` + `s` | Command (`/`, `?`) | **Toggle Flash Search** | Bật/tắt label trong lúc search bằng `/` hoặc `?`. |
+
+> ⚠ `s` và `S` ghi đè built-in (`s` = `cl`, `S` = `cc`). Dùng `cl` / `cc` thay thế.
+
 ---
 
 ## 5. Sử dụng terminal

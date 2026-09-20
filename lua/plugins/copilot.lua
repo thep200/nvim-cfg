@@ -14,15 +14,22 @@ return {
                 auto_trigger           = true,
                 hide_during_completion = false,
                 keymap = {
-                    accept      = false,
-                    accept_word = false,
+                    accept      = "<C-j>",
+                    accept_word = "<C-l>",
+                    accept_line = false,
                     next        = "<M-]>",
                     prev        = "<M-[>",
                     dismiss     = "<C-]>",
                 },
             },
             filetypes = {
-                ["*"]           = true,
+                ["*"] = function()
+                    local name = vim.fs.basename(vim.api.nvim_buf_get_name(0)):lower()
+                    if name:match("^%.env") or name:match("secret") or name:match("credential") or name:match("%.pem$") or name:match("%.key$") then
+                        return false
+                    end
+                    return true
+                end,
                 gitcommit       = false,
                 TelescopePrompt = false,
             },

@@ -107,7 +107,7 @@ return {
             -- 3. Cấu hình Hệ thống File
             -- ============================================================
             filesystem = {
-                use_libuv_file_watcher = true,
+                use_libuv_file_watcher = false,
                 follow_current_file = {
                     enabled              = true,
                     leave_dirs_open      = true,
@@ -119,9 +119,9 @@ return {
                 bind_to_cwd = true,
 
                 filtered_items = {
-                    visible         = true,
+                    visible         = false,
                     hide_dotfiles   = false,
-                    hide_gitignored = false,
+                    hide_gitignored = true,
                     hide_by_name = {
                         ".idea",
                         ".vscode",

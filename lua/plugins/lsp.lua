@@ -138,7 +138,7 @@ return {
                             for _, client in ipairs(clients) do
                                 local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
                                 params.context = { only = { "source.organizeImports" }, diagnostics = {} }
-                                local res = client:request_sync("textDocument/codeAction", params, 500, args.buf)
+                                local res = client:request_sync("textDocument/codeAction", params, 1000, args.buf)
                                 for _, action in ipairs((res or {}).result or {}) do
                                     if action.edit then
                                         vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
@@ -146,7 +146,7 @@ return {
                                 end
                             end
                         end
-                        vim.lsp.buf.format({ async = false, timeout_ms = 500, name = cfg.name })
+                        vim.lsp.buf.format({ async = false, timeout_ms = 2000, name = cfg.name })
                     end,
                 })
             end

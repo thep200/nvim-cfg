@@ -23,8 +23,6 @@ opt.cursorlineopt  = "both"     -- ...tô CẢ số dòng VÀ nền cả dòng (
 opt.scrolloff      = 5          -- Khi cuộn màn hình, luôn giữ lề 5 dòng ở trên/dưới con trỏ
 opt.wrap           = false      -- Không tự động bẻ dòng dài (Giữ nguyên cấu trúc code)
 opt.signcolumn     = "yes"      -- Luôn mở cột rìa trái (Dành chỗ cho điểm dừng Debug và Lỗi LSP)
-opt.fillchars      = { vert = " ", eob = " " } -- Ẩn ký hiệu đường viền và ký hiệu ~ ở cuối file
-vim.opt.cursorline = true       -- Highlight dòng con trỏ đang đứng
 
 -- ============================================================
 -- 3. Thanh trạng thái & Không gian làm việc
@@ -33,7 +31,7 @@ opt.laststatus  = 3      -- Dùng một thanh Statusline duy nhất dưới đá
 opt.showmode    = false  -- Ẩn chữ "-- INSERT --" mặc định (Vì Lualine đã hiện rồi)
 opt.showcmd     = true   -- Hiển thị tổ hợp phím đang gõ dở ở góc phải dưới
 opt.wildmenu    = true   -- Bật menu gợi ý lệnh khi nhấn phím Tab ở Command Mode
-opt.showtabline = 0      -- Luôn luôn hiện thanh Tabline ở trên cùng màn hình
+opt.showtabline = 0      -- Không dùng thanh Tabline (0 = không bao giờ hiện)
 
 -- ============================================================
 -- 4. Thao tác & Bộ nhớ
@@ -41,14 +39,13 @@ opt.showtabline = 0      -- Luôn luôn hiện thanh Tabline ở trên cùng mà
 opt.mouse        = "a"           -- Cho phép dùng chuột (click, scroll, select)
 opt.clipboard    = "unnamedplus" -- Đồng bộ bộ nhớ (Copy/Paste) với hệ điều hành máy tính
 opt.backspace    = { "indent", "eol", "start" }
-opt.encoding     = "utf-8"
-opt.fileencoding = "utf-8"
 
 -- Tắt tính năng tự tạo file rác (swap, backup) của Vim cũ
 opt.swapfile    = false
 opt.backup      = false
 opt.writebackup = false
-opt.undofile    = false
+opt.undofile    = true
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- ============================================================
 -- 5. Định dạng Text & Căn lề (Indent)
@@ -76,7 +73,7 @@ opt.shortmess:append("csaIWOoF")                        -- Thu gọn log hệ th
 opt.autoread    = true  -- Tự động load lại file nếu file bị sửa từ bên ngoài (ví dụ git pull)
 opt.updatetime  = 250   -- Thời gian chờ cập nhật (Tính bằng ms). Tối quan trọng cho Git để load nhanh thay đổi
 opt.timeoutlen  = 300   -- Thời gian chờ chuỗi phím tắt (Ví dụ gõ Space + f thì chờ chữ f 300ms)
-opt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)pt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)
+opt.ttimeoutlen = 10    -- Thời gian chờ mã phím hệ thống (Giúp bấm phím ESC không bị khựng)
 
 -- ============================================================
 -- 8. Folding (treesitter, không cần plugin)

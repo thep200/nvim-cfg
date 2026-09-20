@@ -41,7 +41,7 @@ return {
         { "<leader>gb", ":Telescope git_branches<CR>",          desc = "Git branches",             silent = true },
 
         -- Quickfix
-        { "<leader>sq", ":Telescope quickfix<CR>", { desc = "Telescope: quickfix" }, silent = true },
+        { "<leader>sq", ":Telescope quickfix<CR>", desc = "Telescope: quickfix", silent = true },
     },
 
     config = function()

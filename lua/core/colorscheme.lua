@@ -109,17 +109,6 @@ hi("@punctuation.special",   { fg = colors.orange })
 -- ============================================================
 -- 5. LSP Diagnostics & Inlay Hint
 -- ============================================================
-local diag_signs = {
-    { name = "DiagnosticSignError", text = "✗", fg = colors.red },
-    { name = "DiagnosticSignWarn",  text = "!", fg = colors.orange },
-    { name = "DiagnosticSignInfo",  text = "i", fg = colors.blue },
-    { name = "DiagnosticSignHint",  text = "?", fg = colors.comment },
-}
-for _, s in ipairs(diag_signs) do
-    vim.fn.sign_define(s.name, { text = s.text, texthl = s.name, numhl = "" })
-    hi(s.name, { fg = s.fg, bg = "NONE" })
-end
-
 hi("DiagnosticError", { fg = colors.red })
 hi("DiagnosticWarn",  { fg = colors.orange })
 hi("DiagnosticInfo",  { fg = colors.blue })
@@ -180,6 +169,13 @@ hi("TelescopeResultsTitle", { fg = colors.blue })
 hi("TelescopeSelection",    { fg = colors.fg,      bg = colors.visual_bg })
 hi("TelescopeMatching",     { fg = colors.orange,  bold = true })
 
+-- Flash
+hi("FlashBackdrop",   { fg = colors.comment })
+hi("FlashMatch",      { fg = colors.fg,      bg = colors.visual_bg })
+hi("FlashCurrent",    { fg = colors.dark_bg, bg = colors.orange })
+hi("FlashLabel",      { fg = colors.dark_bg, bg = colors.red, bold = true })
+hi("FlashPromptIcon", { fg = colors.orange,  bg = "NONE" })
+
 -- nvim-cmp
 hi("CmpItemAbbr",           { fg = colors.fg })
 hi("CmpItemAbbrDeprecated", { fg = colors.comment, strikethrough = true })
@@ -228,7 +224,6 @@ hi("NvimDapVirtualText",     { fg = colors.comment, italic = true, bg = "NONE" }
 
 -- indent-blankline (ibl)
 hi("IblIndent", { fg = colors.indent, bg = "NONE", nocombine = true })
-hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
 hi("IblScope",  { fg = colors.comment, bg = "NONE", nocombine = true })
 
 -- Folded & FoldColumn

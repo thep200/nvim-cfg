@@ -26,19 +26,20 @@ function M.treesitter_get_node_text()
     end
 end
 
--- Lualine: tab active hiện relative path, inactive hiện filename
-function M.lualine_buffer_name()
-    local buffer_class = require("lualine.components.buffers.buffer")
-    local orig_name = buffer_class.name
-
-    buffer_class.name = function(self)
-        if self.bufnr == vim.api.nvim_get_current_buf() then
-            local path = vim.api.nvim_buf_get_name(self.bufnr)
-            if path ~= "" then
-                return vim.fn.fnamemodify(path, ":~:.")
-            end
+-- gopls package-rename gửi LSP DeleteFile cho folder cũ (đã rỗng) nhưng không
+-- kèm options.recursive; vim.fs.rm khi đó error "is a directory" và làm
+-- apply_workspace_edit dừng giữa chừng. Thử rmdir folder rỗng trước khi
+-- rơi về hành vi gốc.
+function M.fs_rm_empty_dir()
+    local orig = vim.fs.rm
+    ---@diagnostic disable-next-line: duplicate-set-field
+    vim.fs.rm = function(path, opts)
+        opts = opts or {}
+        local stat = vim.uv.fs_stat(path)
+        if stat and stat.type == "directory" and not opts.recursive and not opts.force then
+            if vim.uv.fs_rmdir(path) then return end
         end
-        return orig_name(self)
+        return orig(path, opts)
     end
 end
 
