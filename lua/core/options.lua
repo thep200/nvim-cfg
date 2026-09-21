@@ -14,15 +14,16 @@ g.maplocalleader = " "
 -- ============================================================
 -- 2. Giao diện & Trải nghiệm (UI / UX)
 -- ============================================================
-opt.termguicolors  = true       -- Bắt buộc: Kích hoạt True Color (hỗ trợ mã màu Hex)
-opt.background     = "dark"     -- Chế độ nền tối
-opt.number         = true       -- Hiển thị số dòng bên trái
-opt.relativenumber = true       -- Số dòng tương đối (Giúp tính toán nhảy dòng j/k cực nhanh)
-opt.cursorline     = true       -- Highlight dòng con trỏ đang đứng...
-opt.cursorlineopt  = "both"     -- ...tô CẢ số dòng VÀ nền cả dòng ("line" = chỉ nền dòng, "number" = chỉ số dòng)
-opt.scrolloff      = 5          -- Khi cuộn màn hình, luôn giữ lề 5 dòng ở trên/dưới con trỏ
-opt.wrap           = false      -- Không tự động bẻ dòng dài (Giữ nguyên cấu trúc code)
-opt.signcolumn     = "yes"      -- Luôn mở cột rìa trái (Dành chỗ cho điểm dừng Debug và Lỗi LSP)
+opt.termguicolors  = true               -- Bắt buộc: Kích hoạt True Color (hỗ trợ mã màu Hex)
+opt.background     = "dark"             -- Chế độ nền tối
+opt.number         = true               -- Hiển thị số dòng bên trái
+opt.relativenumber = true               -- Số dòng tương đối (Giúp tính toán nhảy dòng j/k cực nhanh)
+opt.cursorline     = true               -- Highlight dòng con trỏ đang đứng...
+opt.cursorlineopt  = "both"             -- ...tô CẢ số dòng VÀ nền cả dòng ("line" = chỉ nền dòng, "number" = chỉ số dòng)
+opt.scrolloff      = 5                  -- Khi cuộn màn hình, luôn giữ lề 5 dòng ở trên/dưới con trỏ
+opt.wrap           = false              -- Không tự động bẻ dòng dài (Giữ nguyên cấu trúc code)
+opt.signcolumn     = "yes"              -- Luôn mở cột rìa trái (Dành chỗ cho điểm dừng Debug và Lỗi LSP)
+opt.guicursor      = "a:block-Cursor"   -- Dùng block cursor (mặc định) cho tất cả chế độ (a = all modes)
 
 -- ============================================================
 -- 3. Thanh trạng thái & Không gian làm việc

@@ -34,6 +34,9 @@ hi("Search",     { fg = colors.dark_bg, bg = colors.orange })
 hi("IncSearch",  { fg = colors.dark_bg, bg = colors.orange })
 hi("Visual",     { bg = colors.visual_bg })
 hi("MatchParen", { fg = colors.orange,  bg = "NONE", bold = true })
+hi("CursorLine", { bg = colors.cursor_line })
+hi("Normal",     { fg = colors.fg,      bg = "NONE" })
+hi("Cursor",     { bg = colors.green_dark, reverse = true })
 
 -- ============================================================
 -- 3. Cửa sổ Nổi (Floating Windows & Popup Menus)
