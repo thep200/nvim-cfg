@@ -33,6 +33,8 @@ require("lazy").setup({
     { import = "plugins.copilot" },           -- AI code completion (copilot.lua)
     { import = "plugins.codecompanion" },     -- AI chat + agent (copilot/claude/codex adapter)
     { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
+    { import = "plugins.surround" },          -- add/delete/change cap ky tu bao quanh (ys/ds/cs)
+    { import = "plugins.tabout" },            -- Tab nhay ra khoi ngoac/quote (tich hop vao chuoi Tab cua cmp)
     { import = "plugins.dap" },               -- debug adapter (Go via delve)
     -- { import = "plugins.neoscroll" },         -- smooth scrolling
     -- { import = "plugins.markdown-preview" },  -- preview markdown file

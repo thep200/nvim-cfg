@@ -101,7 +101,7 @@ return {
                     end
                 end),
 
-                -- Tab: Copilot -> Cmp -> Snippet -> Tab thường
+                -- Tab: Copilot -> Cmp -> Snippet -> Tabout -> Tab thuong
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if has_copilot_suggestion() then
                         copilot.accept()
@@ -110,7 +110,13 @@ return {
                     elseif luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
                     else
-                        fallback()
+                        -- Tabout: nhay ra khoi ngoac/quote; khong co gi de nhay thi act_as_tab tu thut le
+                        if pcall(require, "tabout") then
+                            vim.api.nvim_feedkeys(
+                                vim.api.nvim_replace_termcodes("<Plug>(Tabout)", true, true, true), "", false)
+                        else
+                            fallback()
+                        end
                     end
                 end, { "i", "s" }),
 
@@ -121,7 +127,12 @@ return {
                     elseif luasnip.jumpable(-1) then
                         luasnip.jump(-1)
                     else
-                        fallback()
+                        if pcall(require, "tabout") then
+                            vim.api.nvim_feedkeys(
+                                vim.api.nvim_replace_termcodes("<Plug>(TaboutBack)", true, true, true), "", false)
+                        else
+                            fallback()
+                        end
                     end
                 end, { "i", "s" }),
             }),

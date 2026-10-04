@@ -18,7 +18,16 @@ api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
         if vim.fn.filewritable(bufname) == 0 then
             return
         end
+        if not buf.modified then
+            return
+        end
+        -- Đánh dấu autosave để lsp.lua bỏ qua format đồng bộ (tránh giật),
+        -- write xong bắn User AutoSaved cho lsp.lua format ngầm.
+        local bufnr = api.nvim_get_current_buf()
+        vim.b[bufnr].autosaving = true
         pcall(vim.cmd, "silent! update")
+        vim.b[bufnr].autosaving = false
+        api.nvim_exec_autocmds("User", { pattern = "AutoSaved", data = { buf = bufnr } })
     end,
     desc = "Auto save when leaving a buffer or losing focus",
 })
