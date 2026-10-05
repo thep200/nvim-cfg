@@ -120,10 +120,10 @@ return {
 
         -- ============================================================
         -- 4. Auto-Format & Organize Imports on Save
-        -- :w chủ động  -> format ĐỒNG BỘ (file đã chuẩn ngay khi lệnh xong).
-        -- Auto-save (FocusLost/BufLeave từ core/autocmds.lua) -> write ngay,
-        -- format NGẦM qua event User AutoSaved rồi tự :update lại khi xong,
-        -- tránh block UI gây giật lúc rời focus.
+        -- Mọi write (:w tay lẫn auto-save FocusLost/BufLeave) đều ghi file
+        -- ngay rồi format NGẦM qua BufWritePost: organize imports -> format
+        -- -> tự :update lại nếu có thay đổi. Không còn bước đồng bộ nào
+        -- block UI nên rời focus không bị giật.
         -- ============================================================
         local fmt_grp = vim.api.nvim_create_augroup("LspFormatOnSave", { clear = true })
 
@@ -132,10 +132,11 @@ return {
             local client = vim.lsp.get_clients({ bufnr = bufnr, name = cfg.name })[1]
             if not client then return on_done() end
 
-            -- Dựng params ngay lúc buffer còn là buffer hiện hành
-            local fmt_params
+            -- Dựng params trong ngữ cảnh đúng buffer (có thể đã rời focus)
+            local fmt_params, ca_params
             vim.api.nvim_buf_call(bufnr, function()
                 fmt_params = vim.lsp.util.make_formatting_params({})
+                ca_params  = vim.lsp.util.make_range_params(0, client.offset_encoding)
             end)
 
             local function do_format()
@@ -149,9 +150,8 @@ return {
             end
 
             if cfg.format_on_save.organize_imports then
-                local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
-                params.context = { only = { "source.organizeImports" }, diagnostics = {} }
-                client:request("textDocument/codeAction", params, function(_, actions)
+                ca_params.context = { only = { "source.organizeImports" }, diagnostics = {} }
+                client:request("textDocument/codeAction", ca_params, function(_, actions)
                     for _, action in ipairs(actions or {}) do
                         if action.edit and vim.api.nvim_buf_is_valid(bufnr) then
                             vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
@@ -167,55 +167,23 @@ return {
         for _, cfg in ipairs(lsp_langs) do
             local fos = cfg.format_on_save
             if fos then
-                -- Save tay: format đồng bộ (bỏ qua nếu là auto-save)
-                vim.api.nvim_create_autocmd("BufWritePre", {
+                vim.api.nvim_create_autocmd("BufWritePost", {
                     group    = fmt_grp,
                     pattern  = fos.pattern,
                     callback = function(args)
-                        if vim.b[args.buf].autosaving then return end
-                        if fos.organize_imports then
-                            local clients = vim.lsp.get_clients({
-                                bufnr  = args.buf,
-                                name   = cfg.name,
-                                method = "textDocument/codeAction",
-                            })
-                            for _, client in ipairs(clients) do
-                                local params = vim.lsp.util.make_range_params(0, client.offset_encoding)
-                                params.context = { only = { "source.organizeImports" }, diagnostics = {} }
-                                local res = client:request_sync("textDocument/codeAction", params, 1000, args.buf)
-                                for _, action in ipairs((res or {}).result or {}) do
-                                    if action.edit then
-                                        vim.lsp.util.apply_workspace_edit(action.edit, client.offset_encoding)
-                                    end
-                                end
-                            end
-                        end
-                        vim.lsp.buf.format({ async = false, timeout_ms = 2000, name = cfg.name })
-                    end,
-                })
-
-                -- Auto-save: format ngầm rồi lưu lại
-                vim.api.nvim_create_autocmd("User", {
-                    group    = fmt_grp,
-                    pattern  = "AutoSaved",
-                    callback = function(args)
-                        local buf = args.data and args.data.buf
-                        if not buf or not vim.api.nvim_buf_is_valid(buf) then return end
-                        local name = vim.api.nvim_buf_get_name(buf)
-                        if vim.fn.match(name, vim.fn.glob2regpat(fos.pattern)) == -1 then return end
+                        local buf = args.buf
+                        -- Đang trong pipeline format (kể cả lần :update lại) thì bỏ qua
                         if vim.b[buf].fmt_inflight then return end
 
                         vim.b[buf].fmt_inflight = true
                         organize_and_format_async(buf, cfg, function()
                             if not vim.api.nvim_buf_is_valid(buf) then return end
-                            vim.b[buf].fmt_inflight = false
                             if vim.bo[buf].modified then
-                                vim.b[buf].autosaving = true
                                 vim.api.nvim_buf_call(buf, function()
                                     pcall(vim.cmd, "silent! update")
                                 end)
-                                vim.b[buf].autosaving = false
                             end
+                            vim.b[buf].fmt_inflight = false
                         end)
                     end,
                 })

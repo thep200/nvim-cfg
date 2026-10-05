@@ -16,6 +16,11 @@ return {
     config = function()
         local cmp     = require("cmp")
         local luasnip = require("luasnip")
+
+        -- Nạp snippet
+        require("luasnip.loaders.from_lua").load({
+            paths = { vim.fn.stdpath("config") .. "/lua/snippet" },
+        })
         local copilot = require("copilot.suggestion")
         local kind_icons = require("core.material").icons.kind
 
