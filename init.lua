@@ -6,6 +6,7 @@
 require("core.options")
 require("core.keymaps")
 require("core.autocmds")
+require("commands")
 
 -- Patch tương thích trước khi plugin load
 local patch = require("core.patch")

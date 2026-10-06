@@ -28,6 +28,7 @@ return {
         { "<leader>fh", ":Telescope help_tags<CR>",                 desc = "Find help",                silent = true },
         { "<leader>fk", ":Telescope keymaps<CR>",                   desc = "Find keymaps",             silent = true },
         { "<leader>fo", ":Telescope oldfiles<CR>",                  desc = "Find recent files",        silent = true },
+        { "<leader>fc", ":Telescope commands<CR>",                  desc = "Find/Execute commands",    silent = true },
 
         -- LSP pickers
         { "<leader>fd", ":Telescope diagnostics<CR>",           desc = "Find diagnostics",         silent = true },

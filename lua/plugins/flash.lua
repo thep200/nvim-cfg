@@ -20,8 +20,8 @@ return {
                 },
             },
 
-            -- f/F/t/T
             char = {
+                enabled     = false,
                 jump_labels = false,
                 multi_line  = false,
             },
