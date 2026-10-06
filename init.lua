@@ -7,6 +7,7 @@ require("core.options")
 require("core.keymaps")
 require("core.autocmds")
 require("commands")
+require("animation.hooks").setup()
 
 -- Patch tương thích trước khi plugin load
 local patch = require("core.patch")
