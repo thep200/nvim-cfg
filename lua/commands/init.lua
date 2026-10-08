@@ -4,3 +4,4 @@
 -- ============================================================
 
 require("commands.go")
+require("commands.buffer")

@@ -26,7 +26,7 @@ do
     local theme = require("core.material").colors.theme
     for k = 1, FRAMES do
         api.nvim_set_hl(0, "JumpBump" .. k, {
-            bg = ring.blend(theme.green_dark, theme.dark_bg, ALPHAS[k]),
+            bg = ring.blend(theme.purple, theme.dark_bg, ALPHAS[k]),
         })
     end
 end
