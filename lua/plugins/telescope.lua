@@ -96,7 +96,7 @@ return {
                         local cmd = { "rg", "--files", "--hidden", "--follow", "--no-ignore" }
 
                         -- Trỏ tới file Blacklist của bạn
-                        local custom_ignore_file = vim.fn.stdpath("config") .. "/rg_ignore.txt"
+                        local custom_ignore_file = vim.g.config_root .. "/rg_ignore.txt"
 
                         -- Nếu file Blacklist tồn tại, bắt Ripgrep phải đọc nó
                         if vim.fn.filereadable(custom_ignore_file) == 1 then
@@ -111,7 +111,7 @@ return {
                 live_grep = {
                     additional_args = function()
                         local args = { "--hidden", "--no-ignore" }
-                        local custom_ignore_file = vim.fn.stdpath("config") .. "/rg_ignore.txt"
+                        local custom_ignore_file = vim.g.config_root .. "/rg_ignore.txt"
 
                         if vim.fn.filereadable(custom_ignore_file) == 1 then
                             table.insert(args, "--ignore-file")

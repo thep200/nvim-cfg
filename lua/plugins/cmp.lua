@@ -19,7 +19,7 @@ return {
 
         -- Nạp snippet
         require("luasnip.loaders.from_lua").load({
-            paths = { vim.fn.stdpath("config") .. "/lua/snippet" },
+            paths = { vim.g.config_root .. "/lua/snippet" },
         })
         local copilot = require("copilot.suggestion")
         local kind_icons = require("core.material").icons.kind

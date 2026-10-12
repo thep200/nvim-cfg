@@ -50,8 +50,13 @@ require("lazy").setup({
     install          = { colorscheme = { "habamax", "default" } },
     ui               = { border = "rounded" },
     change_detection = { notify = false },
+    -- Config không nằm ở stdpath("config") (xem init.lua): lockfile và
+    -- runtimepath phải trỏ tường minh về thư mục git, nếu không lazy ghi
+    -- lockfile sang ~/.config/nvim và reset rtp làm mất lua/ của config.
+    lockfile         = vim.g.config_root .. "/lazy-lock.json",
     performance = {
         rtp = {
+            paths = { vim.g.config_root },
             disabled_plugins = {
                 "gzip",
                 "tarPlugin",
