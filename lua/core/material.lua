@@ -124,7 +124,6 @@ local colors = {
         green_dark = "#22c55e",
         orange     = "#ffa657",  -- Cam (Số, Cảnh báo, Thay đổi)
         purple     = "#d2a8ff",  -- Tím (Hàm, Phương thức)
-        quote      = "#e6a8ff",  -- Tím hồng (dấu bao chuỗi) — lệch hue khỏi purple để shader glow bỏ qua
         blue       = "#79c0ff",  -- Xanh dương (Kiểu dữ liệu, Hằng số)
         light_blue = "#a5d6ff",  -- Xanh nhạt (Toán tử, Thuộc tính)
 

@@ -7,6 +7,9 @@ return {
     opts = {
         suppressed_dirs = { "~/", "~/Downloads", "~/Documents", "/" },
         session_lens = {
+            -- Không nạp telescope lúc khởi động (~20ms); picker vẫn tự
+            -- nạp khi gọi :AutoSession search
+            load_on_setup = false,
             previewer = false,
             mappings = {
                 delete_session = { "i", "<C-d>" },

@@ -17,7 +17,6 @@ return {
             "mason-org/mason-lspconfig.nvim",
             version = "^2.0.0",
         },
-        "nvim-telescope/telescope.nvim",
     },
 
     config = function()
@@ -49,6 +48,15 @@ return {
         -- ============================================================
         -- 2. Đăng ký server cho từng ngôn ngữ đã bật
         -- ============================================================
+        -- File thư viện (cfg.shared_dirs) dùng chung server của project
+        local function in_shared_dir(cfg, fname)
+            if not cfg.shared_dirs then return false end
+            for _, dir in ipairs(cfg.shared_dirs()) do
+                if vim.startswith(fname, dir .. "/") then return true end
+            end
+            return false
+        end
+
         for _, cfg in ipairs(lsp_langs) do
             local markers = cfg.root_markers or { ".git" }
             vim.lsp.config(cfg.name, {
@@ -59,11 +67,38 @@ return {
                     if fname:match("^%a[%w+.%-]*://") then
                         return
                     end
+                    if in_shared_dir(cfg, fname) then
+                        -- Chưa có server: chờ project mở rồi gắn sau (autocmd bên dưới)
+                        local client = vim.lsp.get_clients({ name = cfg.name })[1]
+                        if client then on_dir(client.root_dir) end
+                        return
+                    end
                     local root = vim.fs.root(bufnr, markers)
                     on_dir(root or (fname ~= "" and vim.fn.fnamemodify(fname, ":h")) or vim.fn.getcwd())
                 end,
             })
         end
+
+        -- Server vừa chạy: gắn vào các buffer thư viện mở trước đó (vd. session restore)
+        vim.api.nvim_create_autocmd("LspAttach", {
+            group = vim.api.nvim_create_augroup("LspSharedDirs", { clear = true }),
+            callback = function(args)
+                local client = vim.lsp.get_client_by_id(args.data.client_id)
+                if not client then return end
+                for _, cfg in ipairs(lsp_langs) do
+                    if cfg.name == client.name and cfg.shared_dirs then
+                        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                            if vim.api.nvim_buf_is_loaded(buf)
+                                and vim.tbl_contains(client.config.filetypes or {}, vim.bo[buf].filetype)
+                                and in_shared_dir(cfg, vim.api.nvim_buf_get_name(buf))
+                                and not vim.lsp.buf_is_attached(buf, client.id) then
+                                vim.lsp.buf_attach_client(buf, client.id)
+                            end
+                        end
+                    end
+                end
+            end,
+        })
 
         require("mason-lspconfig").setup({
             ensure_installed = require("languages").mason_lsp_servers(),

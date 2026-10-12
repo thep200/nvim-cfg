@@ -18,7 +18,7 @@ return {
     -- buf_ls không có settings riêng; lint/breaking rules đọc từ buf.yaml
     settings = {},
 
-    -- Auto-format khi lưu file (BufWritePre) — dùng `buf format` qua LSP
+    -- Auto-format khi lưu file (BufWritePost, chạy ngầm) — dùng `buf format` qua LSP
     format_on_save = {
         pattern          = "*.proto",
         organize_imports = false,

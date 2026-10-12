@@ -45,6 +45,17 @@ return {
         { "<leader>sq", ":Telescope quickfix<CR>", desc = "Telescope: quickfix", silent = true },
     },
 
+    -- vim.ui.select (code action, chọn session...) do telescope-ui-select
+    -- đảm nhận, nhưng telescope nạp lười: lần gọi đầu nạp telescope (extension
+    -- tự thay vim.ui.select) rồi chuyển tiếp lời gọi.
+    init = function()
+        ---@diagnostic disable-next-line: duplicate-set-field
+        vim.ui.select = function(...)
+            require("lazy").load({ plugins = { "telescope.nvim" } })
+            return vim.ui.select(...)
+        end
+    end,
+
     config = function()
         local telescope   = require("telescope")
         local actions     = require("telescope.actions")
