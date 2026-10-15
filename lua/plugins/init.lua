@@ -20,18 +20,19 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+    { import = "plugins.flash" },             -- jump nhanh bằng label (s / S / f / t)
     { import = "plugins.neo-tree" },          -- file explorer
     { import = "plugins.lualine" },           -- statusline
     { import = "plugins.gitsigns" },          -- git diff in sign column
-    { import = "plugins.git-conflict" },      -- visualise & resolve merge conflicts
+    -- { import = "plugins.git-conflict" },      -- visualise & resolve merge conflicts
     { import = "plugins.diffview" },          -- single-tabpage diff & file history
     { import = "plugins.telescope" },         -- fuzzy finder
     { import = "plugins.treesitter" },        -- syntax highlight & more
-    { import = "plugins.indent-blankline" },  -- indent guides (virtual text)
+    { import = "plugins.indent-blankline" },  -- indent guides
     { import = "plugins.cmp" },               -- completion engine (LSP + snippets + path + buffer)
     { import = "plugins.lsp" },               -- LSP client + gopls config (inlay hints, staticcheck, analyses,...)
     { import = "plugins.copilot" },           -- AI code completion (copilot.lua)
-    { import = "plugins.codecompanion" },     -- AI chat + agent (copilot/claude/codex adapter)
+    -- { import = "plugins.codecompanion" },     -- AI chat + agent (copilot/claude/codex adapter)
     { import = "plugins.autopairs" },         -- auto-close (), [], {}, "", ''
     { import = "plugins.surround" },          -- add/delete/change cap ky tu bao quanh (ys/ds/cs)
     { import = "plugins.tabout" },            -- Tab nhay ra khoi ngoac/quote (tich hop vao chuoi Tab cua cmp)
@@ -40,7 +41,6 @@ require("lazy").setup({
     -- { import = "plugins.markdown-preview" },  -- preview markdown file
     { import = "plugins.session-manager" },   -- session management
     { import = "plugins.which-key" },         -- Which-key hiển thị popup hướng dẫn phím tắt
-    { import = "plugins.flash" },             -- jump nhanh bằng label (s / S / f / t)
     -- { import = "plugins.grug-far" },       -- Search and Replace on Project
 }, {
 

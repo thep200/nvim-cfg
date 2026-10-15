@@ -106,10 +106,14 @@ return {
                     end
                 end),
 
-                -- Tab: Copilot -> Cmp -> Snippet -> Tabout -> Tab thuong
+                -- Tab: Copilot -> Expand snippet -> Cmp -> Jump -> Tabout -> Tab thuong
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if has_copilot_suggestion() then
                         copilot.accept()
+                    elseif luasnip.expandable() and not cmp.get_selected_entry() then
+                        -- Trigger snippet (kể cả regex như methClient) bung ngay dù popup đang mở
+                        cmp.close()
+                        luasnip.expand()
                     elseif cmp.visible() then
                         cmp.select_next_item()
                     elseif luasnip.expand_or_jumpable() then
